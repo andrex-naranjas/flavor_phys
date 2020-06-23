@@ -45,11 +45,12 @@ print(mu_3188/s_3188.mean(), sigma_3188/s_3188.std())
 
 
 
-# print(abs(mu - np.mean(s)) < 0.01)
+print(abs(mu_2695 - np.mean(s_2695)) < 0.01)
 
 
-# # Display the histogram of the samples, along with the probability density function
-# count, bins, ignored = plt.hist(s, 30, density=True)
-# plt.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) *np.exp( - (bins - mu)**2 / (2 * sigma**2) ),linewidth=2, color='g')
+# Display the histogram of the samples, along with the probability density function
+count, bins, ignored = plt.hist(s_3188, 40, density=True)
+plt.plot(bins, 1/(sigma_3188 * np.sqrt(2 * np.pi)) *np.exp( - (bins - mu_3188)**2 / (2 * sigma_3188**2) ),linewidth=2, color='g')
 
-# plt.savefig('gauss_boot.png')
+plt.savefig('gauss_boot.png')
+
