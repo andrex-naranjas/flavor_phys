@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#Code to obtain mass uncertainties of quarkonium mass spectrum
-#author: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
+# code to obtain uncertainties of quarkonium mass spectrum
+# author: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
 
-#data visalization module
+# data visalization module
 
 import numpy as np
 import matplotlib.pyplot as plt
