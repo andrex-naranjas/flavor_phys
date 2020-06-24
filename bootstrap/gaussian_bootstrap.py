@@ -44,13 +44,46 @@ print(mu_3090/s_3090.mean(), sigma_3090/s_3090.std())
 print(mu_3188/s_3188.mean(), sigma_3188/s_3188.std())
 
 
+# # Display the histogram of the samples, along with the probability density function
+# count, bins, ignored = plt.hist(s_3188, 30, density=True)
+# plt.plot(bins, 1/(sigma_3188 * np.sqrt(2 * np.pi)) *np.exp( - (bins - mu_3188)**2 / (2 * sigma_3188**2) ),linewidth=2, color='g')
 
-print(abs(mu_2695 - np.mean(s_2695)) < 0.01)
+# plt.savefig('gauss_boot.png')
 
 
-# Display the histogram of the samples, along with the probability density function
-count, bins, ignored = plt.hist(s_3188, 40, density=True)
-plt.plot(bins, 1/(sigma_3188 * np.sqrt(2 * np.pi)) *np.exp( - (bins - mu_3188)**2 / (2 * sigma_3188**2) ),linewidth=2, color='g')
+# construct the simulated sampling distribution
+sample_props = []
+for _ in range(100000):
+    sample = np.random.choice(s_2695, size=1000)
+    sample_props.append(sample.mean())
 
-plt.savefig('gauss_boot.png')
 
+sample_props = np.array(sample_props)
+    
+# the simulated mean of the sampling distribution
+simulated_mean = np.mean(sample_props)
+
+# the simulated standard deviation of the sampling distribution
+simulated_std = np.std(sample_props)
+
+print(simulated_mean, simulated_std, s_2695.mean(), s_2695.std())
+print('ratio: ', simulated_mean/s_2695.mean())
+
+# plot the simulated sampling distribution,
+# under the Central Limit Theorem, it is expected normal
+plt.hist(sample_props, 100, density=True)
+plt.savefig('bootstrap.png')
+
+from sklearn.utils import resample
+
+#prepare bootstrap sample
+boot = resample(s_2695, replace = True, n_samples = 1000000, random_state = 1)
+
+boot_means = []
+
+for i in range(len(boot)):
+    boot_means.append(boot[i].mean())
+
+boot_means = np.array(boot_means)
+# plt.hist(boot_means, 10, density=True)
+# plt.savefig('bootstrap.png')
