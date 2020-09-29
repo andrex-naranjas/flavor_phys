@@ -13,7 +13,7 @@ from statsmodels.stats.diagnostic import lilliefors
 from oct2py import octave
 
 # sample plots
-def plot(sample,name,xlabel,quark):
+def plot(sample,name,xlabel,quark, states):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     plt.hist(sample, 100, density=True, label = 'Sampling')
@@ -30,7 +30,7 @@ def plot(sample,name,xlabel,quark):
     plt.xlabel(xlabel)
     plt.ylabel('Arbitrary Units')
     plt.title(quark+' mesons')
-    plt.savefig('./plots/'+quark+'_bootstrap_'+name+'.pdf')
+    plt.savefig('./plots/'+quark+'_bootstrap_'+name+'_'+states+'.pdf')
     plt.close()
 
 
@@ -38,7 +38,7 @@ def plot(sample,name,xlabel,quark):
 def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
                     k_sampled, a_sampled, b_sampled, e_sampled, g_sampled,
                     rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
-                    bootstrap, name):
+                    bootstrap, asymmetric, name):
 
     Kp, delta_Kp = np.mean(k_sampled), np.std(k_sampled)
     A, delta_A = np.mean(a_sampled), np.std(a_sampled)
@@ -47,11 +47,10 @@ def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
     G, delta_G = np.mean(g_sampled), np.std(g_sampled)
 
     if bootstrap:
-        bootstrap_masses, bootstrap_errors = sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
-                                                                k_sampled, a_sampled, b_sampled, e_sampled, g_sampled,
-                                                                rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge)       
-
-    quantum, old, exp, delta_exp = values()
+        bootstrap_masses, bootstrap_errors, delta_up, delta_dn = sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
+                                                                                      k_sampled, a_sampled, b_sampled, e_sampled, g_sampled,
+                                                                                      rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, name)       
+    quantum, old, exp, delta_exp = values(name)
         
     LA = linear_algebra(name)
     f = open('./tables/parameters_'+name+'.tex', "w")
@@ -68,8 +67,6 @@ def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
     print("    ")
     f.close()
     #print(Kp/5727.12, A/21.54, B/23.91, E/30.34,G/54.37)
-    #print(np.std(sampled_a),np.std(sampled_b),np.std(sampled_e),np.std(sampled_g))
-
     
     f = open('./tables/masses_'+name+'.tex', "w")
     print("\\begin{tabular}{c | c  c  c  c  c}\hline \hline", file=f)
@@ -77,11 +74,16 @@ def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
     print("           & (MeV)       &   old (MeV)       &    sampled (MeV)  &     (\\%) &     (\\%)  \\\ \hline", file=f)
     # print("Mass State & Experiment  &   Predicted mass  &    Predicted mass \\\  ")
     # print("           & (MeV)       &   old (MeV)       &    sampled (MeV) \\\ \hline  ")
-    
+
+    tot_diff_pred, tot_diff_sample = 0,0
     for i in range(len(v_param)):
         if bootstrap:
             mass = bootstrap_masses[i]
-            error= bootstrap_errors[i]
+            if not asymmetric:
+                error= bootstrap_errors[i]
+            else:
+                error_up = delta_up[i]
+                error_dn = delta_dn[i]
         else:
             mass = sum_mass[i] + Kp*v_param[i] + A*w_param[i] + B*x_param[i] + E*y_param[i] + G*z_param[i]
             error = np.sqrt( (delta_Kp*v_param[i])**2 + (delta_A*w_param[i])**2 + (delta_B*x_param[i])**2 + (delta_E*y_param[i])**2 + (delta_G*z_param[i])**2 )
@@ -89,67 +91,31 @@ def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
         color = "red"
         old_exp = exp[i]-old[i]
         new_exp = exp[i]-mass
+        tot_diff_pred+=abs(old_exp)
+        tot_diff_sample+=abs(new_exp)
         old_exp_abs = np.abs(1 - old[i] / exp[i])
         new_exp_abs = np.abs(1 - mass / exp[i])        
         if(old_exp_abs > new_exp_abs):
             color = "blue"
-            
-        print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $\\pm',round(error,1),'$}  &  ',
-              round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f)
-       # print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $\\pm',round(error,1),'$}  \\\  ')
 
+        if not asymmetric:
+            print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $\\pm',round(error,1),'$}  &  ',
+                  round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f)
+        else:
+            print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $^{+',round(error_up,1),'}_{',round(error_dn,1),'}$}  &  ',
+                  round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f)
+
+        
+    print('\hline', file=f)
+    print("  &  &  & Total diff & ", round(tot_diff_pred), " &" , round(tot_diff_sample,1), "\\\ ", file=f)
     print('\hline \hline', file=f)
     print('\end{tabular}', file=f)
-    print("\caption{Masses in MeV, for states:", name, "}",file=f)
-
-
-
-def values():
-    quantum = ['$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,3/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,1,0,10/3 \\rangle$ &',
-               '$\\vert ssc,1/2,3/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',
-               '$\\vert suc,1/2,1/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,1/2,3/2,1,1/2,10/3 \\rangle$ &',
-               '$\\vert suc,3/2,1/2,1,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,1,1/2,10/3 \\rangle$ &',
-               '$\\vert uuc,1/2,1/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,3/2,3/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,1/2,1/2,1,1,10/3 \\rangle$ &',
-               '$\\vert udc,1/2,1/2,0,0,4/3  \\rangle$ &',   '$\\vert udc,1/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert udc,3/2,1/2,1,0,4/3  \\rangle$ &',
-               '$\\vert ssc,1/2,1/2,0,1/2,4/3 \\rangle$ &',  '$\\vert ssc,1/2,1/2,1,1/2,4/3 \\rangle$ &',  '$\\vert ssc,3/2,1/2,1,1/2,10/3 \\rangle$ &' ]
-
-    old = np.array([2702.4, 2767.0, 3015.8, 3044.5, 3051.6, 3080.4, 2570.1, 2634.8, 2934.1, 2941.2,
-                    2969.9, 2453.1, 2517.7, 2819.0, 2283.7, 2649.7, 2685.6, 2461.2, 2796.5, 2832.4])
-    exp = np.array([2695.0, 2766.0, 3000.4, 3050.2, 3065.6, 3090.2, 2578.0, 2645.9, 2923.0, 2938.5,
-                    2964.9, 2453.9, 2518.0, 2801.0, 2286.5, 2592.3, 2625.0, 2469.0, 2792.0, 2815.0])
-    #delta_exp = np.array([2.0,2.0,0.3742,0.3317,0.4359,0.6557,2.9,0.6,0.4,0.3,0.3,0.14,2.3,6,0.14,0.28,0.19,4,3.3,0.20])
-    delta_exp = np.array([2.0,2.0,0.4,0.3,0.4,0.7,2.9,0.6,0.4,0.3,0.3,0.1,2.3,6.0,0.1,0.4,0.2,4.0,3.3,0.2])
-
-    return quantum, old, exp, delta_exp
-
-def correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,name):
-
-    rho_ak=round(np.mean(rho_ak),2)
-    rho_bk=round(np.mean(rho_bk),2)
-    rho_ba=round(np.mean(rho_ba),2)
-    rho_ek=round(np.mean(rho_ek),2)
-    rho_ea=round(np.mean(rho_ea),2)
-    rho_eb=round(np.mean(rho_eb),2)
-    rho_gk=round(np.mean(rho_gk),2)
-    rho_ga=round(np.mean(rho_ga),2)
-    rho_gb=round(np.mean(rho_gb),2)
-    rho_ge=round(np.mean(rho_ge),2)
-
-    
-    f = open('./tables/correlation_'+name+'.tex', "w")
-    print("\\begin{tabular}{c  c  c  c  c  c}\hline \hline", file=f)
-    print("     &  $K$      &     $A$   &      $B$   &      $E$  & $G$ \\\ \hline", file=f)
-    print(" $K$ &     1     &           &            &           &   \\\ ", file=f)
-    print(" $A$ &",rho_ak, "&      1    &            &           &   \\\ ", file=f)
-    print(" $B$ &",rho_bk, "&", rho_ba,"&      1     &           &   \\\ ", file=f)
-    print(" $E$ &",rho_ek, "&", rho_ea,"&", rho_eb, "&      1    &   \\\ ", file=f)
-    print(" $G$ &",rho_gk, "&", rho_ga,"&", rho_gb, "&", rho_ge,"& 1 \\\ \hline \hline", file=f)
-    print('\end{tabular}', file=f)
+    print("\caption{Every quantity is in MeV, except for percentage differences. States:", name, "}",file=f)
 
 
 def sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
                        sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
-                       rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge):
+                       rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, name):
 
     bootstrap_masses,sorted_masses,symm_errors = [],[],[]
 
@@ -163,15 +129,25 @@ def sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
         sorted_masses.append(np.sort(dummy))
                 
     bootstrap_masses = np.array(bootstrap_masses)
-    symm_errors = np.array(symm_errors)
-    sorted_masses = np.array(sorted_masses)        
+    symm_errors      = np.array(symm_errors)
+    sorted_masses    = np.array(sorted_masses)
 
+    # asymmetric error calculation via 68% quantile method
+    N = len(sorted_masses[0])
+    quantile_dn = int(np.floor(N*0.1587))
+    quantile_up = int(np.floor(N*0.8413))
+    asymmetric_up, asymmetric_dn = ([]), ([])
+    for i in range(len(sum_mass)):
+        asymmetric_up = np.append(asymmetric_up, sorted_masses[i][quantile_up-1] - np.mean(sorted_masses[i]))
+        asymmetric_dn = np.append(asymmetric_dn, sorted_masses[i][quantile_dn-1] - np.mean(sorted_masses[i]))
+
+        
     dummy = ([])
     for i in range(len(sampled_k)):
         mass = sum_mass[0] + sampled_k[i]*v_param[0] + sampled_a[i]*w_param[0] + sampled_b[i]*x_param[0] + sampled_e[i]*y_param[0] + sampled_g[i]*z_param[0]
         dummy = np.append(dummy,mass)
         
-    plot(dummy,'mass','mass','charm')
+    plot(dummy,'mass','mass','charm', name)
     print(dummy.mean(), dummy.std(ddof=1), len(dummy))
     dummy = np.sort(dummy)
 
@@ -206,7 +182,7 @@ def sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
     error_total =  np.sqrt( error_diag + 2*(error_off1+error_off2+error_off3))
 
     print(error_total)
-    return bootstrap_masses, symm_errors
+    return bootstrap_masses, symm_errors, asymmetric_up, asymmetric_dn
 
 def linear_algebra(name):
     A = octave.load('./octave/matrix_'+ name + '.mat')
@@ -249,3 +225,67 @@ def normal_test(sample,alpha,verbose):
     return p,alpha
 
 
+def values(name):
+    if name=='All':
+        quantum = ['$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,3/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,1,0,10/3 \\rangle$ &',
+                   '$\\vert ssc,1/2,3/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',
+                   '$\\vert suc,1/2,1/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,1/2,3/2,1,1/2,10/3 \\rangle$ &',
+                   '$\\vert suc,3/2,1/2,1,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,1,1/2,10/3 \\rangle$ &',
+                   '$\\vert uuc,1/2,1/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,3/2,3/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,1/2,1/2,1,1,10/3 \\rangle$ &',
+                   '$\\vert udc,1/2,1/2,0,0,4/3  \\rangle$ &',   '$\\vert udc,1/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert udc,3/2,1/2,1,0,4/3  \\rangle$ &',
+                   '$\\vert ssc,1/2,1/2,0,1/2,4/3 \\rangle$ &',  '$\\vert ssc,1/2,1/2,1,1/2,4/3 \\rangle$ &',  '$\\vert ssc,3/2,1/2,1,1/2,10/3 \\rangle$ &' ]
+
+        old = np.array([2702.4, 2767.0, 3015.8, 3044.5, 3051.6, 3080.4, 2570.1, 2634.8, 2934.1, 2941.2,
+                        2969.9, 2453.1, 2517.7, 2819.0, 2283.7, 2649.7, 2685.6, 2461.2, 2796.5, 2832.4])
+        exp = np.array([2695.0, 2766.0, 3000.4, 3050.2, 3065.6, 3090.2, 2578.0, 2645.9, 2923.0, 2938.5,
+                        2964.9, 2453.9, 2518.0, 2801.0, 2286.5, 2592.3, 2625.0, 2469.0, 2792.0, 2815.0])
+        delta_exp = np.array([2.0,2.0,0.4,0.3,0.4,0.7,2.9,0.6,0.4,0.3,0.3,0.1,2.3,6.0,0.1,0.4,0.2,4.0,3.3,0.2])
+
+    if name=='omega':        
+        quantum = ['$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,3/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,1,0,10/3 \\rangle$ &',
+                   '$\\vert ssc,1/2,3/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &']
+        old = np.array([2702.4, 2767.0, 3015.8, 3044.5, 3051.6, 3080.4])
+        exp = np.array([2695.0, 2766.0, 3000.4, 3050.2, 3065.6, 3090.2])
+        delta_exp = np.array([2.0,2.0,0.4,0.3,0.4,0.7])
+
+    if name=='cascades':
+        quantum = ['$\\vert suc,1/2,1/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,1/2,3/2,1,1/2,10/3 \\rangle$ &',
+                   '$\\vert suc,3/2,1/2,1,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,1,1/2,10/3 \\rangle$ &',                   
+                   '$\\vert ssc,1/2,1/2,0,1/2,4/3 \\rangle$ &',  '$\\vert ssc,1/2,1/2,1,1/2,4/3 \\rangle$ &',  '$\\vert ssc,3/2,1/2,1,1/2,10/3 \\rangle$ &' ]
+        old = np.array([2570.1, 2634.8, 2934.1, 2941.2, 2969.9, 2461.2, 2796.5, 2832.4])
+        exp = np.array([2578.0, 2645.9, 2923.0, 2938.5, 2964.9, 2469.0, 2792.0, 2815.0])
+        delta_exp = np.array([2.9,0.6,0.4,0.3,0.3,4.0,3.3,0.2])
+
+    if name=='sigma_lamb':        
+        quantum = ['$\\vert uuc,1/2,1/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,3/2,3/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,1/2,1/2,1,1,10/3 \\rangle$ &',
+                   '$\\vert udc,1/2,1/2,0,0,4/3  \\rangle$ &',   '$\\vert udc,1/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert udc,3/2,1/2,1,0,4/3  \\rangle$ &']
+        old = np.array([2453.1, 2517.7, 2819.0, 2283.7, 2649.7, 2685.6])
+        exp = np.array([2453.9, 2518.0, 2801.0, 2286.5, 2592.3, 2625.0])
+        delta_exp = np.array([0.1,2.3,6.0,0.1,0.4,0.2])
+        
+    return quantum, old, exp, delta_exp
+
+
+def correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,name):
+
+    rho_ak=round(np.mean(rho_ak),2)
+    rho_bk=round(np.mean(rho_bk),2)
+    rho_ba=round(np.mean(rho_ba),2)
+    rho_ek=round(np.mean(rho_ek),2)
+    rho_ea=round(np.mean(rho_ea),2)
+    rho_eb=round(np.mean(rho_eb),2)
+    rho_gk=round(np.mean(rho_gk),2)
+    rho_ga=round(np.mean(rho_ga),2)
+    rho_gb=round(np.mean(rho_gb),2)
+    rho_ge=round(np.mean(rho_ge),2)
+
+    
+    f = open('./tables/correlation_'+name+'.tex', "w")
+    print("\\begin{tabular}{c  c  c  c  c  c}\hline \hline", file=f)
+    print("     &  $K$      &     $A$   &      $B$   &      $E$  & $G$ \\\ \hline", file=f)
+    print(" $K$ &     1     &           &            &           &   \\\ ", file=f)
+    print(" $A$ &",rho_ak, "&      1    &            &           &   \\\ ", file=f)
+    print(" $B$ &",rho_bk, "&", rho_ba,"&      1     &           &   \\\ ", file=f)
+    print(" $E$ &",rho_ek, "&", rho_ea,"&", rho_eb, "&      1    &   \\\ ", file=f)
+    print(" $G$ &",rho_gk, "&", rho_ga,"&", rho_gb, "&", rho_ge,"& 1 \\\ \hline \hline", file=f)
+    print('\end{tabular}', file=f)

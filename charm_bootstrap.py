@@ -18,7 +18,7 @@ import data_preparation as dp
 from sklearn.utils import resample
 
 
-states = 'All' # All, omega, cascades, sigma_lamb
+states = 'omega' # All, omega, cascades, sigma_lamb
 # input parameters
 param_v,param_w,param_x,param_y,param_z,mass_sum = dp.fetch_data(states)
 
@@ -44,7 +44,7 @@ def random(sample):
 # arrays to store the sampled parameters
 sampled_k,sampled_a,sampled_b,sampled_e,sampled_g,sampled_masses = ([]),([]),([]),([]),([]),([])
 
-# arrays to stores sampled correlation coeficients
+# arrays to store sampled correlation coeficients
 rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge=([]),([]),([]),([]),([]),([]),([]),([]),([]),([])
 
 # gaussian pdf with the measured value and with experimental uncertainty
@@ -76,7 +76,7 @@ gauss_2816 = sample_gauss(2815.0, 0.20)
 
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(10000):
+for _ in range(100000):
     # experimental sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -110,36 +110,34 @@ for _ in range(10000):
     sampled_e = np.append(sampled_e, m.values['e'])
     sampled_g = np.append(sampled_g, m.values['g'])
 
-    # correlation matrix
-    corr = m.np_matrix(correlation=True)
-
-    rho_ak = np.append(rho_ak, corr[1,0])
-    rho_bk = np.append(rho_bk, corr[2,0])
-    rho_ba = np.append(rho_ba, corr[2,1])
-    rho_ek = np.append(rho_ek, corr[3,0])
-    rho_ea = np.append(rho_ea, corr[3,1])
-    rho_eb = np.append(rho_eb, corr[3,2])
-    rho_gk = np.append(rho_gk, corr[4,0])
-    rho_ga = np.append(rho_ga, corr[4,1])
-    rho_gb = np.append(rho_gb, corr[4,2])
-    rho_ge = np.append(rho_ge, corr[4,3])
+    if states != 'omega':
+        # correlation matrix
+        corr = m.np_matrix(correlation=True)
+        
+        rho_ak = np.append(rho_ak, corr[1,0])
+        rho_bk = np.append(rho_bk, corr[2,0])
+        rho_ba = np.append(rho_ba, corr[2,1])
+        rho_ek = np.append(rho_ek, corr[3,0])
+        rho_ea = np.append(rho_ea, corr[3,1])
+        rho_eb = np.append(rho_eb, corr[3,2])
+        rho_gk = np.append(rho_gk, corr[4,0])
+        rho_ga = np.append(rho_ga, corr[4,1])
+        rho_gb = np.append(rho_gb, corr[4,2])
+        rho_ge = np.append(rho_ge, corr[4,3])
 
     # store the sampled masses
     sampled_masses = np.append(sampled_masses, exp_m)
 
 # plot the simulated sampling distribution,
 # under the Central Limit Theorem, it is expected normal
-dv.plot(sampled_k,'k','Parameter omega','Charm')
-dv.plot(sampled_a,'a','Parameter A','Charm')
-dv.plot(sampled_b,'b','Parameter B','Charm')
-dv.plot(sampled_e,'e','Parameter E','Charm')
-dv.plot(sampled_g,'g','Parameter G','Charm')
+dv.plot(sampled_k,'k','Parameter omega','charm', states)
+dv.plot(sampled_a,'a','Parameter A','charm', states)
+dv.plot(sampled_b,'b','Parameter B','charm', states)
+dv.plot(sampled_e,'e','Parameter E','charm', states)
+dv.plot(sampled_g,'g','Parameter G','charm', states)
 dv.mass_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
                    sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
                    rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
-                   bootstrap=True, name=states)
+                   bootstrap=True, asymmetric=True, name=states)
 
 dv.correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, states)
-                   
-
-
