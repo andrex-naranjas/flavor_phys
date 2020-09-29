@@ -35,9 +35,24 @@ def plot(sample,name,xlabel,quark):
 
 
 # mass prediction
-def mass_prediction(v_param, w_param, x_param, y_param, z_param, sum_mass,
-                    Kp, delta_Kp, A, delta_A, B, delta_B, E, delta_E, G, delta_G, name):
+def mass_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
+                    k_sampled, a_sampled, b_sampled, e_sampled, g_sampled,
+                    rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
+                    bootstrap, name):
 
+    Kp, delta_Kp = np.mean(k_sampled), np.std(k_sampled)
+    A, delta_A = np.mean(a_sampled), np.std(a_sampled)
+    B, delta_B = np.mean(b_sampled), np.std(b_sampled)
+    E, delta_E = np.mean(e_sampled), np.std(e_sampled)
+    G, delta_G = np.mean(g_sampled), np.std(g_sampled)
+
+    if bootstrap:
+        bootstrap_masses, bootstrap_errors = sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
+                                                                k_sampled, a_sampled, b_sampled, e_sampled, g_sampled,
+                                                                rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge)       
+
+    quantum, old, exp, delta_exp = values()
+        
     LA = linear_algebra(name)
     f = open('./tables/parameters_'+name+'.tex', "w")
     
@@ -55,18 +70,22 @@ def mass_prediction(v_param, w_param, x_param, y_param, z_param, sum_mass,
     #print(Kp/5727.12, A/21.54, B/23.91, E/30.34,G/54.37)
     #print(np.std(sampled_a),np.std(sampled_b),np.std(sampled_e),np.std(sampled_g))
 
-    quantum, old, exp, delta_exp = values()
-
+    
     f = open('./tables/masses_'+name+'.tex', "w")
     print("\\begin{tabular}{c | c  c  c  c  c}\hline \hline", file=f)
     print("Mass State & Experiment  &   Predicted mass  &    Predicted mass & diff pred & diff sampl\\\ ", file=f)
     print("           & (MeV)       &   old (MeV)       &    sampled (MeV)  &     (\\%) &     (\\%)  \\\ \hline", file=f)
     # print("Mass State & Experiment  &   Predicted mass  &    Predicted mass \\\  ")
     # print("           & (MeV)       &   old (MeV)       &    sampled (MeV) \\\ \hline  ")
-
+    
     for i in range(len(v_param)):
-        mass = sum_mass[i] + Kp*v_param[i] + A*w_param[i] + B*x_param[i] + E*y_param[i] + G*z_param[i]
-        error = np.sqrt( (delta_Kp*v_param[i])**2 + (delta_A*w_param[i])**2 + (delta_B*x_param[i])**2 + (delta_E*y_param[i])**2 + (delta_G*z_param[i])**2 )
+        if bootstrap:
+            mass = bootstrap_masses[i]
+            error= bootstrap_errors[i]
+        else:
+            mass = sum_mass[i] + Kp*v_param[i] + A*w_param[i] + B*x_param[i] + E*y_param[i] + G*z_param[i]
+            error = np.sqrt( (delta_Kp*v_param[i])**2 + (delta_A*w_param[i])**2 + (delta_B*x_param[i])**2 + (delta_E*y_param[i])**2 + (delta_G*z_param[i])**2 )
+            
         color = "red"
         old_exp = exp[i]-old[i]
         new_exp = exp[i]-mass
@@ -132,8 +151,22 @@ def sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
                        sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
                        rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge):
 
+    bootstrap_masses,sorted_masses,symm_errors = [],[],[]
+
+    for i in range(len(sum_mass)):
+        dummy = ([])
+        for j in range(len(sampled_k)):
+            mass = sum_mass[i] + sampled_k[j]*v_param[i] + sampled_a[j]*w_param[i] + sampled_b[j]*x_param[i] + sampled_e[j]*y_param[i] + sampled_g[j]*z_param[i]
+            dummy = np.append(dummy,mass)
+        bootstrap_masses.append(dummy.mean())
+        symm_errors.append(dummy.std(ddof=1))
+        sorted_masses.append(np.sort(dummy))
+                
+    bootstrap_masses = np.array(bootstrap_masses)
+    symm_errors = np.array(symm_errors)
+    sorted_masses = np.array(sorted_masses)        
+
     dummy = ([])
-    
     for i in range(len(sampled_k)):
         mass = sum_mass[0] + sampled_k[i]*v_param[0] + sampled_a[i]*w_param[0] + sampled_b[i]*x_param[0] + sampled_e[i]*y_param[0] + sampled_g[i]*z_param[0]
         dummy = np.append(dummy,mass)
@@ -173,6 +206,7 @@ def sampled_prediction(sum_mass, v_param, w_param, x_param, y_param, z_param,
     error_total =  np.sqrt( error_diag + 2*(error_off1+error_off2+error_off3))
 
     print(error_total)
+    return bootstrap_masses, symm_errors
 
 def linear_algebra(name):
     A = octave.load('./octave/matrix_'+ name + '.mat')

@@ -134,14 +134,12 @@ dv.plot(sampled_a,'a','Parameter A','Charm')
 dv.plot(sampled_b,'b','Parameter B','Charm')
 dv.plot(sampled_e,'e','Parameter E','Charm')
 dv.plot(sampled_g,'g','Parameter G','Charm')
-dv.mass_prediction(param_v, param_w, param_x, param_y, param_z, mass_sum,
-                   np.mean(sampled_k),np.std(sampled_k),np.mean(sampled_a),np.std(sampled_a),
-                   np.mean(sampled_b),np.std(sampled_b),np.mean(sampled_e),np.std(sampled_e),
-                   np.mean(sampled_g),np.std(sampled_g), states)
+dv.mass_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
+                   sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
+                   rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
+                   bootstrap=True, name=states)
 
 dv.correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, states)
+                   
 
-dv.sampled_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
-                      sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
-                      rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge)
 
