@@ -20,7 +20,7 @@ def plot(sample,name,xlabel,quark, states):
     xmin, xmax = plt.xlim()
     x = np.linspace(xmin, xmax, 100)
     y = norm.pdf(x, np.mean(sample), np.std(sample))
-    p, alpha = normal_test(sample, alpha=0.05, verbose=True)
+    p, alpha = normal_test(sample, alpha=0.05, verbose=True)        
     plt.plot(x,y,label='Gaussian fit')
     plt.text(0.15, 0.9,'$\\mu$={}, $\\sigma$={}'.format(round(np.mean(sample),1), round(np.std(sample),1)),
              ha='center', va='center', transform=ax.transAxes)
@@ -30,7 +30,7 @@ def plot(sample,name,xlabel,quark, states):
     plt.xlabel(xlabel)
     plt.ylabel('Arbitrary Units')
     plt.title(quark+' mesons')
-    plt.savefig('./plots/'+quark+'_bootstrap_'+name+'_'+states+'.pdf')
+    plt.savefig('./plots/'+quark+'_bootstrap_TEST_'+name+'_'+states+'.pdf')
     plt.close()
 
 
@@ -191,30 +191,31 @@ def linear_algebra(name):
 
 
 def normal_test(sample,alpha,verbose):
+    # # hypothesis test: null hypothesis, the data is gaussian distributed
 
-    # Shapiro-Wilk
-    stat, p = shapiro(sample)
-    if verbose:
-        if p > alpha: print('Shapiro this is Gaussian', p)
-        else:         print('Shapiro this is NOT Gaussian', p)
+    # # Shapiro-Wilk
+    # stat, p = shapiro(sample)
+    # if verbose:
+    #     if p > alpha: print('Shapiro this is Gaussian', p)
+    #     else:         print('Shapiro this is NOT Gaussian', p)
 
-    # chisquare
-    stat, p = chisquare(sample)
-    if verbose:
-        if p > alpha: print('Chisquare this is Gaussian', p)
-        else:         print('Chisquare this is NOT Gaussian', p)
+    # # chisquare
+    # stat, p = chisquare(sample)
+    # if verbose:
+    #     if p > alpha: print('Chisquare this is Gaussian', p)
+    #     else:         print('Chisquare this is NOT Gaussian', p)
 
-    # lilliefors
-    stat, p = lilliefors(sample)
-    if verbose:
-        if p > alpha: print('Lilliefors this is Gaussian', p)
-        else:         print('Lilliefors this is NOT Gaussian', p)
+    # # lilliefors
+    # stat, p = lilliefors(sample)
+    # if verbose:
+    #     if p > alpha: print('Lilliefors this is Gaussian', p)
+    #     else:         print('Lilliefors this is NOT Gaussian', p)
 
-    # kolmogorov
-    stat, p = kstest(sample, 'norm')
-    if verbose:
-        if p > alpha: print('Kolmogorov this is Gaussian', p)
-        else:         print('Kolmogorov this is NOT Gaussian', p)
+    # # kolmogorov
+    # stat, p = kstest(sample, 'norm')
+    # if verbose:
+    #     if p > alpha: print('Kolmogorov this is Gaussian', p)
+    #     else:         print('Kolmogorov this is NOT Gaussian', p)
 
     # Angostino
     k2, p = normaltest(sample)

@@ -18,7 +18,7 @@ import data_preparation as dp
 from sklearn.utils import resample
 
 
-states = 'omega' # All, omega, cascades, sigma_lamb
+states = 'All' # All, omega, cascades, sigma_lamb
 # input parameters
 param_v,param_w,param_x,param_y,param_z,mass_sum = dp.fetch_data(states)
 
@@ -36,7 +36,7 @@ def fit(least_squares):
     return m
 
 def sample_gauss(mu, sigma):
-    return np.random.normal(mu, sigma, 10000)
+    return np.random.normal(mu, sigma, 10000)    
 
 def random(sample):
     return np.random.choice(sample, size=None)
@@ -75,8 +75,18 @@ gauss_2792 = sample_gauss(2792.0, 3.3)
 gauss_2816 = sample_gauss(2815.0, 0.20)
 
 
+# sum masses
+# mass_sum= np.array([2505, 2505, 2505, 2505, 2505, 2505,
+#                     2350, 2350, 2350, 2350, 2350,
+#                     2195, 2195, 2195, 2195, 2195, 2195,
+#                     2350, 2350, 2350])
+gauss_2505 = sample_gauss(2505, 10.0)
+gauss_2350 = sample_gauss(2350, 10.0)
+gauss_2195 = sample_gauss(2195, 10.0)
+
+
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(100000):
+for _ in range(10000):
     # experimental sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -86,6 +96,10 @@ for _ in range(100000):
                           random(gauss_2518), random(gauss_2801), random(gauss_2286),
                           random(gauss_2592), random(gauss_2628), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
+        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),
+                             random(gauss_2350),random(gauss_2350),random(gauss_2350),random(gauss_2350),random(gauss_2350),
+                             random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),
+                             random(gauss_2350),random(gauss_2350),random(gauss_2350)])
         
     elif(states=='omega'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
