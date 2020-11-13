@@ -1,0 +1,219 @@
+\documentclass{article}
+%\usepackage{hyperref}
+
+\usepackage{xcolor}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+
+%\textheight 300mm
+%\setlength{\topmargin}{0 in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0in}
+%\baselineskip 7mm
+%\usepackage{lipsum}
+%\usepackage{enumitem}
+
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+
+
+\begin{document}
+
+\centerline{\LARGE{\textbf{Error propagation in charm baryon spectroscopy}}}
+\smallskip
+\centerline{Andres Ramirez-Morales and Hugo Garcia-Tecocoatzi}
+
+\section*{Introduction}
+
+Mass model Hamiltonian that determines the mass splitting of the charm baryon states.
+\begin{equation}
+\label{eqn:mass}
+H = H_{\mathrm{h.o.}} + \textcolor{red}{A}\mathbf{S}^{2} + \textcolor{red}{B}\mathbf{S\cdot L} +  \textcolor{red}{E}\mathbf{I}^{2} + \textcolor{red}{G}\mathbf{C_{2}}(\mathrm{SU(3)_{f}})
+\end{equation}
+
+\section*{Parameter determination and error propagation (paper version)}
+
+The experimentally observed charm baryon states, $\Omega_{C}$, $\Lambda_{C}$, $\Xi_{C}$, were fitted to the model described in Equation \ref{eqn:mass} to obtain the parameters $\omega, A, B, E, G$. The fitted model parameters minimize the sum of the squared differences between the experimental and model predicted masses (least squares method).\\
+
+The measured baryon masses are reported with statistical and systematic uncertainties. To account for these uncertainties into our fitted model parameters, we carried out a statistical error propagation, that is, we randomly sampled the experimental masses, utilizing a Gaussian shape distribution having a mean equal to the central mass value and with a width equal to the squared sum of the uncertainties. We fit the model parameters using a sampled mass, corresponding to each experimental observed state, and repeat the procedure $10^5$ times. In this manner, we obtained a Gaussian distribution (a formal normality test was performed as a cross-check) for each model parameter; next, we assign the mean of the distribution as the value of the parameter and used the quantile at 68\% C.L. to extract the uncertainty. The procedure just described is referred to as Monte Carlo bootstrap uncertainty propagation [Aqui citamos al fernandez y los papers que el da].
+
+First we performed the fit including all the available masses
+
+\section*{Parameter determination and error propagation (long version)}
+
+
+%
+
+
+\begin{thebibliography}{9}
+
+\bibitem{energy} 
+M. Farina,  $et.\,al.$,
+\textit{Energy helps accuracy: electroweak precision tests at hadron colliders}.
+Phys. Lett. B. \textbf{772}, 210-215 (2017),
+\url{https://doi.org/10.1016/j.physletb.2017.06.043}
+
+\bibitem{EDM}
+V. Andreev, $et.\,al.$, (ACME Collaboration)
+\textit{Improved limit on the electric dipole moment of the electron}.
+Nature \textbf{562}, 355-360(2018),
+\url{https://www.nature.com/articles/s41586-018-0599-8}
+
+\bibitem{belle1}
+K. Abe, $et.\,al.$, (BELLE Collaboration)
+\textit{Observation of Large CP Violation in the Neutral B Meson System}.
+Phys. Rev. Lett. \textbf{87}, 091802(2001),
+\url{https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.87.091802}
+
+\bibitem{belle2}
+I. Adachi, $et.\,al.$, (BELLE Collaboration)
+\textit{Precise Measurement of the $CP$ Violation Parameter $\mathrm{sin}﻿2{\ensuremath{\phi}}_{1}$ in ${B}^{0}\ensuremath{\rightarrow}(c\overline{c}){K}^{0}$ Decays}.
+Nature \textbf{108}, 171802(2012),
+\url{https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.108.171802}
+
+\bibitem{npdgamma}
+D. Blyth, $et.\,al.$, (NPDGamma Collaboration),
+\textit{First Observation of $P$-odd $\ensuremath{\gamma}$ Asymmetry in Polarized Neutron Capture on Hydrogen}.
+Phys. Rev. Lett. \textbf{121},  242002 (2018)
+\url{https://link.aps.org/doi/10.1103/PhysRevLett.121.242002} 
+ 
+\bibitem{QWSE}
+A. Ramirez-Morales, $et.\,al.$,
+\textit{Improvement of the quantum confined Stark effect characteristics by means of energy band profile modulation: The case of Gaussian quantum wells},
+Journal of Applied Physics  \textbf{110}, 103715 (2011)
+\url{https://doi.org/10.1063/1.3662907}
+
+\bibitem{n3he}
+M. Gericke,
+\textit{The n3He experiment: Hadronic parity violation in cold neutron capture on 3He},
+Proceedings of Science \textbf{253}, (2016)
+\url{https://doi.org/10.22323/1.253.0102}
+
+\bibitem{highZ}
+M. Aaboud $et\,al.$ (ATLAS Collaboration),
+\textit{Measurement of the double-differential high-mass Drell-Yan cross section in pp collisions at $\sqrt{s}=8$ TeV with the ATLAS detector},
+J. High Energ. Phys.  \textbf{2016:9} (2016)
+\url{https://doi.org/10.1007/JHEP08(2016)009}
+
+\bibitem{primes}
+M. Aaboud $et\,al.$ (ATLAS Collaboration),
+\textit{Combination of searches for heavy resonances decaying into bosonic and leptonic final states using 36 fb$^{-1}$ of proton-proton collision data at $\sqrt{s}=13$ TeV with the ATLAS detector},
+Phys. Rev. D \textbf{98}, 052008 (2018)
+\url{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.98.052008}
+
+\bibitem{stat}
+B. Laforge and L. Schoeffel,
+\textit{Elements of statistical methods in high-energy physics analyses},
+Nuclear Instruments and Methods in Physics Research Section A \textbf{394} 115-120 (1997)
+\url{https://doi.org/10.1016/S0168-9002(97)00649-9}
+
+\bibitem{uncBelle}
+J. Charles $et al.$,
+\textit{Modeling theoretical uncertainties in phenomenological analyses for particle physics},
+The European Physical Journal C, \textbf{214}, 1434-6052(2017)
+\url{https://doi.org/10.1140/epjc/s10052-017-4767-z}
+
+\bibitem{ewSys}
+P. Langacker and M. Luo,
+\textit{Implications of precision electroweak experiments for $m_{t}$, $\rho_0$, $\sin^2\theta_W$, and grand unification},
+Phys. Rev. D \textbf{44}, 3 (1991)
+\url{https://doi.org/10.1103/PhysRevD.44.817}
+
+
+\bibitem{NN1}
+D. Guest, $et.\,al.$,
+\textit{Deep Learning and Its Application to LHC Physics},
+Annual Review of Nuclear and Particle Science  \textbf{68}, 161-181(2018)
+\url{https://doi.org/10.1146/annurev-nucl-101917-021019}
+
+\bibitem{NN2}
+K. Albertsson, $et.\,al.$,
+\textit{Machine Learning in High Energy Physics Community White Paper},
+\url{https://arxiv.org/abs/1807.02876}
+
+
+\bibitem{machine}
+A. Radovic, $et.\,al.$,
+\textit{Machine learning at the energy and intensity frontiers of particle physics},
+Nature \textbf{560}, 41-48(2018)
+\url{https://doi.org/10.1038/s41586-018-0361-2}
+
+\bibitem{vector}
+A. Bevan,  $et.\,al.$,
+\textit{Support Vector Machines and generalisation in HEP},
+Journal of Physics: Conference Series, \textbf{898}, 072021 (2017)
+\url{https://doi.org/10.1088\%2F1742-6596\%2F898\%2F7\%2F072021}
+
+
+\bibitem{keck}
+T. Keck,  $et.\,al.$,
+\textit{The Full Event Interpretation},
+Computing and Software for Big Science, \textbf{6}, 2510-2044(2019)
+\url{https://doi.org/10.1007/s41781-019-0021-8}
+
+
+\bibitem{belleII}
+B.A. Shwartz $et al.$, (Belle II collaboration)
+\textit{The Belle II Experiment},
+Nuclear and Particle Physics Proceedings \textbf{260} 233-237 (2015)
+\url{https://doi.org/10.1016/j.nuclphysbps.2015.02.049}
+
+
+\bibitem{beRes1}
+M. Berger et at., (Belle collaboration)
+\textit{Measurement of the decays ${\mathrm{\ensuremath{\Lambda}}}_{c}\ensuremath{\rightarrow}\mathrm{\ensuremath{\Sigma}}\ensuremath{\pi}\ensuremath{\pi}$ at Belle}
+Phys. Rev. D \textbf{98}, 112006 (2018)
+\url{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.98.112006}
+
+
+\bibitem{beRes2}
+B.G. Fulsom et at., (Belle collaboration)
+\textit{Observation of $\mathrm{\ensuremath{\Upsilon}}(2S)\ensuremath{\rightarrow}\ensuremath{\gamma}{\ensuremath{\eta}}_{b}(1S)$ Decay}
+Phys. Rev. Lett. \textbf{121}, 232001 (2018)
+\url{https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.121.232001}
+
+\bibitem{lattice}
+Zachary S. Brown, $et. al.$,
+\textit{Charmed bottom baryon spectroscopy from lattice QCD}
+Phys. Rev. D \textbf{90}, 094507 (2014)
+\url{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.90.094507}
+
+\bibitem{lepton}
+Simone Bifani $et. al.$ 
+\textit{Review of lepton universality tests in B decays}
+J. Phys. G: Nucl. Part. Phys. \textbf{46} 023001 (2019)
+\url{https://iopscience.iop.org/article/10.1088/1361-6471/aaf5de}
+
+\bibitem{lv1}
+A. Gouvea and P. Vogel,
+\textit{Lepton Flavor and Number Conservation, and Physics Beyond the Standard Model}
+\url{https://arxiv.org/pdf/1303.4097.pdf}
+
+\bibitem{lv2}
+A. Abdesselam $et al.$,(Belle collaboration)
+\item{Test of lepton flavor universality in $B\rightarrow K^{*}l^{+}l^{-}$ decays at Belle}
+\url{https://arxiv.org/abs/1904.02440}
+
+
+
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+%\bibitem{atlasM} 
+%A. Yamamoto, $et.\,al.$, 
+%\textit{The ATLAS central solenoid}.
+%Nuclear Instruments and Methods in Physics Research Section A \textbf{584}, 53-74 (2008)
+%\url{https://doi.org/10.1016/j.nima.2007.09.047}
+
+%\bibitem{muSys}
+%K. Melnikov,
+%\textit{On the theoretical uncertainties in the muon anomalous magnetic moment},
+%International Journal of Modern Physics A, \textbf{16}, No. 28 (2001)
+%\url{https://doi.org/10.1142/S0217751X01005602}

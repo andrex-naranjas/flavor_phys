@@ -1,0 +1,883 @@
+\documentclass[twocolumn,superscriptaddress,preprintnumbers,nofootinbib]{revtex4}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{epsfig,color}
+\usepackage{bm}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage{color}
+\usepackage{bm}
+%\journalname{Eur. Phys. J. C}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%\usepackage{lineno}
+
+\usepackage{xcolor}
+
+
+\begin{document}
+%	\setstcolor{red}
+
+
+
+
+\title{The charm baryons}
+%\title{Hidden-charm and bottom pentaquarks in the baryo-quarkonium picture}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+\author{ R. Bijker} 
+\affiliation{Instituto de Ciencias Nucleares, Universidad Nacional Aut\'onoma de M\'exico, 04510 Ciudad de M\'exico, M\'exico} 
+
+\author{H. Garc{\'i}a-Tecocoatzi}
+\affiliation{Department of Physics, University of La Plata (UNLP), 49 y 115 cc. 67, 1900 La Plata, Argentina} 
+
+\author{ A. Giachino} 
+\affiliation{INFN, Sezione di Genova, Via Dodecaneso 33, 16146 Genova, Italy}
+
+\author{E. Ortiz-Pacheco}
+\affiliation{Instituto de Ciencias Nucleares, Universidad Nacional Aut\'onoma de M\'exico, 04510 Ciudad de M\'exico, M\'exico} 
+
+
+\author{E. Santopinto}
+\affiliation{INFN, Sezione di Genova, Via Dodecaneso 33, 16146 Genova, Italy}
+
+%\author{J. Ferretti}
+%\affiliation{Center for Theoretical Physics, Sloane Physics Laboratory, Yale University, New Haven, Connecticut 06520-8120, USA}
+
+%\author{M. A. Bedolla} 
+%\affiliation{INFN, Sezione di Genova, Via Dodecaneso 33, 16146 Genova, Italy}
+%\affiliation{Instituto de F\'isica y Matem\'aticas, Universidad Michoacana de San Nicol\'as de Hidalgo, Edificio C-3, Ciudad Universitaria, Morelia, Michoac\'an 58040, M\'exico}
+
+
+\begin{abstract}
+The observation
+%Our results are in good agreement with LHCb experimental data.
+\keywords{$\Omega_c$ states \and  $\Omega_b$ states \and open-flavor strong decays \and $^3P_0$ model}
+\end{abstract}
+
+\maketitle
+
+
+
+
+%\begin{keyword}
+%$\Omega_c$ states \sep $\Omega_b$ states \sep open-flavor strong decays \sep $^3P_0$ model
+%\end{keyword}
+
+
+\section{Introduction}
+%\begin{linenumbers}
+The discovery of new resonances always enriches the present experimental knowledge of the hadron zoo, and also provides essential information to explain the fundamental forces that govern nature. 
+As the hadron mass patterns carry information on the way the quarks interact one another, they provide a means of gaining insight into the fundamental binding mechanism of matter at an elementary level.
+
+In 2017, the LHCb Collaboration announced the observation of five narrow $\Omega_{ c}$ states in the $\Xi _{c}^{+}K^{-}$  decay channel \cite{Aaij:2017nav}.
+Later,  Belle  observed five resonant states in the $\Xi_c^{+} K^{-}$ invariant mass distribution and unambiguously confirmed four of the states announced by LHCb, $\Omega_{ c}(3000)$, $\Omega_{ c}(3050)$, $\Omega_{ c}(3066)$, and $\Omega_{ c}(3090)$, but no signal was found for the $\Omega_{ c}(3119)$ \cite{Yelton:2017qxg}. 
+Belle also measured a signal excess at 3188 MeV,  corresponding to the $\Omega_{ c}(3188)$ state reported by LHCb 
+\cite{Yelton:2017qxg}.
+
+It is also worth to mention that the LHCb collaboration has just announced the observation of a new bottom baryon, $\Xi_b(6227)^-$, in both $\Lambda_b^0 K^-$ and $\Xi^0_b \pi$ decay modes \cite{Aaij:2018yqz}, and of two bottom resonances, $\Sigma_b(6097)^\pm$, in the $\Lambda_b^0 \pi^\pm$ channels \cite{Aaij:2018tnn}. 
+
+
+
+
+
+In the present article we first construct the states and
+then study the  Charm-baryon mass spectra by estimating the contributions due to spin-orbit interactions, spin-, isospin- and flavour-dependent
+interaction from the well-established charmed baryon mass spectrum. We reproduce quantitatively the spectrum of  the charm baryon states 
+ within a harmonic oscillator hamiltonian plus a perturbation  term given by spin-orbit, isospin and flavour dependent  contributions (Secs. \ref{secIIA} and  \ref{secIIB}).
+Based on our results, we  describe these five states as $P$-wave $\lambda$-excitations of the $nn'c$ system; we also calculate their  decay widths (Sec. \ref{secIIC}), where n is a light quark: $u,d,s$.
+
+ %The experimental mass of $\Xi_b(6227)$  turns out to  compatible with our predictions and the mass of  $\Sigma_b(6097)$ is also in good agreement.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{fig1a}
+\includegraphics[width=0.6\linewidth]{fig1b}
+\caption{Comparison between three-quark and quark-diquark baryon effective degrees of freedom. Upper  panel: three-quark picture with two excitation modes. Lower panel:  quark-diquark picture with one excitation mode.}
+\label{comparison}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Finally, we calculate  the mass splitting between the $\rho$- and $\lambda$-mode excitations of charm baryon resonances (see Fig.~\ref{comparison} upper-pannel).
+This calculation is  fundamental to access to inner heavy-light baryon structure,
+as the presence or absence of $\rho$-mode excitations in the experimental spectrum
+will be the key to discriminate between the three-quark (see Fig. \ref{comparison}  upper-pannel)  and the quark-diquark structures (see Fig. \ref{comparison}  lower-pannel),  as it will be discussed in Sec. \ref{qD}.
+
+
+
+\section{Results}
+\label{results}
+\subsection{$S$-$D$ and $P$-wave $nnc$ states.}
+\label{secIIA}
+The Hamiltonian of three-quark system ($nnQ$) (where n is light quark)  can be written in terms of two coordinates~\cite{Isgur:1978xj}, $\rho$ and $\lambda$, which encode the system spatial degrees of freedom (see Fig.~\ref{comparison}). For simplicity, we use the compact notation $nnQ$ to denote them ($Q = c$ and $n=u,d,s$). 
+%Let $m_{\rho}=m_s$ and $m_{\lambda}= \frac{3 m_s m_{Q}}{2m_s+m_{Q}}$ be the  $ssQ$ system reduced masses; then, the $\rho$- and $\lambda$-mode frequencies are $\omega_{\rho,\lambda}=\sqrt{\frac{3 K_Q}{m_{\rho,\lambda}}}$,  where $K_Q$ is the spring constant, which implies that in three equal-mass-quark baryons, in which $m_{\rho} = m_{\lambda}$, the $\lambda$- and $\rho$- orbital excitation modes are completely mixed together. 
+By contrast, in heavy-light baryons, in which $m_{\rho} \ll m_{\lambda}$, the two excitation modes can be decoupled from each other as long as the light-heavy quark mass difference increases.
+
+First of all, we construct the $nnc$  ground and excited states to establish the quantum numbers of the charm baryon states. A single quark is described by its spin, flavor and color.
+The Pauli principle postulates that the wave function of identical fermions must be anti-symmetric for particle exchange. 
+Thus, the $nn$  spin-flavor and orbital wave functions have the same permutation symmetry: symmetric spin-flavor in  S-wave or D-wave,, or antisymmetric spin-flavor  in antisymmetric $P$-wave.
+Two light-quarks are necessarily in the ${\bf {6}}_{\rm f}$ or  anti-${\bf {3}}_{\rm f}$  flavor-symmetric state. The classification of the states can be seen in Figure \ref{Classification}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[htbp]
+\caption{Classification of  charm baryon states in the ${\bf {6}}_{\rm f}$ and  anti-${\bf {3}}_{\rm f}$  representations}
+\begin{center}
+\includegraphics[width=8.4cm]{Classification}
+\label{Classification}
+\end{center}
+\end{figure}  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\subsection{Mass spectra of $\Omega_{Q}$ states}
+\label{secIIB}
+We follow the  formalism of Ref. \cite{Santopinto:2018ljf}, a three-dimensional harmonic oscillator hamiltonian (h.o.) 
+plus  a perturbation  term given by spin-orbit, isospin and flavour dependent  contributions:
+%
+\begin{eqnarray}
+	H = H_{\rm h.o.}+A\; {\bf S }^2 + B \; {\bf S} \cdot {\bf L} +E\;  \bm{I}^2+G \; {\bf C_2}(\mbox{SU(3)}_{\rm f}) ;%\mathtt  
+	\label{MassFormula}
+\end{eqnarray}
+here ${\bf S}, {\bm I}$ and ${\bf C_2}(\mbox{SU(3)}_{\rm f})$ are the spin, the isospin and 
+the  ${\bf C_2}(\mbox{SU(3)}_{\rm f}) $ Casimir operators,
+and  
+\begin{eqnarray}
+ H_{\rm h.o.} =\sum_{i=1}^3m_i + \frac{\mathbf{p}_{\rho}^2}{2 m_{\rho}} 
++ \frac{\mathbf{p}_{\lambda}^2}{2 m_{\lambda}} 
++\frac{1}{2} m_{\rho} \omega^2_{\rho} \boldsymbol{\rho}^2   
++\frac{1}{2}  m_{\lambda} \omega^2_{\lambda} \boldsymbol{\lambda}^2
+	\nonumber \\
+\label{Hho}
+\end{eqnarray}
+ is the three-dimensional harmonic oscillator Hamiltonian
+written in terms of  Jacobi coordinates, $ \boldsymbol{\rho}$ and  $\boldsymbol{\lambda}$, and 
+conjugated momenta, $\mathbf{p}_{\rho}$ and $ \mathbf{p}_{\lambda}$,
+whose eigenvalues are $\sum_{i=1}^3m_i + \omega_{\rho}  \; n_{\rho} 
++ \omega_{\lambda} 
+n_{\lambda}\;$,
+%\sqrt{\frac{3K_Q}{m_{\rho}}}
+%\sqrt{\frac{3K_Q}{m_{\lambda}}} 
+  where  $\omega_{\rho(\lambda)}=\sqrt{\frac{3K_Q}{m_{\rho(\lambda)}}}\;$,
+  $ n_{\rho(\lambda)}= 2 k_{\rho(\lambda)}+l_{\rho(\lambda)}\;$, 
+  $k_{\rho(\lambda)}=0,1,...$,   and $l_{\rho(\lambda)}=0,1,...$.
+
+
+In order to calculate the mass difference between the $\rho$ and $\lambda$ orbital excitations of $nnQ$ states, we scale the h.o. frequency by the $\rho$ and $\lambda$  oscillator masses.
+From the definition of  $m_{\rho}$  and $m_{\lambda}$, we set  $m_{\rho}=m_n=300, 450$ MeV for $n=u,d$ or $n=s$ respectively, $m_{\lambda}= \frac{3 m_n m_{c}}{2m_n+m_{c}}$. The $\rho$- and $\lambda$-mode frequencies are $\omega_{\rho,\lambda}=\sqrt{\frac{3K_Q}{m_{\rho,\lambda}}}$.
+Finally, the mass splitting parameters,  $A,B,E$ and $G$, calculated in the following, are reported in
+Figure \ref{parameters}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\caption{The model parameters. The effective quark masses are compared with those of Isgur. }
+\begin{center}
+\includegraphics[width=8.4cm]{Parameters}
+\label{parameters}
+\end{center}
+\end{figure} 
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We estimate the mass splittings due to the spin-orbit, spin-, isospin- and flavor-dependent interactions from the well established charmed (bottom) baryon mass spectrum.
+The spin-orbit interaction, which is mysteriously small in light baryons \cite{Capstick:1986bm,Ebert:2007nw}, turns out to be fundamental to describe the heavy-light baryon mass patterns.
+The spin-, isospin-, and flavour-dependent interactions are necessary to reproduce the masses of charmed baryon ground states, as observed in Ref. \cite{Santopinto:2016pkp}. 
+By means of these estimates, we predict in a parameter-free procedure the spectrum of the $ssQ$ excited states constructed in the previous section.
+The predicted masses of the $\lambda$- and $\rho$-orbital excitations of the charm baryons are reported in Tables \ref{tab:widthsOmegac} $-$ \ref{tab:widthsLambdac}. In particular, Table \ref{tab:widthsOmegac} shows that we are able to reproduce quantitatively the mass spectra of the $\Omega_{c}$ states observed both by LHCb and  Belle.
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%OMEGA_C%STATES%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[htbp]
+\caption{Our $ssc$ state quantum number assignments (first column), predicted masses (second column) and strong decay widths (fourth column) are compared with the  experimental  masses (third column) and total decay widths (fifth column) \cite{Aaij:2017nav,Tanabashi:2018oca}. An $ssc$ state, $\left| ssc, S_{\rho}, S_{\rm tot}, l_{\rho}, l_{\lambda}, J \right\rangle$, is characterized by total angular momentum ${\bf J} = {\bf l}_{\rho}+{\bf l}_{\lambda} + {\bf S}_{\rm tot} $, where ${\bf S}_{\rm tot} = {\bf S}_{\rho}+\frac{1}{2}$. Our results are compatible with the experimental data, the predicted partial decay widths being lower than the total measured decay widths. Masses of states denoted  with $\dagger$ are used as inputs while all the others
+are predictions; partial decay widths denoted with $\dagger  \dagger  $ and with  $\dagger  \dagger  \dagger $  are zero for phase space and for selection rules, respectively. }
+\begin{tabular}{ccccc}
+\hline
+\hline
+State & Predicted Mass & Experimental Mass & Predicted Width & Experimental Width\\
+         & (MeV)                & (MeV)                      & $\Gamma(\Omega_c \rightarrow \Xi_c^{+}K^{-})$ (MeV) &  $\Gamma_{\rm tot}$  (MeV) \\
+\hline
+$\left| ssc,1, \frac{1}{2},0_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle \equiv \Omega_{\rm c}(2695)^{\dagger}$   & 
+$2713 \pm 12$ & $2695\pm2$ &  $\dagger \dagger $ &  $<10^{-7}$ \\
+$\left| ssc,1, \frac{3}{2},0_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle \equiv \Omega_{\rm c}^{*}(2770)^{\dagger}$   & 
+ $2774\pm13$ &   $2766\pm2$ &$\dagger \dagger $  &  \\
+$\left| ssc,1, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle \equiv \Omega_{\rm c}(3000)$   & 
+$2999 \pm 9$ & $3000.4\pm0.2\pm0.1\pm0.3$ &   & $4.6\pm0.6\pm0.3$ \\
+$\left| ssc,1, \frac{3}{2},0_{\rho},1_{\lambda},  \frac{1}{2} \right\rangle \equiv \Omega_{\rm c}(3050)$   &  $3017 \pm 13$   & $3050.2\pm0.1\pm0.1\pm0.3$ & 
+  & $0.8\pm0.2\pm0.1$\\
+$\left| ssc,1,  \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  \equiv \Omega_{\rm c}(3066)$  &  $3042 \pm 15$ & $3065.6\pm0.1\pm0.3\pm0.3$ &  & $3.5\pm0.4\pm0.2$ \\
+$\left| ssc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  \equiv \Omega_{\rm c}(3090)$  & 
+ $3060\pm13$ & $3090.2\pm0.3\pm0.5\pm0.3$ &  & $8.7\pm1.0\pm0.8$ \\
+$\left| ssc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  \equiv \Omega_{\rm c}(3188)$  & 
+$3132 \pm14$ &  $3188\pm5\pm13$ &   & $60\pm26$   \\
+ $\left| ssc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $ &  $3119 \pm 12$ &  & $\dagger \dagger \dagger $ &  \\
+  $\left| ssc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle $ & $3162 \pm 12$ &  & $\dagger \dagger \dagger $ &  \\
+ $\left| ssc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3300 & & &  \\
+$\left| ssc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $& 3372& & &  \\
+ $\left| ssc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{1}{2} \right\rangle  $&3275 & & &  \\
+ $\left| ssc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3318 & & &  \\
+ $\left| ssc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3390 & & &  \\
+ $\left| ssc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{7}{2} \right\rangle  $& 3491& & &  \\
+$\left| ssc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $&& & &  \\
+$\left| ssc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+$\left| ssc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3540 & & &  \\
+$\left| ssc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3612 & & &  \\
+$\left| ssc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $&3514 & & &  \\
+$\left| ssc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3557& & &  \\
+$\left| ssc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3629 & & &  \\
+$\left| ssc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{7}{2} \right\rangle  $&3730 & & &  \\
+\hline
+\hline
+\end{tabular}
+\label{tab:widthsOmegac}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%SIGMA_C%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[htbp]
+\caption{Our $\Sigma_c (nnc)$, where $n=u,d$ quarks. The state quantum number assignments (first column), predicted masses (second column) and strong decay widths (fourth column) are compared with the  experimental  masses (third column) and total decay widths (fifth column) \cite{Aaij:2017nav,Tanabashi:2018oca}. An $udc$ state notation as Table \ref {tab:widthsOmegac}. Our results are compatible with the experimental data, the predicted partial decay widths being lower than the total measured decay widths. Masses of states denoted  with $\dagger$ are used as inputs while all the others
+are predictions; partial decay widths denoted with $\dagger  \dagger  $ and with  $\dagger  \dagger  \dagger $  are zero for phase space and for selection rules, respectively. }
+\begin{tabular}{ccccc}
+\hline
+\hline
+State & Predicted Mass & Experimental Mass & Predicted Width & Experimental Width\\
+         & (MeV)                & (MeV)                      & $\Gamma(\Sigma_c \rightarrow \Lambda_c / \Sigma_c +\pi,)$ (MeV) &  $\Gamma_{\rm tot}$  (MeV) \\
+\hline
+$\left| nnc,1, \frac{1}{2},0_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle \equiv \Sigma_{\rm c}(2453)^{\dagger}$   &  $2713 \pm 12$ & $2453\pm2$ &   &   \\
+$\left| nnc,1, \frac{3}{2},0_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle \equiv \Sigma_{\rm c}^{*}(2518)^{\dagger}$   & $2774\pm13$ &   $2518\pm2$ &  &  \\
+$\left| nnc,1, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle $   &  $2800 \pm 9$ &  &  &  \\
+$\left| nnc,1, \frac{3}{2},0_{\rho},1_{\lambda},  \frac{1}{2} \right\rangle $   &  $2818 \pm 13$   & &   & \\
+$\left| nnc,1,  \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle $  &  $2843 \pm 15$ &  &    &  \\
+$\left| nnc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $  & $2861\pm13$ &  &  &  \\
+$\left| nnc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle $  & $ 2933\pm14$ &  & &   \\
+ $\left| nnc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $ &  $2980 \pm 12$ &  &  &  \\
+  $\left| nnc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle $ & $3023 \pm 12$ &  &  &  \\
+ $\left| nnc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3156 & & &  \\
+$\left| nnc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3228 & & &  \\
+ $\left| nnc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{1}{2} \right\rangle  $&3131 & & &  \\
+ $\left| nnc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3174 & & &  \\
+ $\left| nnc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3246 & & &  \\
+ $\left| nnc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{7}{2} \right\rangle  $& 3346& & &  \\
+$\left| nnc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+$\left| nnc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+$\left| nnc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3515 & & &  \\
+$\left| nnc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3588 & & &  \\
+$\left| nnc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $&3491 & & &  \\
+$\left| nnc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $& 3534& & &  \\
+$\left| nnc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3606 & & &  \\
+$\left| nnc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{7}{2} \right\rangle  $&3706& & &  \\
+\hline
+\hline
+\hline
+\end{tabular}
+\label{tab:widthsSigmac}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%XI_c prime states%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[htbp]
+\caption{Our $\Xi^\prime_c (nsc)$ mass spectrum, $n=u,d$ quark. The  state quantum number assignments (first column), predicted masses (second column) and strong decay widths (fourth column) are compared with the  experimental  masses (third column) and total decay widths (fifth column) \cite{Aaij:2017nav,Tanabashi:2018oca}. An $ndc$ state notation as Table \ref{tab:widthsOmegac}. Our results are compatible with the experimental data, the predicted partial decay widths being lower than the total measured decay widths. Masses of states denoted  with $\dagger$ are used as inputs while all the others
+are predictions; partial decay widths denoted with $\dagger  \dagger  $ and with  $\dagger  \dagger  \dagger $  are zero for phase space and for selection rules, respectively. }
+\begin{tabular}{ccccc}
+\hline
+\hline
+State & Predicted Mass & Experimental Mass & Predicted Width & Experimental Width\\
+         & (MeV)                & (MeV)                      & $\Gamma(\Xi^{\prime}_{\rm c}
+ \rightarrow \Xi_{\rm c}+\pi)$ (MeV) &  $\Gamma_{\rm tot}$  (MeV) \\
+\hline
+$\left| nsc,1, \frac{1}{2},0_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle \equiv \Xi^{\prime}_{\rm c}(2578)^{\dagger}$   &  $2574 \pm 12$ & $2578\pm2$ &   &   \\
+$\left| udc,1, \frac{3}{2},0_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle \equiv \Xi^{\prime *}_{\rm c}(2645)^{\dagger}$   & $2635\pm13$ &   $2645\pm2$ &  &  \\
+$\left| nsc,1, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle $   &  $ 2883\pm 9$ &  &  &  \\
+$\left| nsc,1, \frac{3}{2},0_{\rho},1_{\lambda},  \frac{1}{2} \right\rangle $   &  $ 2900\pm 13$   & &   & \\
+$\left| nsc,1,  \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle $  &  $2926 \pm 15$ &  &    &  \\
+$\left| nsc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $  & $2944\pm13$ &  &  &  \\
+$\left| nsc,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle $  & $ 3015\pm14$ &  & &   \\
+ $\left| nsc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $ &  $3028 \pm 12$ &  &  &  \\
+  $\left| nsc,0, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle $ & $3071 \pm 12$ &  &  &  \\
+ $\left| nsc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3206 & & &  \\
+$\left| nsc,1, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3278 & & &  \\
+ $\left| nsc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{1}{2} \right\rangle  $&3181 & & &  \\
+ $\left| nsc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3224 & & &  \\
+ $\left| nsc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3296 & & &  \\
+ $\left| nsc,1, \frac{3}{2},0_{\rho},2_{\lambda}, \frac{7}{2} \right\rangle  $&3397 & & &  \\
+$\left| nsc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $&& & &  \\
+$\left| nsc,0, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $&& & &  \\
+$\left| nsc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3496 & & &  \\
+$\left| nsc,1, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $& 3568& & &  \\
+$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $&3471 & & &  \\
+$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3514 & & &  \\
+$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3586 & & &  \\
+$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{7}{2} \right\rangle  $&3686 & & &  \\
+\hline
+\hline
+\end{tabular}
+\label{tab:widthsXicprime}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%
+
+%%%%%%XI_c states%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[htbp]
+\caption{Our $\Xi_c (nsc)$ mass spectrum, $n=u,d$ quark. The  state quantum number assignments (first column), predicted masses (second column) and strong decay widths (fourth column) are compared with the  experimental  masses (third column) and total decay widths (fifth column) \cite{Aaij:2017nav,Tanabashi:2018oca}. An $ndc$ state notation as Table \ref{tab:widthsOmegac}. Our results are compatible with the experimental data, the predicted partial decay widths being lower than the total measured decay widths. Masses of states denoted  with $\dagger$ are used as inputs while all the others
+are predictions; partial decay widths denoted with $\dagger  \dagger  $ and with  $\dagger  \dagger  \dagger $  are zero for phase space and for selection rules, respectively. }
+\begin{tabular}{ccccc}
+\hline
+\hline
+State & Predicted Mass & Experimental Mass & Predicted Width & Experimental Width\\
+         & (MeV)                & (MeV)                      & $\Gamma(\Xi_{\rm c}
+ \rightarrow \Xi_{\rm c}+\pi)$ (MeV) &  $\Gamma_{\rm tot}$  (MeV) \\
+\hline
+$\left| nsc,1, \frac{1}{2},0_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle \equiv \Xi_{\rm c}(2469)^{\dagger}$   &  $2473 \pm 12$ & $2469\pm2$ &   &   \\
+ $\left| nsc,0, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle  $ &  $2781 \pm 12$ &  &  &  \\
+  $\left| nsc,0, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle $ & $ 2824\pm 12$ &  &  &  \\
+$\left| nsc,1, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle $   &  $2926 \pm 9$ &  &  &  \\
+$\left| nsc,1, \frac{3}{2},1_{\rho},0_{\lambda},  \frac{1}{2} \right\rangle $   &  $2944 \pm 13$   & &   & \\
+$\left| nsc,1,  \frac{1}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle $  &  $ 2969\pm 15$ &  &    &  \\
+$\left| nsc,1, \frac{3}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $  & $2987\pm13$ &  &  &  \\
+$\left| nsc,1, \frac{3}{2},1_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle $  & $ 3059\pm14$ &  & &   \\
+$\left| nsc,0, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&3106 & & &  \\
+$\left| nsc,0, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $& 3178& & &  \\
+ $\left| nsc,1, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+$\left| nsc,1, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+ $\left| nsc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle  $& & & &  \\
+ $\left| nsc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+ $\left| nsc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+ $\left| nsc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{7}{2} \right\rangle  $& & & &  \\
+ $\left| nsc,0, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3395 & & &  \\
+$\left| nsc,0, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3468 & & &  \\
+ %$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $& & & &  \\
+ %$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+ %$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+ %$\left| nsc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{7}{2} \right\rangle  $& & & &  \\
+
+\hline
+\hline
+\end{tabular}
+\label{tab:widthsXic}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
+%%%Lambdac states
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[htbp]
+\caption{Our $\Lambda_c (udc)$ mass spectrum, $n=u,d$ quark. The  state quantum number assignments (first column), predicted masses (second column) and strong decay widths (fourth column) are compared with the  experimental  masses (third column) and total decay widths (fifth column) \cite{Aaij:2017nav,Tanabashi:2018oca}. An $udc$ state notation as Table \ref{tab:widthsOmegac}. Our results are compatible with the experimental data, the predicted partial decay widths being lower than the total measured decay widths. Masses of states denoted  with $\dagger$ are used as inputs while all the others
+are predictions; partial decay widths denoted with $\dagger  \dagger  $ and with  $\dagger  \dagger  \dagger $  are zero for phase space and for selection rules, respectively. }
+\begin{tabular}{ccccc}
+\hline
+\hline
+State & Predicted Mass & Experimental Mass & Predicted Width & Experimental Width\\
+         & (MeV)                & (MeV)                      & $\Gamma(\Lambda_c \rightarrow \Sigma_c +\pi)$ (MeV) &  $\Gamma_{\rm tot}$  (MeV) \\
+\hline
+$\left| udc,1, \frac{1}{2},0_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle \equiv \Lambda_{\rm c}(2286)^{\dagger}$   &  $2269 \pm 12$ & $2286\pm2$ &   &   \\
+ $\left| udc,0, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle  $ &  $ 2606\pm 12$ &  &  &  \\
+  $\left| udc,0, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle $ & $2649 \pm 12$ &  &  &  \\
+$\left| udc,1, \frac{1}{2},1_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle $   &  $ 2786\pm 9$ &  &  &  \\
+$\left| udc,1, \frac{3}{2},1_{\rho},0_{\lambda},  \frac{1}{2} \right\rangle $   &  $2804 \pm 13$   & &   & \\
+$\left| udc,1,  \frac{1}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle $  &  $2829 \pm 15$ &  &    &  \\
+$\left| udc,1, \frac{3}{2},1_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $  & $2847\pm13$ &  &  &  \\
+$\left| udc,1, \frac{3}{2},1_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle $  & $ 2919\pm14$ &  & & \\
+$\left| udc,0, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{3}{2} \right\rangle  $&2963 & & &  \\
+$\left| udc,0, \frac{1}{2},0_{\rho},2_{\lambda}, \frac{5}{2} \right\rangle  $&3034 & & &  \\
+ $\left| udc,1, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+$\left| udc,1, \frac{1}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+ $\left| udc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle  $& & & &  \\
+ $\left| udc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+ $\left| udc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+$\left| udc,1, \frac{3}{2},1_{\rho},1_{\lambda}, \frac{7}{2} \right\rangle  $& & & &  \\
+ $\left| udc,0, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $&3322 & & &  \\
+$\left| udc,0, \frac{1}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $&3394 & & &  \\
+ %$\left| udc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{1}{2} \right\rangle  $& & & &  \\
+ %$\left| udc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{3}{2} \right\rangle  $& & & &  \\
+ %$\left| udc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{5}{2} \right\rangle  $& & & &  \\
+% $\left| udc,1, \frac{3}{2},2_{\rho},0_{\lambda}, \frac{7}{2} \right\rangle  $& & & &  \\
+\hline
+\hline
+\end{tabular}
+\label{tab:widthsLambdac}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[htbp]
+\caption{$\Omega_c$ mass spectra and tentative quantum number assignments. The theoretical predictions (red dots) are compared with the experimental results by LHCb ~\cite{Aaij:2017nav} (blue line), Belle \cite{Yelton:2017qxg} (violet line) and Particle Data Group (black lines) \cite{Tanabashi:2018oca}. Except the $\Omega_c(3188)$ case, the experimental error for the other states is too small to be appreciated in this energy scale. The spin-$\frac{1}{2}$ and -$\frac{3}{2}$ ground-state masses, $\Omega_c(2695)$
+and $\Omega_c^{*}(2770)$ are indicated with $\dagger$  because are inputs while all the others are predictions.}
+\begin{center}
+\includegraphics[width=8.4cm]{Omegac}
+\label{spectrum1}
+\end{center}
+\end{figure}  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[htbp]
+\caption{$\Sigma_c$ mass spectra and tentative quantum number assignments. The theoretical predictions (red dots) are compared with the experimental results by  Particle Data Group (blue dots) \cite{Tanabashi:2018oca}. The experimental error for the other states is too small to be appreciated in this energy scale.}
+\begin{center}
+\includegraphics[width=8.4cm]{Sigmac}
+\label{spectrumSc}
+\end{center}
+\end{figure}  
+
+\begin{figure}[htbp]
+\caption{ As Figure \ref{spectrumSc} but for $\Xi_c$ resonances}
+\begin{center}
+\includegraphics[width=8.4cm]{Xic}
+\label{spectrumXic}
+\end{center}
+\end{figure}  
+
+\begin{figure}[htbp]
+\caption{ As Figure \ref{spectrumSc} but for $\Xi^\prime_c$ resonances}
+\begin{center}
+\includegraphics[width=8.4cm]{XicPrime}
+\label{spectrumXicprime}
+\end{center}
+\end{figure}  
+
+\begin{figure}[htbp]
+\caption{ As Figure \ref{spectrumSc} but for $\Lambda_c$ resonances}
+\begin{center}
+\includegraphics[width=8.4cm]{Lambdac}
+\label{spectrumLambda}
+\end{center}
+\end{figure}  
+
+
+\begin{figure}[htbp]
+\caption{ As Figure \ref{spectrumSc} but for $\Sigma_{c}$ resonances}
+\begin{center}
+\includegraphics[width=8.4cm]{Xicc}
+\label{spectrumXicc}
+\end{center}
+\end{figure}
+
+
+
+
+We estimate the energy splitting due to the spin-spin interaction from the (isospin-averaged) mass difference between $\Sigma_{c}^*(2520)$  and $\Sigma_{c}(2453)$. This value ($65 \pm 8$ MeV) agrees with the mass difference between $\Omega_{c}$ (2695) and $\Omega_{c}^*$ (2770), a value close to $71$ MeV. 
+As a consequence, the spin-spin mass splitting between two  orbitally excited states characterized by the same flavor configuration but different spins, specifically $S_{\rm tot}=\frac{1}{2}$ and $S_{\rm tot}=\frac{3}{2}$, is around $65$ MeV plus corrections due the spin-orbit contribution which can be calculated, for example, from the $\Lambda_{ c}(2595)$-$\Lambda_{ c}(2625)$ mass difference. 
+According to the quark model, $\Lambda_{ c}(2595)$ and $\Lambda_{ c}(2625)$ are the charmed counterparts of $\Lambda_{ }(1405)$ and $\Lambda_{ }(1520)$, respectively; their spin-parities are $\frac{1}{2}^{-}$ and $\frac{3}{2}^{-}$, and their mass difference, about 36 MeV, is due to spin-orbit effects.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}[htbp]
+%\caption{$\Omega_b$ mass spectrum predictions (red dots) and $\Omega_b$ ground-state experimental mass (black line)  \cite{Tanabashi:2018oca}.
+%The experimental error on the $\Omega_b(6046)$ state,  2 MeV,  is too small to be appreciated in this energy scale.} 
+%\begin{center}
+%\includegraphics[width=8.3 cm]{fig3}
+%\label{spectrum2}
+%\end{center}
+%\end{figure} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% da qui
+
+
+
+%In the bottom sector, the mass splitting due to the spin-orbit interaction between $\Lambda_{b}(5912)$ and $\Lambda_{b}(5920)$ is 8 MeV  and we estimated previously that the spin-spin splitting is $20 \pm 7$ MeV.
+%Thus, we  interpret the predicted $ \Omega_b (6305)$, $\Omega_b (6313)$, $\Omega_b (6317)$, $\Omega_b (6325)$ and $ \Omega_b (6338)$ states, reported in Table \ref{tab:mass prediction3}, as the bottom counterparts of the $\Omega _{ c}(3000)$,  $\Omega_c(3066)$, $\Omega_c(3050)$, $\Omega_c(3090)$ and $\Omega_c(3188)$, respectively.
+%We observe that, unlike the charm sector,  in the bottom sector  the state $\left| ssb,1, \frac{3}{2},0_{\rho},1_{\lambda}, \frac{1}{2} \right\rangle$ is heavier than the state $\left| ssb,\right.$ $\left.1, \frac{1}{2},0_{\rho},1_{\lambda}, \frac{3}{2} \right\rangle$: this is due to the fact that in the charm sector the spin-orbit contribution is lesser than the spin-spin one, while in the bottom sector the situation is the opposite (see Table \ref{parameters}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the charm sector, the mass splitting  due to the flavor-dependent interaction can be estimated from the mass difference between $\Xi_c$ and  $\Xi_c^{'}$, whose isospin-averaged masses are 2469.37 MeV and 2578.1 MeV, respectively; this leads to a value of 109 MeV, approximately.
+%This is another very interesting thing  which distinguishes the charmed 
+%from the bottom sector.}
+The mass difference between the lightest charmed ground states, $\Sigma_c$ and  $\Lambda_c$, is related to the different isospin and flavor structures of the light quark multiplets: $\Lambda_c$ is an isospin-singlet state belonging to an SU(3)$_{\rm f}$ flavor anti-triplet,  while $\Sigma_c$ is an isospin-triplet state belonging to an SU(3)$_{\rm f}$ flavor sextet.
+%It is now worthwhile  to combine  the h.o. Hamiltonian with all the previous mass splitting effects 
+%via:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{table}[htbp]
+%\caption{Values of the parameter reported in Eq. (\ref{MassFormula}) with the corresponding uncertainties expressed in MeV.}
+%\centering
+%\begin{tabular}{ccc}
+%\hline
+%\hline
+%State & $A$ & $B$ \\
+%\hline
+%charm   &  $21.54 \pm0.37$   &      $23.91\pm0.31$   \\
+%bottom  & $6.73\pm1.63$   &   $5.15\pm0.33$    \\
+%\hline
+%State & $E$ & $G$ \\
+%\hline
+%charm   & $30.34 \pm0.23$   &$54.37 \pm0.58$  \\
+%bottom  & $26.00\pm1.80$ &  $70.91\pm0.49$ \\
+%\hline
+%\hline
+%\end{tabular}
+%\label{parameters}
+%\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+We summarize all our proposed quantum number assignments for the charm baryon states in Figures ~\ref{spectrum1}$-$\ref{spectrumXicc}, respectively. In the charm sector, we find a good agreement between the mass pattern predicted  for the spectrum and the experimental data.
+%{\color{red} in particular, as one can see from Fig. \ref{spectrum1} the five experimental states fit quite nicely %the predicted mass spectrum.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Decay widths of $ssQ$ states}
+\label{secIIC}
+In the following, we  compute the strong decays of charm baryons
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Tables \ref{tab:widthsOmegac}$-$\ref{tab:widthsLambdac} report ourpredicted decay widths.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+In conclusion, in addition to our mass estimates we compute the strong decays of charm baryons
+
+
+
+\section{Comparison between the three-quark and  quark-diquark structures}
+\label{qD}
+ In the light baryon sector,  the successful constituent Quark model  reproduces the baryon mass spectra by assuming that   the  constituent quarks have roughly the same mass, it implies that the two oscillators, $\rho$- and $\lambda$, have approximately the same frequency, $\omega_{\rho}\simeq \omega_{\lambda}$, 
+it means that the $\lambda$ and $\rho$ excitations are degenerate in the mass spectrum. 
+
+
+
+\appendix
+
+\section{ Decay model}
+\label{app2}
+The  is an effective model to compute the open-flavor strong decays of hadrons in the quark model....
+The decay widths can be calculated as \cite{Micu:1968mk,LeYaouanc:1972vsx,Ferretti:2015ada}
+\begin{equation}
+	\Gamma = \frac{2 \pi \gamma_0^2}{2J_{A}+1} \mbox{ } \Phi_{A \rightarrow BC}(q_0)\sum_{M_{J_A},M_{J_B}} \big|\mathcal{M}^{M_{J_A},M_{J_B}}\big|^2 \mbox{ }.  \nonumber
+        \label{gamma}
+\end{equation}
+Here, $\mathcal{M}^{M_{J_A},M_{J_B}}$ is the $A \rightarrow BC$ amplitude which, for simplicity, is usually expressed in terms of hadron harmonic-oscillator wave functions, $\gamma_0$ is the dimensionless pair-creation strength. 
+$q_0$ is the relative momentum between $B$ and $C$, and the coefficient $\Phi_{A \rightarrow BC}(q_0)$ is the relativistic phase space factor~\cite{Ferretti:2015ada},
+\begin{eqnarray}
+	\label{eqn:rel-PSF}
+	\Phi_{A \rightarrow BC}(q_0) = 4 \pi q_0 \frac{E_B(q_0) E_C(q_0)}{M_A}  \mbox{ }, \nonumber\\
+	\mbox{with}\;\;E_{B,C} = \sqrt{M_{B,C}^2 + q_0^2}.  \nonumber
+\end{eqnarray}
+%%%%%%%%%%%%%
+
+ \section{Baryon wave functions}
+\subsection{Flavor wave functions}
+In the charm sector we consider the next flavor wave fuctions.
+\subsubsection{\bf 6-plet}
+\begin{eqnarray}
+\Omega_c&:=&|ssc\rangle\\
+\Xi^{\prime0}_c&:=&\frac{1}{\sqrt{2}}(|dsc\rangle+|sdc\rangle)\\
+\Xi^{\prime+}_c&:=&\frac{1}{\sqrt{2}}(|usc\rangle+|suc\rangle)\\
+\Sigma^{++}_c&:=&|uuc\rangle\\
+\Sigma^0_c&:=&|ddc\rangle\\
+\Sigma^+_c&:=&\frac{1}{\sqrt{2}}(|udc\rangle+|duc\rangle)
+\end{eqnarray}
+
+\subsubsection{\bf $\bar 3$-plet}
+\begin{eqnarray}
+\Xi^0_c&:=&\frac{1}{\sqrt{2}}(|dsc\rangle-|sdc\rangle)\\
+\Xi^+_c&:=&\frac{1}{\sqrt{2}}(|usc\rangle-|suc\rangle)\\
+\Lambda^+_c&:=&\frac{1}{\sqrt{2}}(|udc\rangle-|duc\rangle)
+\end{eqnarray}
+\subsection{D-wave states}
+We consider the pauli principle  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htbp]
+\caption{D-wave states \bf 6-plet}
+\begin{tabular}{ccccc}
+\hline
+\hline
+S$_{light}$   &S$_{tot}$         &$l_{\rho}$        &$l_{\lambda}$         &J\\
+\hline
+1&1/2&0&2&3/2\\
+1&1/2&0&2&5/2\\
+1&3/2&0&2&1/2\\
+1&3/2&0&2&3/2\\
+1&3/2&0&2&5/2\\
+1&3/2&0&2&7/2\\
+0&1/2&1&1&3/2\\
+0&1/2&1&1&5/2\\
+1&1/2&2&0&3/2\\
+1&1/2&2&0&5/2\\
+1&3/2&2&0&1/2\\
+1&3/2&2&0&3/2\\
+1&3/2&2&0&5/2\\
+1&3/2&2&0&7/2\\
+\hline
+\hline
+\end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htbp]
+\caption{D-wave states \bf $\bar3$-plet}
+\begin{tabular}{ccccc}
+\hline
+\hline
+S$_{light}$   &S$_{tot}$         &$l_{\rho}$        &$l_{\lambda}$         &J\\
+\hline
+0&1/2&0&2&3/2\\
+0&1/2&0&2&5/2\\
+1&1/2&1&1&3/2\\
+1&1/2&1&1&5/2\\
+1&3/2&1&1&1/2\\
+1&3/2&1&1&3/2\\
+1&3/2&1&1&5/2\\
+1&3/2&1&1&7/2\\
+0&1/2&2&0&3/2\\
+0&1/2&2&0&5/2\\
+\hline
+\hline
+\end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The harmonic oscillator wave functions used in our
+calculation, in terms of $\alpha^2_{\rho}$ and $\alpha^2_{\lambda}$}
+
+
+For the S-wave charmed baryon,
+\begin{eqnarray}
+\psi(0,0,0,0)=3^{3/4}\;(\frac{1}{\pi
+\alpha^2_{\rho}})^{\frac{3}{4}}\,(\frac{1}{\pi
+\alpha^2_{\lambda}})^{\frac{3}{4}}\,\exp\Big[{-\frac{
+{\mathbf{p}}^2_{\rho}}{2\alpha^2_{\rho}} -\frac{
+{\mathbf{p}}^2_{\lambda}}{2\alpha^2_{\lambda}}}\Big].\nonumber\\
+\end{eqnarray}
+
+For the P-wave charmed baryon,
+\begin{eqnarray}
+\psi(1,m,0,0)&=&-i\;3^{3/4}\,\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big({1}/{
+\alpha^2_{\rho}}\Big)^{ {5}/{4}}\,{\cal
+Y}^m_1({\mathbf{p}}_{\rho})\nonumber\\&&\times\Big(\frac{1}{\pi
+\alpha^2_{\lambda}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\alpha^2_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\alpha^2_{\lambda}}}\Big],\\
+\psi(0,0,1,m)&=&-i\;3^{3/4}\,\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\alpha^2_{\lambda}}\Big)^{{5}/{4}}\,{\cal
+Y}^m_1({\mathbf{p}}_{\lambda})\nonumber\\&&\times \Big(\frac{1}{\pi
+\alpha^2_{\rho}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\alpha^2_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\alpha^2_{\lambda}}}\Big].
+\end{eqnarray}
+
+\subsection{The harmonic oscillator wave functions used in our
+calculation, in terms of $\omega^2_{\rho}$ and $\omega^2_{\lambda}$}
+Differently from light baryon phenomenology, where the $\rho$- and $\lambda$-modes of the mixed-symmetry spatial wave function are degenerate in energy, in the heavy-light sector the previous modes decouple; so, they can be distinguished through an analysis of the heavy-light baryon mass spectra.
+This happens because frequency of the $\rho$- and $\lambda$-modes are different, 
+\begin{eqnarray}
+\omega_{\rho}=\sqrt{\frac{3 K_Q}{m_{\rho}}} \;\; \text{and} \;\;\omega_{\lambda}=\sqrt{\frac{3 K_Q}{m_{\lambda}}},
+\end{eqnarray}
+where $m_{\rho}$ and $m_{\lambda}$ are defined in Section \ref{secIIA} .  We write the baryon wave functions in terms of $\omega_{\rho}$ and $\omega_{\lambda}$ by using the relation $\alpha^2_{\rho,\lambda}=\omega_{\rho,\lambda}m_{\rho,\lambda}$ . 
+
+For the S-wave charmed baryon,
+\begin{eqnarray}
+\psi(0,0,0,0)&=&3^{3/4}\;(\frac{1}{\pi
+\omega_{\rho}m_{\rho}})^{\frac{3}{4}}\,(\frac{1}{\pi
+\omega_{\lambda}m_{\lambda}})^{\frac{3}{4}}\nonumber \\ &\times&\,\exp\Big[{-\frac{
+{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}} -\frac{
+{\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big].\nonumber\\&&
+\end{eqnarray}
+
+For the P-wave charmed baryon,
+\begin{eqnarray}
+\psi(1,m,0,0)&=&-i\;3^{3/4}\,\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\rho}m_{\rho}}\Big)^{ {5}/{4}}\,{\cal
+Y}^m_1({\mathbf{p}}_{\rho})\nonumber\\&\times&\Big(\frac{1}{\pi
+\omega_{\lambda}m_{\lambda}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big],\nonumber\\&& \\
+\psi(0,0,1,m)&=&-i\;3^{3/4}\,\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\lambda}m_{\lambda}}\Big)^{{5}/{4}}\,{\cal
+Y}^m_1({\mathbf{p}}_{\lambda})\nonumber\\&\times& \Big(\frac{1}{\pi
+\omega_{\rho}m_{\rho}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big].\nonumber\\&&
+\end{eqnarray}
+
+For the D-wave charmed baryon,
+\begin{eqnarray}
+\psi
+(2,m,0,0)&=&3^{3/4}\;\Big(\frac{16}{15\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\rho}m_{\rho}}\Big)^{{7}/{4}}\,{\cal
+Y}^m_2({\mathbf{p}}_{\rho})\nonumber\\&\times&\Big(\frac{1}{\pi
+\omega_{\lambda}m_{\lambda}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big], \nonumber\\&&\\
+\psi(0,0,2,m)&=&3^{3/4}\;\Big(\frac{16}{15\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\lambda}m_{\lambda}}\Big)^{{7}/{4}}\,{\cal
+Y}^m_2({\mathbf{p}}_{\lambda})\nonumber\\&\times&\Big(\frac{1}{\pi
+\omega_{\rho}m_{\rho}}\Big)^{{3}/{4}}\,\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}}
+-\frac{ {\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big],\nonumber\\&&\\
+\psi(1,m,1,m')&=&-3^{3/4}\;\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\rho}m_{\rho}}\Big)^{{5}/{4}}\,{\cal Y}^m_1(
+{\mathbf{p}}_{\rho})\nonumber\\&\times&\Big(\frac{8}{3\sqrt{\pi}}\Big)^{{1}/{2}}\Big(\frac{1}{
+\omega_{\lambda}m_{\lambda}}\Big)^{{5}/{4}}{\cal
+Y}^{m'}_1({\mathbf{p}}_{\lambda})\nonumber\\&\times&
+\exp\Big[{-\frac{{\mathbf{p}}^2_{\rho}}{2\omega_{\rho}m_{\rho}}
+-\frac{{\mathbf{p}}^2_{\lambda}}{2\omega_{\lambda}m_{\lambda}}}\Big].
+\end{eqnarray}
+Here $\mathcal{Y}_{l}^{m}(\mathbf{p})$ is the solid harmonic
+polynomial.
+
+The ground state wave function of meson is
+\begin{eqnarray}
+\psi(0,0)=\Big(\frac{{R}^2}{\pi}\Big)^{{3}/{4}} \exp
+\Big[-\frac{R^2({\mathbf{p}}_2-{\mathbf{p}}_5)^2}{8}\Big].
+\end{eqnarray}
+
+
+
+%\end{linenumbers}
+
+\section*{Acknowledgments}
+The authors acknowledge financial support from CONACyT, M\'exico (postdoctoral fellowship for H.~Garc\'ia-Tecocoatzi), 
+\clearpage
+\begin{thebibliography}{90}
+
+\bibitem{Aaij:2017nav} 
+  R.~Aaij {\it et al.} [LHCb Collaboration],
+  %``Observation of five new narrow $\Omega_c^0$ states decaying to $\Xi_c^+ K^-$,''
+  Phys.\ Rev.\ Lett.\  {\bf 118}, 182001 (2017).
+
+\bibitem{Yelton:2017qxg} 
+  Y. Yelton {\it et al.} [Belle Collaboration],
+  %Observation of Excited $\Omega_c$ Charmed Baryons in $e^+e^-$ Collisions.
+  Phys.\ Rev.\ D {\bf 97}, 051102 (2018).
+  
+\bibitem{Aaij:2018yqz} 
+  R. Aaij {\it et al.} [LHCb Collaboration],
+  %Observation of a new $\Xi_b^-$ resonance.
+  Phys.\ Rev.\ Lett.  {\bf 121}, 072002 (2018). 
+  
+\bibitem{Aaij:2018tnn} 
+  R.~Aaij {\it et al.} [LHCb Collaboration],
+  %``Observation of Two Resonances in the $\Lambda_b^0 \pi^\pm$ Systems and Precise Measurement of $\Sigma_b^\pm$ and $\Sigma_b^{*\pm}$ properties,''
+  Phys.\ Rev.\ Lett.\  {\bf 122}, 012001 (2019).
+
+\bibitem{Karliner:2017kfm} 
+  M. Karliner and J.~L. Rosner, 
+  %Very narrow excited $\Omega_c$ baryons.
+  Phys.\ Rev.\ D {\bf 95}, 114012 (2017).
+
+\bibitem{Zhao:2017fov} 
+  Z.~Zhao, D.~D.~Ye and A.~Zhang,
+  %``Hadronic decay properties of newly observed $\Omega_c$ baryons,''
+  Phys.\ Rev.\ D {\bf 95}, 114024 (2017).
+
+\bibitem{Wang:2017hej} 
+  K.~L.~Wang, L.~Y.~Xiao, X.~H.~Zhong and Q.~Zhao,
+  %``Understanding the newly observed $\Omega_c$ states through their decays,''
+  Phys.\ Rev.\ D {\bf 95}, 116010 (2017).
+
+\bibitem{Padmanath:2017lng} 
+  M.~Padmanath and N.~Mathur,
+  %``Quantum Numbers of Recently Discovered $\Omega^{0}_{c}$ Baryons from Lattice QCD,''
+  Phys.\ Rev.\ Lett.\  {\bf 119}, 042001 (2017).
+
+\bibitem{Agaev:2017lip} 
+  S.~S.~Agaev, K.~Azizi and H.~Sundu,
+  %``Interpretation of the new $\Omega_c^{0}$ states via their mass and width,''
+  Eur.\ Phys.\ J.\ C {\bf 77}, 395 (2017).
+  
+\bibitem{Huang:2018wgr} 
+  Y.~Huang, C.~j.~Xiao, Q.~F.~L\''u, R.~Wang, J.~He and L.~Geng,
+  %``Strong and radiative decays of $D\Xi$ molecular state and newly observed $\Omega_c$ states,''
+  Phys.\ Rev.\ D {\bf 97}, 094013 (2018).
+
+\bibitem{Debastiani:2017ewu} 
+  V.~R.~Debastiani, J.~M.~Dias, W.~H.~Liang and E.~Oset,
+  %``Molecular $\Omega_c$ states generated from coupled meson-baryon channels,''
+  Phys.\ Rev.\ D {\bf 97}, 094035 (2018).
+
+\bibitem{Nieves:2017jjx} 
+  J.~Nieves, R.~Pavao and L.~Tolos,
+  %``$\Omega _c$ excited states within a $\mathrm{SU(6)}_{\mathrm{lsf}}\times $  HQSS model,''
+  Eur.\ Phys.\ J.\ C {\bf 78}, 114 (2018).  
+  
+\bibitem{Isgur:1978xj} 
+  N.~Isgur and G.~Karl,
+  %``P Wave Baryons in the Quark Model,''
+  Phys.\ Rev.\ D {\bf 18}, 4187 (1978).
+
+\bibitem{Santopinto:2018ljf}
+E. Santopinto {\it et al.},   ``The $\varOmega _{ c}$-puzzle solved by means of quark
+                        model predictions,'' Eur.\ Phys.\  J. C79, 1012 (2019).
+  
+\bibitem{Capstick:1986bm} 
+  S.~Capstick and N.~Isgur,
+  %``Baryons in a Relativized Quark Model with Chromodynamics,''
+  Phys.\ Rev.\ D {\bf 34}, 2809 (1986).  
+  
+\bibitem{Ebert:2007nw} 
+  D.~Ebert, R.~N.~Faustov and V.~O.~Galkin,
+  %``Masses of excited heavy baryons in the relativistic quark model,''
+  Phys.\ Lett.\ B {\bf 659}, 612 (2008).
+  
+\bibitem{Santopinto:2016pkp} 
+  E.~Santopinto and A.~Giachino,
+  %``Compact pentaquark structures,''
+  Phys.\ Rev.\ D {\bf 96}, 014014 (2017).
+  
+\bibitem{Tanabashi:2018oca} 
+  M.~Tanabashi {\it et al.} [Particle Data Group],
+  %``Review of Particle Physics,''
+  Phys.\ Rev.\ D {\bf 98}, 030001 (2018).    
+
+\bibitem{Micu:1968mk} 
+  L. Micu,
+  %Decay rates of meson resonances in a quark model.
+  Nucl.\ Phys.\ B {\bf 10}, 521 (1969).
+
+\bibitem{LeYaouanc:1972vsx} 
+  A.~Le Yaouanc, L.~Oliver, O.~Pene and J.~C.~Raynal,
+  %``Naive quark pair creation model of strong interaction vertices,''
+  Phys.\ Rev.\ D {\bf 8}, 2223 (1973).
+
+\bibitem{LeYaouanc:1988fx} 
+  A.~Le Yaouanc, L.~Oliver, O.~Pene and J.~C.~Raynal,
+  Hadron Transitions In The Quark Model,
+  Gordon and Breach (1988).
+
+\bibitem{Roberts:1997kq} 
+  W.~Roberts and B.~Silvestre-Brac,
+  %``Meson decays in a quark model,''
+  Phys.\ Rev.\ D {\bf 57}, 1694 (1998).
+  
+\bibitem{Chen:2007xf} 
+  C.~Chen, X.~L.~Chen, X.~Liu, W.~Z.~Deng and S.~L.~Zhu,
+  %``Strong decays of charmed baryons,''
+  Phys.\ Rev.\ D {\bf 75}, 094017 (2007).  
+  
+\bibitem{Ferretti:2015ada} 
+  R.~Bijker, J.~Ferretti, G.~Galat\`a, H.~Garc\'ia-Tecocoatzi and E.~Santopinto,
+  %``Strong decays of baryons and missing resonances,''
+  Phys.\ Rev.\ D {\bf 94}, 074040 (2016). 
+  
+\bibitem{Close:2005se} 
+  F.~E.~Close and E.~S.~Swanson,
+  %``Dynamics and decay of heavy-light hadrons,''
+  Phys.\ Rev.\ D {\bf 72}, 094004 (2005).  
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,394 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{bm}
+
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage{slashed}
+\usepackage{hyperref}
+
+\usepackage{booktabs}
+\usepackage{subfigure}
+
+\usepackage{amsthm}
+\usepackage[utf8x]{inputenc}
+\usepackage{color}
+\usepackage{cite}
+\usepackage{subfigure}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{Berlin}
+
+\usepackage{lipsum}
+
+%\usepackage{beamerthemesplit}
+
+\usepackage{lscape}
+\usepackage{siunitx}
+\sisetup{exponent-product=\ensuremath{{}\cdot{}}}
+\sisetup{round-mode=places,round-precision=2}
+
+%table column size
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
+%\usepackage{beamerthemesplit}
+
+%\setbeamertemplate{footline}[frame number]
+%\definecolor{verdeade}{RGB}{0, 210, 100}
+%%% Personalizzazione del layout---articolata su cinque livelli.
+%\usetheme{Berlin}        % layout complessivo. 
+%\useinnertheme{rounded} % layout interno.
+%\useoutertheme{default} % layout esterno.
+%\usecolortheme[named= verdeade]{structure} % schema di colori.
+%\usefonttheme{structurebold}  % schema dei font.
+% Inutile dire che se volete tutti i default, potete risparmiarvi gli ultimi
+% quattro comandi. 
+\sffamily
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{frametitle continuation}[from second][]
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercovered{transparent}
+
+\setbeamercolor{uppercolor}{fg=white, bg=blue!80!black}
+\setbeamercolor{lowercolor}{fg=black, bg=blue!10!white}
+
+\mode
+<all>
+\newcommand*\oldmacro{}%
+\let\oldmacro\insertshorttitle%
+\renewcommand*\insertshorttitle{%
+  \oldmacro\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber} %slides numbering
+
+%%% Title and author
+\title[Bootstrap and flavour spectroscopy]{Bootstrap and flavour spectroscopy}
+%\subtitle{{}}
+
+\author[Andres Ramirez-Morales]{H. Garcia-Tecocoatzi, \underline{Andres Ramirez-Morales}}
+%\insertpagenumber
+%\begin{document}
+%\author[short author names]{author names}
+%\def\coauthors{A. N. Other, J. Bloggs, J. Doe}
+
+\institute{Kyungpook National University}
+\date{29$^{\mathrm{th}}$ September 2020}
+	
+	
+%\newcommand{\backupbegin}{
+%   \newcounter{finalframe}
+%   \setcounter{finalframe}{\value{framenumber}}
+%}
+%\newcommand{\backupend}{
+%   \setcounter{framenumber}{\value{finalframe}}
+%}
+
+
+\begin{document}
+ \begin{frame}
+   \begin{figure}
+   \hspace{3mm}
+   \includegraphics[scale=0.25]{./Figures/knu_logo.jpg}
+   \hspace{7mm}
+   \includegraphics[scale=0.25]{./Figures/plata.jpg}       
+    \hspace{15mm}
+   \includegraphics[scale=1.25]{./Figures/belle_logo.png}       
+
+   \end{figure}
+  \titlepage   
+\end{frame}
+
+
+
+\section{Introduction}
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{beamerboxesrounded}[upper=uppercolor, lower=lowercolor, shadow=true]{} 
+\begin{itemize}
+
+\item Physics motivation:
+\begin{itemize}
+  \item Heavy quark meson sector contains a lot of interesting physics
+  \item Potentially enrich our knowledge of flavour physics: Nature
+  \item Experiments are dedicated to measure these effects: Belle(II), LHCb
+  \item Development of phenomenological models to describe mass spectra measurements
+\end{itemize}
+\item Results motivation:
+\begin{itemize}
+  \item Improve the error treatment with statistical methods
+  \item The correct error treatment could guide future research
+  \item These errors could help to improve the phenomenological model itself
+\end{itemize}
+\item Strategy:
+\begin{itemize}
+   \item Perform a parameter fitting using least minimum squares
+   \item Perform a statistical sampling to determine the statistics of the parameters
+\end{itemize}
+
+\end{itemize}
+\end{beamerboxesrounded}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Changes w.r.t. last presentation}
+\begin{beamerboxesrounded}[upper=uppercolor, lower=lowercolor, shadow=true]{} 
+\begin{itemize}
+
+\item Computation of the masses and errors directly from the bootstrap sample
+\item Formal statistic test were performed to ensure the normality of the simulated masses
+\item Cross-check of the parameter computation using linear algebra
+\item Fits were performed in several states groups: all, omegas, cascades, sigmas and lambdas
+\item Inclusion of asymmetric errors, using the quantile technique
+
+\end{itemize}
+\end{beamerboxesrounded}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{}
+Goal: determine the mass splitting parameters $A,B,E,G$ by fitting the model Hamiltonian (plus the $\omega$ from the harmonic oscillator):
+
+\begin{equation}
+H = H_{\mathrm{h.o.}} + \textcolor{red}{A}\mathbf{S}^{2} + \textcolor{red}{B}\mathbf{S\cdot L} +  \textcolor{red}{E}\mathbf{I}^{2} + \textcolor{red}{G}\mathbf{C_{2}}(\mathrm{SU(3)_{f}})
+\end{equation}
+
+\vspace{10mm}
+Mass eigenstates $\vert ssc,S_{\rho},S_{tot},I_{\rho},I_{\lambda},J \rangle$ follow:
+\begin{equation}
+H \vert ssc,S_{\rho},S_{tot},I_{\rho},I_{\lambda},J \rangle = \textcolor{red}{m}\vert ssc,S_{\rho},S_{tot},I_{\rho},I_{\lambda},J \rangle
+\end{equation}
+
+where $m$ is the measured (predicted) meson masses.
+\vspace{5mm}
+\url{https://doi.org/10.1140/epjc/s10052-019-7527-4}
+
+\end{frame}
+
+
+
+\section{Strategy}
+
+\begin{frame}
+\frametitle{Strategy: bootstrap}
+\begin{beamerboxesrounded}[upper=uppercolor, lower=lowercolor, shadow=true]{} 
+\begin{itemize}
+
+\item Use experimental masses and errors to build a Gaussian distribution, with $\mu=$mass and $\sigma=$Error$_{exp}$ for each observed mass
+\item Randomly sample the Gaussian distribution to obtained a re-sampled mass spectrum
+\item With the re-sampled experimental masses perform a least minimum squares fit to fit the predicted/modelled masses:
+\begin{equation}
+d^{2}=\sum_{i}(m_{sampled}-m_{predicted})^{2}
+\end{equation}
+
+\item Iterate the previous steps to produce a bootstrap sample and obtain smooth Gaussian statistics ($\mu,\sigma$)
+\item Inspired on Molina $et. al.$ \url{https://arxiv.org/abs/2001.05408}
+
+\end{itemize}
+\end{beamerboxesrounded}
+
+\end{frame}
+
+
+\section{Results}
+\begin{frame}
+\frametitle{Results: sampling distributions}
+\scriptsize{A $p_{value}$ was obtained to formally test the null hypothesis of data being Gaussian distributed, with a $\alpha = 0.05$}
+\begin{figure}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_k_All.pdf}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_a_All.pdf}       
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Results: sampling distributions}
+\scriptsize{A $p_{value}$ was obtained to formally test the null hypothesis of data being Gaussian distributed, with a $\alpha = 0.05$}
+\begin{figure}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_b_All.pdf}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_e_All.pdf}   
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Results: sampling distributions}
+\scriptsize{A $p_{value}$ was obtained to formally test the null hypothesis of data being Gaussian distributed, with a $\alpha = 0.05$}
+\begin{figure}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_g_All.pdf}
+   \includegraphics[scale=0.325]{./Plots/charm_bootstrap_mass_All.pdf}   
+\end{figure}
+
+\end{frame}
+
+
+
+\section{Results}
+\begin{frame}
+\frametitle{Results: parameters}
+\scriptsize{
+\begin{table}[tb!]
+\begin{center}
+\input{./Tables/parameters_All.tex}
+\input{./Tables/parameters_omega.tex}
+\end{center}
+\end{table}
+}
+\end{frame}
+
+\section{Results}
+\begin{frame}
+\frametitle{Results: parameters}
+\scriptsize{
+\begin{table}[tb!]
+\begin{center}
+\input{./Tables/parameters_cascades.tex}
+\input{./Tables/parameters_sigma_lamb.tex}
+\end{center}
+\end{table}
+}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{\small{Masses, asymmetric errors calculated via 68\% quantile method}}
+\vspace{-3mm}
+\tiny{
+\begin{table}[tb!]
+\input{./Tables/masses_All.tex}
+\end{table}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\small{Masses, asymmetric errors calculated via 68\% quantile method}}
+\tiny{
+\begin{table}[tb!]
+\input{./Tables/masses_omega.tex}
+\end{table}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{\small{Masses, asymmetric errors calculated via 68\% quantile method}}
+\tiny{
+\begin{table}[tb!]
+\input{./Tables/masses_cascades.tex}
+\end{table}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\small{Masses, asymmetric errors calculated via 68\% quantile method}}
+\tiny{
+\begin{table}[tb!]
+\input{./Tables/masses_sigma_lamb.tex}
+\end{table}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Results: summary}
+
+\begin{table}[tb!]
+\begin{center}
+\hspace{-6mm}
+\hspace{-6mm}
+
+\begin{tabular}{c  c  c  c  c  c}\hline \hline
+     &  $K$      &     $A$   &      $B$   &      $E$  & $G$ \\ \hline
+ $K$ &     1     &           &            &           &   \\ 
+ $A$ & 0.24 &      1    &            &           &   \\ 
+ $B$ & 0.43 & 0.46 &      1     &           &   \\ 
+ $E$ & 0.1 & 0.1 & -0.03 &      1    &   \\ 
+ $G$ & -0.53 & -0.71 & -0.23 & -0.49 & 1 \\ \hline \hline
+\end{tabular}
+
+
+\end{center}
+\caption{Correlation matrix for the parameters}
+\label{tab:summary}
+\end{table}
+
+\end{frame}
+
+
+
+
+
+
+
+\section{Summary}
+
+\begin{frame}
+\frametitle{Summary and future work}
+\begin{beamerboxesrounded}[upper=uppercolor, lower=lowercolor, shadow=true]{} 
+\begin{itemize}
+
+\item The bootstrap method was implemented successfully
+\item Results look promising
+\item Compute asymmetric uncertainties
+\item More sampling statistical methods could be applied for comparison
+\item Code is found on GitHub: \url{https://github.com/andrex-naranjas/flavor_phys}
+
+
+\end{itemize}
+\end{beamerboxesrounded}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+
+Thanks for listening!
+
+\end{frame}
+
+
+%\backupbegin
+%\appendix 
+
+\section{Backup}
+\begin{frame}
+\frametitle{Results: sampling distributions}
+
+\begin{figure}
+   \includegraphics[scale=0.325]{./Plots/Bottom_bootstrap_o.png}
+   \includegraphics[scale=0.325]{./Plots/Bottom_bootstrap_a.png}       
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Results: sampling distributions}
+\begin{figure}
+   \includegraphics[scale=0.325]{./Plots/Bottom_bootstrap_b.png}
+   \includegraphics[scale=0.325]{./Plots/Bottom_bootstrap_g.png}       
+\end{figure}
+
+\end{frame}
+
+
+\end{document}
