@@ -11,8 +11,9 @@ from sklearn.utils import resample
 
 # call module for plots
 import data_visualization as dv
-
 import data_preparation as dp
+from data_results import CharmResults
+# import data_results as dr
 
 # bootstrap
 from sklearn.utils import resample
@@ -86,7 +87,7 @@ gauss_2195 = sample_gauss(2195, 10.0)
 
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(10000):
+for _ in range(100):
     # experimental sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -142,16 +143,31 @@ for _ in range(10000):
     # store the sampled masses
     sampled_masses = np.append(sampled_masses, exp_m)
 
-# plot the simulated sampling distribution,
-# under the Central Limit Theorem, it is expected normal
-dv.plot(sampled_k,'k','Parameter omega','charm', states)
-dv.plot(sampled_a,'a','Parameter A','charm', states)
-dv.plot(sampled_b,'b','Parameter B','charm', states)
-dv.plot(sampled_e,'e','Parameter E','charm', states)
-dv.plot(sampled_g,'g','Parameter G','charm', states)
-dv.mass_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
-                   sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
-                   rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
-                   bootstrap=True, asymmetric=True, name=states)
 
-dv.correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, states)
+
+# create dictionaries
+param   = {'mass':mass_sum, 'V':param_v, 'W':param_w, 'X':param_x, 'Y':param_y, 'Z':param_z}
+sampled = {'sampled_k':sampled_k, 'sampled_a':sampled_a, 'sampled_b':sampled_b, 'sampled_e':sampled_e, 'sampled_g':sampled_g}
+corr_mat= {'rho_ak':rho_ak,'rho_bk':rho_bk,'rho_ba':rho_ba,'rho_ek':rho_ek,'rho_ea':rho_ea,'rho_eb':rho_eb,'rho_gk':rho_gk,'rho_ga':rho_ga,'rho_gb':rho_gb,'rho_ge':rho_ge}
+
+# calculate the results using bootstrap simulation above
+results = CharmResults(param, sampled, corr_mat, bootstrap=True, asymmetric=True, name=states)
+results.fetch_values()
+results.mass_prediction()
+
+
+# # plot the simulated sampling distribution,
+# # under the Central Limit Theorem, it is expected normal
+# dv.plot(sampled_k,'k','Parameter omega','charm', states)
+# dv.plot(sampled_a,'a','Parameter A','charm', states)
+# dv.plot(sampled_b,'b','Parameter B','charm', states)
+# dv.plot(sampled_e,'e','Parameter E','charm', states)
+# dv.plot(sampled_g,'g','Parameter G','charm', states)
+
+# # get the results 
+# dr.mass_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
+#                    sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
+#                    rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
+#                    bootstrap=True, asymmetric=True, name=states)
+
+# dr.correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, states)

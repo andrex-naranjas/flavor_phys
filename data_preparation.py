@@ -7,9 +7,6 @@
 # data preparation module
 
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import norm
-
 
 def fetch_data(states):
     
