@@ -5,18 +5,18 @@
 # author: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
 
 # main module
+
+# standard modules
 from iminuit import Minuit
 import numpy as np
-from sklearn.utils import resample
-
-# call module for plots
-import data_visualization as dv
-import data_preparation as dp
-from data_results import CharmResults
-# import data_results as dr
 
 # bootstrap
 from sklearn.utils import resample
+
+# framework modules
+import data_visualization as dv
+import data_preparation as dp
+from data_results import CharmResults
 
 
 states = 'All' # All, omega, cascades, sigma_lamb
@@ -75,20 +75,14 @@ gauss_2469 = sample_gauss(2469.0, 4)
 gauss_2792 = sample_gauss(2792.0, 3.3)
 gauss_2816 = sample_gauss(2815.0, 0.20)
 
-
-# sum masses
-# mass_sum= np.array([2505, 2505, 2505, 2505, 2505, 2505,
-#                     2350, 2350, 2350, 2350, 2350,
-#                     2195, 2195, 2195, 2195, 2195, 2195,
-#                     2350, 2350, 2350])
+# quark-sum masses
 gauss_2505 = sample_gauss(2505, 10.0)
 gauss_2350 = sample_gauss(2350, 10.0)
 gauss_2195 = sample_gauss(2195, 10.0)
 
-
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(100):
-    # experimental sampled masses
+for _ in range(1000):
+    # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
                           random(gauss_3050), random(gauss_3066), random(gauss_3090),
@@ -97,23 +91,33 @@ for _ in range(100):
                           random(gauss_2518), random(gauss_2801), random(gauss_2286),
                           random(gauss_2592), random(gauss_2628), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
-        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),random(gauss_2505),
-                             random(gauss_2350),random(gauss_2350),random(gauss_2350),random(gauss_2350),random(gauss_2350),
-                             random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),random(gauss_2195),
+        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+                             random(gauss_2505),random(gauss_2505),random(gauss_2505),
+                             random(gauss_2350),random(gauss_2350),random(gauss_2350),
+                             random(gauss_2350),random(gauss_2350),
+                             random(gauss_2195),random(gauss_2195),random(gauss_2195),
+                             random(gauss_2195),random(gauss_2195),random(gauss_2195),
                              random(gauss_2350),random(gauss_2350),random(gauss_2350)])
         
     elif(states=='omega'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
                           random(gauss_3050), random(gauss_3066), random(gauss_3090)])
+        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+                             random(gauss_2505),random(gauss_2505),random(gauss_2505)])
 
     elif(states=='cascades'):
         exp_m = np.array([random(gauss_2578), random(gauss_2645), random(gauss_2923),
                           random(gauss_2938), random(gauss_2964), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
-
+        mass_sum = np.array([random(gauss_2350),random(gauss_2350),random(gauss_2350),
+                             random(gauss_2350),random(gauss_2350),random(gauss_2350),
+                             random(gauss_2350),random(gauss_2350)])
+        
     elif(states=='sigma_lamb'):
         exp_m = np.array([random(gauss_2453), random(gauss_2518), random(gauss_2801),
                           random(gauss_2286), random(gauss_2592), random(gauss_2628)])
+        mass_sum = np.array([random(gauss_2195),random(gauss_2195),random(gauss_2195),
+                             random(gauss_2195),random(gauss_2195),random(gauss_2195)])
 
                
     # perform the parameter fitting (via minimizing squared distance)
@@ -140,9 +144,8 @@ for _ in range(100):
         rho_gb = np.append(rho_gb, corr[4,2])
         rho_ge = np.append(rho_ge, corr[4,3])
 
-    # store the sampled masses
+    # store the sampled experimental masses
     sampled_masses = np.append(sampled_masses, exp_m)
-
 
 
 # create dictionaries
@@ -152,22 +155,7 @@ corr_mat= {'rho_ak':rho_ak,'rho_bk':rho_bk,'rho_ba':rho_ba,'rho_ek':rho_ek,'rho_
 
 # calculate the results using bootstrap simulation above
 results = CharmResults(param, sampled, corr_mat, bootstrap=True, asymmetric=True, name=states)
-results.fetch_values()
 results.mass_prediction()
-
-
-# # plot the simulated sampling distribution,
-# # under the Central Limit Theorem, it is expected normal
-# dv.plot(sampled_k,'k','Parameter omega','charm', states)
-# dv.plot(sampled_a,'a','Parameter A','charm', states)
-# dv.plot(sampled_b,'b','Parameter B','charm', states)
-# dv.plot(sampled_e,'e','Parameter E','charm', states)
-# dv.plot(sampled_g,'g','Parameter G','charm', states)
-
-# # get the results 
-# dr.mass_prediction(mass_sum, param_v, param_w, param_x, param_y, param_z,
-#                    sampled_k, sampled_a, sampled_b, sampled_e, sampled_g,
-#                    rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,
-#                    bootstrap=True, asymmetric=True, name=states)
-
-# dr.correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge, states)
+results.correlation_matrix()
+results.param_comparison()
+results.plot()

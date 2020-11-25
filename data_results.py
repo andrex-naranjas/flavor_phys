@@ -21,6 +21,7 @@ class CharmResults:
         self.bootstrap = bootstrap
         self.asymmetric = asymmetric
         self.name = name
+        self.fetch_values()
 
         
     # mass prediction
@@ -133,8 +134,7 @@ class CharmResults:
         return bootstrap_masses, symm_errors, asymmetric_up, asymmetric_dn
 
 
-    def correlation_matrix(rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge,name):
-
+    def correlation_matrix(self):
         # print correlation matrix        
         f = open('./tables/correlation_'+self.name+'.tex', "w")
         print("\\begin{tabular}{c  c  c  c  c  c}\hline \hline", file=f)
@@ -148,21 +148,31 @@ class CharmResults:
 
 
 
-    def param_comparison():
+    def param_comparison(self):
         
-        LA = du.linear_algebra_check(name)
-        f = open('./tables/parameters_'+name+'.tex', "w")
+        LA = du.linear_algebra_check(self.name)
+        f = open('./tables/parameters_'+self.name+'.tex', "w")
         print("\\begin{tabular}{c | c  c  c  c  c }\hline \hline", file=f)
         print("          & $K$        & $A$             & $B$     & $E$        & $G$            \\\ \hline", file=f)
         print("Paper     & 5727.12$\pm x.xx$ & 21.54$\pm 0.37$ & 23.91$\pm 0.31$ & 30.34 $\pm 0.23$ & 54.37$\pm 0.58$ \\\ ", file=f)
-        print("Sampled   &",round(Kp,1),' $\\pm',round(delta_Kp,2),'$ &', round(A,2),' $\\pm',round(delta_A,2),'$ &', round(B,2),' $\\pm',round(delta_B,2),'$ &', round(E,2), ' $\\pm',round(delta_E,2),'$ &', round(G,2), ' $\\pm',round(delta_G,2),'$ \\\ ', file=f)
+        print("Sampled   &",round(self.Kp,1),' $\\pm',round(self.delta_Kp,2),'$ &', round(self.A,2),' $\\pm',round(self.delta_A,2),'$ &', round(self.B,2),' $\\pm',round(self.delta_B,2),'$ &', round(self.E,2), ' $\\pm',round(self.delta_E,2),'$ &', round(self.G,2), ' $\\pm',round(self.delta_G,2),'$ \\\ ', file=f)
         print("L.Algebra &",round(LA[0][0],1),' &', round(LA[1][0],2),' &', round(LA[2][0],2),' &', round(LA[3][0],2), '&', round(LA[4][0],2), ' \\\ ', file=f)
         print("\hline\hline", file=f)
         print("\end{tabular}", file=f)
-        print("\caption{Model pararameters in MeV, for states: $", name, "$}",file=f)
+        print("\caption{Model pararameters in MeV, for states: $", self.name, "$}",file=f)
         print("    ")
         f.close()
         #print(Kp/5727.12, A/21.54, B/23.91, E/30.34,G/54.37)
+
+    def plot(self):
+        # plot the simulated sampling distribution,
+        # under the Central Limit Theorem, it is expected normal
+        dv.plot(self.sampled_k,'k','Parameter omega','charm', self.name)
+        dv.plot(self.sampled_a,'a','Parameter A','charm', self.name)
+        dv.plot(self.sampled_b,'b','Parameter B','charm', self.name)
+        dv.plot(self.sampled_e,'e','Parameter E','charm', self.name)
+        dv.plot(self.sampled_g,'g','Parameter G','charm', self.name)
+
 
     
     def fetch_values(self):
@@ -199,6 +209,7 @@ class CharmResults:
         self.rho_ga = np.mean(self.corr_mat['rho_ga'])
         self.rho_gb = np.mean(self.corr_mat['rho_gb'])
         self.rho_ge = np.mean(self.corr_mat['rho_ge'])
+
 
 # print("Mass State & Experiment  &   Predicted mass  &    Predicted mass \\\  ")
 # print("           & (MeV)       &   old (MeV)       &    sampled (MeV) \\\ \hline  ")
