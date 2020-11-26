@@ -1,5 +1,6 @@
 \documentclass{article}
 %\usepackage{hyperref}
+\usepackage{amsmath}
 
 \usepackage{xcolor}
 \usepackage[colorlinks = true,
@@ -36,17 +37,113 @@ H = H_{\mathrm{h.o.}} + \textcolor{red}{A}\mathbf{S}^{2} + \textcolor{red}{B}\ma
 
 \section*{Parameter determination and error propagation (paper version)}
 
-The experimentally observed charm baryon states, $\Omega_{C}$, $\Lambda_{C}$, $\Xi_{C}$, were fitted to the model described in Equation \ref{eqn:mass} to obtain the parameters $\omega, A, B, E, G$. The fitted model parameters minimize the sum of the squared differences between the experimental and model predicted masses (least squares method).\\
+The experimentally observed charm baryon mass states, $\Omega_{C}$,  $\Sigma_{C}$, $\Lambda_{C}$, $\Xi_{C}$, were fitted to the model described in Equation \ref{eqn:mass} to obtain the parameters $\omega, A, B, E, G$. The fitted model parameters minimize the sum of the squared differences between the experimental and model predicted masses (least squares method).\\
 
-The measured baryon masses are reported with statistical and systematic uncertainties. To account for these uncertainties into our fitted model parameters, we carried out a statistical error propagation, that is, we randomly sampled the experimental masses, utilizing a Gaussian shape distribution having a mean equal to the central mass value and with a width equal to the squared sum of the uncertainties. We fit the model parameters using a sampled mass, corresponding to each experimental observed state, and repeat the procedure $10^5$ times. In this manner, we obtained a Gaussian distribution (a formal normality test was performed as a cross-check) for each model parameter; next, we assign the mean of the distribution as the value of the parameter and used the quantile at 68\% C.L. to extract the uncertainty. The procedure just described is referred to as Monte Carlo bootstrap uncertainty propagation [Aqui citamos al fernandez y los papers que el da].
+The measured baryon masses  reported in Ref. [1-10] come with statistical and systematic uncertainties.  Furthermore, an uncertainty of 10 MeV on the quark system mass is considered.  To account for these uncertainties into our fitted model parameters, we carried out a statistical simulation for error propagation, that is, we randomly sampled the experimental masses, utilizing a Gaussian shape distribution having a mean equal to the central mass value and with a width equal to the squared sum of the uncertainties. We fitted the model parameters using a sampled mass, corresponding to each experimental observed state, and repeat the procedure $10^5$ times. In this manner, we obtained a Gaussian distribution (a formal normality test was performed as a cross-check) for each model parameter and the mass itself; next, we assigned the mean of the distribution as the value of the parameter and used the quantile at 68\% C.L. to extract the uncertainty. The methodology just described is referred to as Monte Carlo bootstrap uncertainty propagation [Aqui citamos al fernandez y los papers que el da].\\
 
-First we performed the fit including all the available masses, 
+In order to gain better understanding on the different charm baryons, we performed several fits, grouping them according to their quark composition. First, we performed the fit including all the available states,  results are reported in Table \ref{tab:All_mass_paper}.  Next, we performed the fit considering only the $\Omega_{C}$ states,  results are reported in Table \ref{tab:omega_mass_paper}.  Furthermore, we fitted considering only the cascade states, this is shown in Table \ref{tab:cascades_mass_paper}.  The final group combine the $\Lambda_{C}$ and $\Sigma_{C}$ states together, results are shown in Table \ref{tab:sigmaLamb_mass_paper}.
+
+\begin{table}[h!]
+\input{./tables/masses_All_paper.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_omega_paper.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_cascades_paper.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_sigmaLamb_paper.tex}
+\end{table}
+
+
+The correlation between the fit parameters could be used to throw light on the mass spectroscopy, Tables \ref{tab:All_corr}-\ref{tab:sigmaLamb_corr}
+
+\begin{table}[h!]
+\input{./tables/correlation_All.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/correlation_omega.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/correlation_cascades.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/correlation_sigmaLamb.tex}
+\end{table}
 
 \section*{Parameter determination and error propagation (long version)}
 
+\subsection*{Introduction}
 
-%
+Propagation of uncertainty is a building block of the statistical reasoning. The idea of propagation of error using computer simulations, was first proposed by Efron, and is referred to as \textit{bootstrap} methods Ref.[1].  The bootstrap rest in two ideas: \textit{i)} the variability of the data, based on a statistical model, may be estimated reasonably accurately,  and \textit{ii)} this variability may be propagated to express uncertainty about any quantities computed from the data. There are two types of bootstrap methods:
 
+\begin{itemize}
+\item\textit{Parametric bootstrap:}
+\item\textit{Non-parametric bootstrap:}
+\end{itemize}
+
+\subsection{Parameter comparison}
+The model parameters calculated using Monte Carlo simulation are compared with the previous parameters presented in Ref.[11].An additional cross-check was carried out, that is, we cast into matrix form the baryon mass model; the matrix equation was solved using \texttt{Octave} framework, and the parameters.  A very good agreement is found between the parameters computed with simulation and the ones using the matrix form. Results are shown in Tables \ref{tab:All_param}-\ref{tab:sigmaLamb_param}
+
+
+
+\begin{table}[h!]
+\input{./tables/parameters_All.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/parameters_omega.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/parameters_cascades.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/parameters_sigmaLamb.tex}
+\end{table}
+
+
+\subsection{Parameter}
+
+\begin{table}[h!]
+\input{./tables/masses_All_note.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_omega_note.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_cascades_note.tex}
+\end{table}
+
+\begin{table}[h!]
+\input{./tables/masses_sigmaLamb_note.tex}
+\end{table}
+
+
+
+\subsection*{Fundamental concepts}
+\begin{itemize}
+\item Monte Carlo simulation: is a mathematical technique that generates random variables for modeling uncertainty of a given system. Note that MC simulation provides a probabilistic estimate of the uncertainty. MC simulations rely on repeated random sampling to obtain numerical results.
+\item Variance refers to the spread of a data set around its mean value, while covariance refers to the measure of the directional relationship between two random variables.
+\item Andres
+
+\end{itemize}
+
+
+\begin{pmatrix}
+1 & 2 & 3\\
+a & b & c
+\end{pmatrix}
 
 \begin{thebibliography}{9}
 
