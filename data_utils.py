@@ -85,7 +85,7 @@ def names_values(name):
         exp = np.array([2578.0, 2645.9, 2923.0, 2938.5, 2964.9, 2469.0, 2792.0, 2815.0])
         delta_exp = np.array([2.9,0.6,0.4,0.3,0.3,4.0,3.3,0.2])
 
-    if name=='sigma_lamb':        
+    if name=='sigmaLamb':
         quantum = ['$\\vert uuc,1/2,1/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,3/2,3/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,1/2,1/2,1,1,10/3 \\rangle$ &',
                    '$\\vert udc,1/2,1/2,0,0,4/3  \\rangle$ &',   '$\\vert udc,1/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert udc,3/2,1/2,1,0,4/3  \\rangle$ &']
         old = np.array([2453.1, 2517.7, 2819.0, 2283.7, 2649.7, 2685.6])

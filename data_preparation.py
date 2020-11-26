@@ -38,7 +38,7 @@ def fetch_data(states):
         param_z = np.array([10/3, 10/3, 10/3, 10/3, 10/3, 4/3 , 4/3 , 4/3 ])
         mass_sum= np.array([2350, 2350, 2350, 2350, 2350, 2350, 2350, 2350])
         return param_v,param_w,param_x,param_y,param_z,mass_sum
-    elif(states=='sigma_lamb'):
+    elif(states=='sigmaLamb'):
         param_v = np.array([0.00, 0.00, w_ls, 0.00, w_ls, w_ls]) # coef infront kprim_c
         param_w = np.array([0.75, 3.75, 0.75, 0.75, 0.75, 0.75]) # coef infront A
         param_x = np.array([0.00, 0.00, -1.0, 0.00, -1.0, 0.50]) # coef infront B

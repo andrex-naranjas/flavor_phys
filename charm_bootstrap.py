@@ -7,6 +7,7 @@
 # main module
 
 # standard modules
+import sys
 from iminuit import Minuit
 import numpy as np
 
@@ -19,7 +20,12 @@ import data_preparation as dp
 from data_results import CharmResults
 
 
-states = 'All' # All, omega, cascades, sigma_lamb
+if len(sys.argv) != 2:
+    sys.exit('Provide charm states group name. Try again!')
+
+#states = 'omega' # All, omega, cascades, sigmaLamb
+states = sys.argv[1]
+
 # input parameters
 param_v,param_w,param_x,param_y,param_z,mass_sum = dp.fetch_data(states)
 
@@ -81,7 +87,7 @@ gauss_2350 = sample_gauss(2350, 10.0)
 gauss_2195 = sample_gauss(2195, 10.0)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(1000):
+for _ in range(10000):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -91,33 +97,33 @@ for _ in range(1000):
                           random(gauss_2518), random(gauss_2801), random(gauss_2286),
                           random(gauss_2592), random(gauss_2628), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
-        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
-                             random(gauss_2505),random(gauss_2505),random(gauss_2505),
-                             random(gauss_2350),random(gauss_2350),random(gauss_2350),
-                             random(gauss_2350),random(gauss_2350),
-                             random(gauss_2195),random(gauss_2195),random(gauss_2195),
-                             random(gauss_2195),random(gauss_2195),random(gauss_2195),
-                             random(gauss_2350),random(gauss_2350),random(gauss_2350)])
+        # mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+        #                      random(gauss_2505),random(gauss_2505),random(gauss_2505),
+        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
+        #                      random(gauss_2350),random(gauss_2350),
+        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
+        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
+        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350)])
         
     elif(states=='omega'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
                           random(gauss_3050), random(gauss_3066), random(gauss_3090)])
-        mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
-                             random(gauss_2505),random(gauss_2505),random(gauss_2505)])
+        # mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+        #                      random(gauss_2505),random(gauss_2505),random(gauss_2505)])
 
     elif(states=='cascades'):
         exp_m = np.array([random(gauss_2578), random(gauss_2645), random(gauss_2923),
                           random(gauss_2938), random(gauss_2964), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
-        mass_sum = np.array([random(gauss_2350),random(gauss_2350),random(gauss_2350),
-                             random(gauss_2350),random(gauss_2350),random(gauss_2350),
-                             random(gauss_2350),random(gauss_2350)])
+        # mass_sum = np.array([random(gauss_2350),random(gauss_2350),random(gauss_2350),
+        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
+        #                      random(gauss_2350),random(gauss_2350)])
         
-    elif(states=='sigma_lamb'):
+    elif(states=='sigmaLamb'):
         exp_m = np.array([random(gauss_2453), random(gauss_2518), random(gauss_2801),
                           random(gauss_2286), random(gauss_2592), random(gauss_2628)])
-        mass_sum = np.array([random(gauss_2195),random(gauss_2195),random(gauss_2195),
-                             random(gauss_2195),random(gauss_2195),random(gauss_2195)])
+        # mass_sum = np.array([random(gauss_2195),random(gauss_2195),random(gauss_2195),
+        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195)])
 
                
     # perform the parameter fitting (via minimizing squared distance)
