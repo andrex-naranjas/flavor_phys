@@ -33,7 +33,7 @@ def model(mass_sum,v,w,x,y,z,k,a,b,e,g):
     return mass_sum + v*k + w*a + x*b + y*e + z*g
 
 def least_squares(k, a, b, e, g):
-    yvar = 0.01
+    yvar = 1.
     pred_m = model(mass_sum, param_v, param_w, param_x, param_y, param_z, k, a, b, e, g)
     return np.sum((pred_m - exp_m)**2 / (yvar**2)) #**2
 
@@ -43,7 +43,7 @@ def fit(least_squares):
     return m
 
 def sample_gauss(mu, sigma):
-    return np.random.normal(mu, sigma, 10000)    
+    return np.random.normal(mu, sigma, 10000)
 
 def random(sample):
     return np.random.choice(sample, size=None)
@@ -56,30 +56,31 @@ rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge=([]),([]),
 
 # gaussian pdf with the measured value and with experimental uncertainty
 # Omega states
-gauss_2695 = sample_gauss(2695.0, 2.0)
-gauss_2770 = sample_gauss(2766.0, 2.0)
-gauss_3000 = sample_gauss(3000.4, 0.3742)
-gauss_3050 = sample_gauss(3050.2, 0.3317)
-gauss_3066 = sample_gauss(3065.6, 0.4359)
-gauss_3090 = sample_gauss(3090.2, 0.6557)
+scale = 1
+gauss_2695 = sample_gauss(2695.0, 2.0*scale)
+gauss_2770 = sample_gauss(2766.0, 2.0*scale)
+gauss_3000 = sample_gauss(3000.4, 0.3742*scale)
+gauss_3050 = sample_gauss(3050.2, 0.3317*scale)
+gauss_3066 = sample_gauss(3065.6, 0.4359*scale)
+gauss_3090 = sample_gauss(3090.2, 0.6557*scale)
 # Cascades six-plet
-gauss_2578 = sample_gauss(2578.0, 2.9)
-gauss_2645 = sample_gauss(2645.9, 0.6)
-gauss_2923 = sample_gauss(2923.1, 0.4)
-gauss_2938 = sample_gauss(2938.6, 0.3)
-gauss_2964 = sample_gauss(2964.9, 0.3)
+gauss_2578 = sample_gauss(2578.0, 2.9*scale)
+gauss_2645 = sample_gauss(2645.9, 0.6*scale)
+gauss_2923 = sample_gauss(2923.1, 0.4*scale)
+gauss_2938 = sample_gauss(2938.6, 0.3*scale)
+gauss_2964 = sample_gauss(2964.9, 0.3*scale)
 # Sigma c
-gauss_2453 = sample_gauss(2453.9, 0.14)
-gauss_2518 = sample_gauss(2518.0, 2.3)
-gauss_2801 = sample_gauss(2801.0, 6)
+gauss_2453 = sample_gauss(2453.9, 0.14*scale)
+gauss_2518 = sample_gauss(2518.0, 2.3*scale)
+gauss_2801 = sample_gauss(2801.0, 6*scale)
 # Lambda C
-gauss_2286 = sample_gauss(2286.5, 0.14)
-gauss_2592 = sample_gauss(2592.3, 0.28)
-gauss_2628 = sample_gauss(2625.0, 0.19)
+gauss_2286 = sample_gauss(2286.5, 0.14*scale)
+gauss_2592 = sample_gauss(2592.3, 0.28*scale)
+gauss_2628 = sample_gauss(2625.0, 0.19*scale)
 # Cascade C anti-3-plet
-gauss_2469 = sample_gauss(2469.0, 4)
-gauss_2792 = sample_gauss(2792.0, 3.3)
-gauss_2816 = sample_gauss(2815.0, 0.20)
+gauss_2469 = sample_gauss(2469.0, 4*scale)
+gauss_2792 = sample_gauss(2792.0, 3.3*scale)
+gauss_2816 = sample_gauss(2815.0, 0.20*scale)
 
 # quark-sum masses
 gauss_2505 = sample_gauss(2505, 10.0)
@@ -87,7 +88,7 @@ gauss_2350 = sample_gauss(2350, 10.0)
 gauss_2195 = sample_gauss(2195, 10.0)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(10000):
+for _ in range(1000):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),

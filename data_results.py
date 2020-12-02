@@ -45,21 +45,21 @@ class CharmResults:
             
         f_note  = open('./tables/masses_'+self.name+'_note.tex', "w")
         f_paper = open('./tables/masses_'+self.name+'_paper.tex', "w")
-        self.latex_header(table_file=f_note,  paper=False) # write the header of the latex table
-        self.latex_header(table_file=f_paper, paper=True)  # write the header of the latex table
+        self.latex_header(table_file=f_note,  paper=False) # write the header for the latex table
+        self.latex_header(table_file=f_paper, paper=True)  # write the header for the latex table
         
         tot_diff_pred, tot_diff_sample = 0,0
         for i in range(len(self.sum_mass)): # run over exp mass states
             if self.bootstrap:
                 mass = bootstrap_masses[i]
                 if not self.asymmetric:
-                    error = bootstrap_errors[i]
+                    error = self.charm_error(bootstrap_errors[i],10)
                 else:
-                    error_up = delta_up[i]
-                    error_dn = delta_dn[i]
+                    error_up = self.charm_error(delta_up[i],10)
+                    error_dn = self.charm_error(delta_dn[i],10)
             else:                
                 mass  = self.model_mass(i, 0, sampled=False)
-                error = self.analytical_error(i)
+                error = self.charm_error(self.analytical_error(i),10)
             
             color = "red"
             old_exp = exp[i]-old[i]
@@ -74,11 +74,11 @@ class CharmResults:
             if not self.asymmetric:
                 print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $\\pm',round(error,1),'$}  &  ',
                       round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f_note)
-                print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &',  round(mass,1),' $\\pm',round(error,1),'\\\ ', file=f_paper)
+                print(quantum[i], round(mass,1), '$\\pm',round(error_up,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
             else:
-                print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $^{+',round(error_up,1),'}_{',round(error_dn,1),'}$}  &  ',
+                print(quantum[i],'$',exp[i],'\\pm', delta_exp[i],'$  &', '$',old[i],'\\pm xx$  &', '\\textcolor{'+color+'}{$', round(mass,1),' ^{+',round(error_up,1),'}_{',round(error_dn,1),'}$}  &  ',
                       round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f_note)
-                print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', round(mass,1),' $^{+',round(error_up,1),'}_{',round(error_dn,1),'}$ \\\ ', file=f_paper)
+                print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
 
         self.latex_bottom(f_note,tot_diff_pred,tot_diff_sample,paper=False) # write bottom's table
         self.latex_bottom(f_paper,0,0,paper=True) # write bottom's table
@@ -103,35 +103,39 @@ class CharmResults:
 
         # asymmetric error calculation via 68% quantile method
         N = len(sorted_masses[0])
-        quantile_dn = int(np.floor(N*0.1587))
-        quantile_up = int(np.floor(N*0.8413))
+        quantile_dn = int(N*0.1587)   #int(np.floor(N*0.1587))
+        quantile_up = int(N*0.8413)+1 #int(np.floor(N*0.8413))
         asymmetric_up, asymmetric_dn = ([]), ([])
         for i in range(len(self.sum_mass)):
             asymmetric_up = np.append(asymmetric_up, sorted_masses[i][quantile_up-1] - np.mean(sorted_masses[i]))
             asymmetric_dn = np.append(asymmetric_dn, sorted_masses[i][quantile_dn-1] - np.mean(sorted_masses[i]))
-        
+            
+        # for cross check
         dummy = ([])
         for j in range(len(self.sampled_k)):
             mass = self.model_mass(0, j, sampled=True)            
             dummy = np.append(dummy,mass)
         
         dv.plot(dummy,'mass','mass','charm', self.name)
-        print(dummy.mean(), dummy.std(ddof=1), len(dummy))
-        dummy = np.sort(dummy)
+    
         error_total = self.analytical_error(0) # error for the first mass
-
-        print(error_total)
+        
+        print(round(dummy.mean(),2), len(dummy), 'first mass state, and size of the sample')    
+        print(round(dummy.std(ddof=1),2), ': error using boostrap')
+        print(round(error_total,2), ': error using cov. matrix')
+        print(round(dummy.std(ddof=1)/ error_total, 2) ,': ratio boot/cov'  )
+        
         return bootstrap_masses, symm_errors, asymmetric_up, asymmetric_dn
         
 
     def analytical_error(self, iter_a):
         # propagate the error using the analytical method,
-        # and the covariance matrix    
+        # i.e. using the covariance matrix    
         fK, delta_K = self.v_param[iter_a], self.delta_Kp
         fA, delta_A = self.w_param[iter_a], self.delta_A 
         fB, delta_B = self.x_param[iter_a], self.delta_B 
         fE, delta_E = self.y_param[iter_a], self.delta_E 
-        fG, delta_G = self.z_param[iter_a], self.delta_G 
+        fG, delta_G = self.z_param[iter_a], self.delta_G
                 
         error_diag  =  (delta_K*fK)**2 + (delta_A*fA)**2 + (delta_B*fB)**2 + (delta_E*fE)**2 + (delta_G*fG)**2
         error_off1  =  fA*fK*self.rho_ak*delta_A*delta_K + fB*fK*self.rho_bk*delta_B*delta_K + fB*fA*self.rho_ba*delta_B*delta_A + fE*fK*self.rho_ek*delta_E*delta_K
@@ -140,6 +144,8 @@ class CharmResults:
 
         return np.sqrt(error_diag + 2*(error_off1 + error_off2 + error_off3))
 
+    def charm_error(self, stat_error, charm_mass_error):
+        return np.sqrt(stat_error**2 + charm_mass_error**2)
 
     def correlation_matrix(self):
         # print correlation matrix        
@@ -179,9 +185,9 @@ class CharmResults:
             print("Mass State & Experiment  &   Predicted mass  &    Predicted mass & diff pred & diff sampl\\\ ", file=table_file)
             print("           & (MeV)       &   old (MeV)       &    sampled (MeV)  &     (\\%) &     (\\%)  \\\ \hline", file=table_file)
         else:
-            print("\\begin{tabular}{c | c  c  }\hline \hline", file=table_file)
-            print("Mass State & Experiment  &   Predicted mass  \\\ ", file=table_file)
-            print("           & (MeV)       &   sampled (MeV)   \\\ \hline", file=table_file)
+            print("\\begin{tabular}{c | c  c c c }\hline \hline", file=table_file)
+            print(" State     & Predicted Mass   & Experimental Mass & Predicted Width & Experimental Width   \\\ ", file=table_file)
+            print("           &      (MeV)       &    (MeV)          &      (MeV)      & $\Gamma_{tot}$ (MeV) \\\ \hline", file=table_file)
                     
 
     def latex_bottom(self, table_file,diff_pred, diff_sample,paper):

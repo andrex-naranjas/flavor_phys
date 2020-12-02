@@ -20,7 +20,7 @@ def plot(sample,name,xlabel,quark, states):
     xmin, xmax = plt.xlim()
     x = np.linspace(xmin, xmax, 100)
     y = norm.pdf(x, np.mean(sample), np.std(sample))
-    p, alpha = du.normal_test(sample, alpha=0.05, verbose=True)        
+    p, alpha = du.normal_test(sample, alpha=0.05, verbose=False)        
     plt.plot(x,y,label='Gaussian fit')
     plt.text(0.15, 0.9,'$\\mu$={}, $\\sigma$={}'.format(round(np.mean(sample),1), round(np.std(sample),1)),
              ha='center', va='center', transform=ax.transAxes)
@@ -30,5 +30,5 @@ def plot(sample,name,xlabel,quark, states):
     plt.xlabel(xlabel)
     plt.ylabel('Arbitrary Units')
     plt.title(quark+' mesons')
-    plt.savefig('./plots/'+quark+'_bootstrap_TEST_'+name+'_'+states+'.pdf')
+    plt.savefig('./plots/'+quark+'_bootstrap_'+name+'_'+states+'.pdf')
     plt.close()
