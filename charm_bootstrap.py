@@ -88,7 +88,7 @@ gauss_2350 = sample_gauss(2350, 10.0)
 gauss_2195 = sample_gauss(2195, 10.0)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(1000):
+for _ in range(10000):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -162,7 +162,16 @@ corr_mat= {'rho_ak':rho_ak,'rho_bk':rho_bk,'rho_ba':rho_ba,'rho_ek':rho_ek,'rho_
 
 # calculate the results using bootstrap simulation above
 results = CharmResults(param, sampled, corr_mat, bootstrap=True, asymmetric=True, name=states)
-results.mass_prediction()
+results.mass_prediction_compare()
 results.correlation_matrix()
 results.param_comparison()
 results.plot()
+results.execute_decay_width()
+
+# omegas,cascades,sigmas,lambdas,cascades_anti3
+results.mass_prediction_paper(baryons='omegas', prev_params=True)
+results.mass_prediction_paper(baryons='cascades', prev_params=True)
+results.mass_prediction_paper(baryons='sigmas', prev_params=True)
+results.mass_prediction_paper(baryons='lambdas', prev_params=True)
+results.mass_prediction_paper(baryons='cascades_anti3', prev_params=True)
+#results.mass_prediction_paper('omegas')

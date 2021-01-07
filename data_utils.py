@@ -70,7 +70,7 @@ def names_values(name):
                         2964.9, 2453.9, 2518.0, 2801.0, 2286.5, 2592.3, 2625.0, 2469.0, 2792.0, 2815.0])
         delta_exp = np.array([2.0,2.0,0.4,0.3,0.4,0.7,2.9,0.6,0.4,0.3,0.3,0.1,2.3,6.0,0.1,0.4,0.2,4.0,3.3,0.2])
 
-    if name=='omega':        
+    if name=='omegas':        
         quantum = ['$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,3/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,1,0,10/3 \\rangle$ &',
                    '$\\vert ssc,1/2,3/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &']
         old = np.array([2702.4, 2767.0, 3015.8, 3044.5, 3051.6, 3080.4])
@@ -93,3 +93,41 @@ def names_values(name):
         delta_exp = np.array([0.1,2.3,6.0,0.1,0.4,0.2])
         
     return quantum, old, exp, delta_exp
+
+
+def names_values_paper(baryons, nStates):
+    # this are for display reasons only
+    if baryons=='omegas':        
+        quantum = ['$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,3/2,0,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,1,0,10/3 \\rangle$ &',
+                   '$\\vert ssc,1/2,3/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,3/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert ssc,1/2,1/2,0,0,10/3 \\rangle$ &']
+        exp       = np.array([2695.0, 2766.0, 3000.4, 3050.2, 3065.6, 3090.2])
+        delta_exp = np.array([   2.0,    2.0,    0.4,    0.3,    0.4,    0.7])
+
+    if baryons=='cascades':
+        quantum = ['$\\vert suc,1/2,1/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,0,1/2,10/3 \\rangle$ &', '$\\vert suc,1/2,3/2,1,1/2,10/3 \\rangle$ &',
+                   '$\\vert suc,3/2,1/2,1,1/2,10/3 \\rangle$ &', '$\\vert suc,3/2,3/2,1,1/2,10/3 \\rangle$ &']                   
+        exp = np.array([2578.0, 2645.9, 0.0,2923.0, 2938.5, 2964.9 ])
+        delta_exp = np.array([2.9,0.6,0.0,0.4,0.3,0.3,4.0,3.3,0.2])
+
+    if baryons=='sigmas':
+        quantum = ['$\\vert uuc,1/2,1/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,3/2,3/2,0,1,10/3 \\rangle$ &',   '$\\vert uuc,1/2,1/2,1,1,10/3 \\rangle$ &']
+        exp = np.array([2453.9, 2518.0, 2801.0])
+        delta_exp = np.array([0.1,2.3,6.0])        
+
+    if baryons=='lambdas':
+        quantum = ['$\\vert udc,1/2,1/2,0,0,4/3  \\rangle$ &',   '$\\vert udc,1/2,1/2,1,0,10/3 \\rangle$ &',   '$\\vert udc,3/2,1/2,1,0,4/3  \\rangle$ &']
+        exp = np.array([2286.5, 2592.3, 2625.0])
+        delta_exp = np.array([0.1,0.4,0.2])
+
+    if baryons=='cascades_anti3':
+        quantum = ['$\\vert ssc,1/2,1/2,0,1/2,4/3 \\rangle$ &',  '$\\vert ssc,1/2,1/2,1,1/2,4/3 \\rangle$ &',  '$\\vert ssc,3/2,1/2,1,1/2,10/3 \\rangle$ &' ]
+        exp = np.array([2469.0, 2792.0, 2815.0])
+        delta_exp = np.array([0.1,2.3,6.0,0.1,0.4,0.2])
+
+    # fill arrays with zeros for dimension consistency
+    if(nStates-len(exp)>0):
+        exp       = np.append(exp, np.zeros(nStates-len(exp)) )
+        delta_exp = np.append(delta_exp, np.zeros(nStates-len(delta_exp)))
+        for i in range(nStates-len(quantum)): quantum.append('$\\vert xxc,x/2,x/2,x,xx,x/3 \\rangle$ &')
+        
+    return quantum, exp, delta_exp

@@ -3,11 +3,13 @@
 
 # code to obtain uncertainties of quarkonium mass spectrum
 # author: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
-
-# data visalization module
+# results module
 
 import data_visualization as dv
 import data_utils as du
+import data_preparation as dp
+import decay_width as dw
+import charm_states as cs
 import numpy as np
 
 # Results class
@@ -35,18 +37,16 @@ class CharmResults:
                 + self.sampled_b[j]*self.x_param[i] + self.sampled_e[j]*self.y_param[i] + self.sampled_g[j]*self.z_param[i]
 
                 
-    def mass_prediction(self):
-        # mass prediction (compare and make tables)
+    def mass_prediction_compare(self):
+        # mass prediction (compare and make tables) here only states used in the fit are shown
         
         if self.bootstrap:
-            bootstrap_masses, bootstrap_errors, delta_up, delta_dn = self.sampled_prediction()
+            bootstrap_masses, bootstrap_errors, delta_up, delta_dn = self.sampled_prediction(decayWidth=False)
             
         quantum, old, exp, delta_exp = du.names_values(self.name)
             
         f_note  = open('./tables/masses_'+self.name+'_note.tex', "w")
-        f_paper = open('./tables/masses_'+self.name+'_paper.tex', "w")
         self.latex_header(table_file=f_note,  paper=False) # write the header for the latex table
-        self.latex_header(table_file=f_paper, paper=True)  # write the header for the latex table
         
         tot_diff_pred, tot_diff_sample = 0,0
         for i in range(len(self.sum_mass)): # run over exp mass states
@@ -74,32 +74,104 @@ class CharmResults:
             if not self.asymmetric:
                 print(quantum[i], exp[i], '$\\pm', delta_exp[i],'$  &', old[i], '$\\pm xx$  &', '\\textcolor{'+color+'}{', round(mass,1),' $\\pm',round(error,1),'$}  &  ',
                       round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f_note)
-                print(quantum[i], round(mass,1), '$\\pm',round(error_up,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
             else:
                 print(quantum[i],'$',exp[i],'\\pm', delta_exp[i],'$  &', '$',old[i],'\\pm xx$  &', '\\textcolor{'+color+'}{$', round(mass,1),' ^{+',round(error_up,1),'}_{',round(error_dn,1),'}$}  &  ',
                       round(old_exp,1), '(', round(old_exp_abs*100,1),')  &  ', round(new_exp,1), '(',round(new_exp_abs*100,1),') \\\  ', file=f_note)
-                print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
 
         self.latex_bottom(f_note,tot_diff_pred,tot_diff_sample,paper=False) # write bottom's table
+
+
+    def mass_prediction_paper(self, baryons, prev_params=False):
+        # mass prediction (paper tables, here we include all the states)
+        # redifine parameters. Will clean the input param
+
+        self.reload_quantum_param(baryons) #available baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
+
+        # get experimental data and names. Must input the number of predicted states        
+        quantum, exp, delta_exp = du.names_values_paper(baryons, len(self.sum_mass))
+        
+        if self.bootstrap:
+            bootstrap_masses, bootstrap_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False)
+
+        if prev_params: # use the parameter of the previous paper
+            self.bootstrap = False
+            self.asymmetric= False
+            baryons=baryons+'_previous'
+            self.previous_parameters() 
+            
+        f_paper = open('./tables/masses_'+baryons+'_paper.tex', "w")
+        self.latex_header(table_file=f_paper, paper=True)  # write the header for the latex table
+        
+        tot_diff_pred, tot_diff_sample = 0,0
+        for i in range(len(self.sum_mass)): # run over exp mass states
+            if self.bootstrap:
+                mass = bootstrap_masses[i]
+                if not self.asymmetric:
+                    error = self.charm_error(bootstrap_errors[i],10)
+                else:
+                    error_up = self.charm_error(delta_up[i],10)
+                    error_dn = self.charm_error(delta_dn[i],10)
+            else:                
+                mass  = self.model_mass(i, 0, sampled=False)
+                error = self.charm_error(self.analytical_error(i),10)
+            
+            if not self.asymmetric:
+                print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
+            else:
+                print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
+
         self.latex_bottom(f_paper,0,0,paper=True) # write bottom's table
 
-                
-    def sampled_prediction(self):
+    def execute_decay_width(self):
+
+        self.reload_quantum_param(baryons='cascades_anti3') #available baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
+        self.previous_parameters_uncertainty(N_boots=len(self.sampled_k)) # set params. with previous-paper gauss shape (arbitrary error)
+
+        # get experimental data and names. Must input the number of predicted states        
+        quantum, exp, delta_exp = du.names_values_paper(baryons='cascades_anti3', nStates=len(self.sum_mass))
+
+        bootstrap_masses, bootstrap_errors, delta_up, delta_dn =  self.sampled_prediction(baryons='cascades_anti3', decayWidth=True)
+
+        
+    def sampled_prediction(self, baryons='', decayWidth=False):
 
         bootstrap_masses,sorted_masses,symm_errors = [],[],[]
+        bootstrap_decays,sorted_decays,symm_errors_decays = [],[],[]
 
         for i in range(len(self.sum_mass)):
-            dummy = ([])
-            for j in range(len(self.sampled_k)):
-                mass = self.model_mass(i, j, sampled=True)                
+            dummy,dummy_decay = ([]),([])
+            for j in range(len(self.sampled_k)): # run over sampled data (e.g. 10^5)
+                mass = self.model_mass(i, j, sampled=True)
                 dummy = np.append(dummy,mass)
+                if decayWidth and self.L_tot[i]==1: # decayWidth calculation, import the module dw
+                    decay_value = dw.sampled_decay_width(baryons, mass,
+                                                         self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
+                    dummy_decay = np.append(dummy_decay, decay_value)
+                    
             bootstrap_masses.append(dummy.mean())
             symm_errors.append(dummy.std(ddof=1))
             sorted_masses.append(np.sort(dummy))
+            
+            if decayWidth and self.L_tot[i]==1:
+                bootstrap_decays.append(dummy_decay.mean())
+                symm_errors_decays.append(dummy_decay.std(ddof=1))
+                sorted_decays.append(np.sort(dummy_decay))
                 
         bootstrap_masses = np.array(bootstrap_masses)
         symm_errors      = np.array(symm_errors)
         sorted_masses    = np.array(sorted_masses)
+
+        if decayWidth:
+            bootstrap_decays  = np.array(bootstrap_decays)
+            symm_errors_decays= np.array(symm_errors_decays)
+            sorted_decays     = np.array(sorted_decays)
+            dv.plot(sorted_decays[0], 'decays0', 'decays0', 'decays0', self.name)
+            dv.plot(sorted_decays[1], 'decays1', 'decays1', 'decays1', self.name)
+            dv.plot(sorted_decays[2], 'decays2', 'decays2', 'decays2', self.name)
+            dv.plot(sorted_decays[3], 'decays3', 'decays3', 'decays3', self.name)
+            dv.plot(sorted_decays[4], 'decays4', 'decays4', 'decays4', self.name)
+            dv.plot(sorted_decays[5], 'decays5', 'decays5', 'decays5', self.name)
+            dv.plot(sorted_decays[6], 'decays6', 'decays6', 'decays6', self.name)
 
         # asymmetric error calculation via 68% quantile method
         N = len(sorted_masses[0])
@@ -113,7 +185,7 @@ class CharmResults:
         # for cross check
         dummy = ([])
         for j in range(len(self.sampled_k)):
-            mass = self.model_mass(0, j, sampled=True)            
+            mass = self.model_mass(0, j, sampled=True)
             dummy = np.append(dummy,mass)
         
         dv.plot(dummy,'mass','mass','charm', self.name)
@@ -249,7 +321,50 @@ class CharmResults:
         self.rho_ge = np.mean(self.corr_mat['rho_ge'])
 
 
-# print("Mass State & Experiment  &   Predicted mass  &    Predicted mass \\\  ")
-# print("           & (MeV)       &   old (MeV)       &    sampled (MeV) \\\ \hline  ")
-# mass = self.sum_mass[0] + self.sampled_k[i]*self.v_param[0] + self.sampled_a[i]*self.w_param[0] + self.sampled_b[i]*self.x_param[0] + self.sampled_e[i]*self.y_param[0] + self.sampled_g[i]*self.z_param[0]
-# error = np.sqrt((self.delta_Kp*self.v_param[i])**2 + (self.delta_A*self.w_param[i])**2 + (self.delta_B*self.x_param[i])**2 + (self.delta_E*self.y_param[i])**2 + (self.delta_G*self.z_param[i])**2 )
+    def reload_quantum_param(self,baryons):
+        # load the quantum parameters that multiply the A,B,E,G in Hamiltonian
+        # c-states quantum numbers
+
+        # get the original quantum numbers and experimental data
+        state,sum_mass,J_tot,S_tot,L_tot,I_tot,SU_tot,HO_n,SL,ModEx = cs.states_mass(baryons)
+
+        # get the hamiltonian factors based on the quatum numbers
+        param_v,param_w,param_x,param_y,param_z,mass_sum = \
+        dp.hamiltonian_quantum_factors(state,sum_mass,J_tot,
+                                       S_tot,L_tot,I_tot,SU_tot,HO_n,ModEx)
+        # parameters re-assigment
+        self.sum_mass= mass_sum
+        self.v_param = param_v
+        self.w_param = param_w
+        self.x_param = param_x
+        self.y_param = param_y
+        self.z_param = param_z
+
+        # quantum number assigment
+        self.state  = state
+        self.J_tot  = J_tot
+        self.S_tot  = S_tot
+        self.L_tot  = L_tot
+        self.I_tot  = I_tot
+        self.SU_tot = SU_tot
+        self.SL     = SL
+        self.HO_n   = HO_n 
+        self.ModEx  = ModEx
+
+
+    def previous_parameters(self):
+        # set parameters used in previous publication
+        self.Kp =  5727.128425311
+        self.A  =  21.54
+        self.B  =  23.91
+        self.E  =  30.34
+        self.G  =  54.37
+
+
+    def previous_parameters_uncertainty(self, N_boots):
+        # set the values of the previous paper as gaussian (this is for testing decay widths)
+        self.sampled_k = np.random.normal(5727.13, self.delta_Kp, N_boots)
+        self.sampled_a = np.random.normal(21.54,   0.37, N_boots)
+        self.sampled_b = np.random.normal(23.91,   0.31, N_boots)
+        self.sampled_e = np.random.normal(30.34,   0.23, N_boots)
+        self.sampled_g = np.random.normal(54.37,   0.49, N_boots)

@@ -5,6 +5,7 @@ LIBS = -lstdc++ -L/usr/local/lib -lm #$(shell root-config --evelibs) -lMLP -lMin
 CC = g++ -v
 
 CFLAGS = -g -ansi -pedantic -W -Wall -Wextra -std=c++17 -m64
+
 TARGET = CharmWidthDecay
 
 SRC = $(wildcard src/*.cxx)
