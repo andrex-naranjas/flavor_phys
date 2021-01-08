@@ -16,7 +16,7 @@ width  = decay()
 
 def baryon_flag(baryons):
     #omegas,cascades,sigmas,lambdas,cascades_anti3
-    if(baryons=='omegas'):           return 1
+    if(baryons=='omegas'):           return 1    
     elif(baryons=='cascades'):       return 2
     elif(baryons=='sigmas'):         return 3
     elif(baryons=='lambdas'):        return 4
@@ -39,8 +39,18 @@ def decay_masses(baryons, decPr):
     sigma_s_mass= 2.518 # 2.520
     eta_mass    = 0.548    
 
-    if(baryons=='omegas'):           return 0
-    elif(baryons=='cascades'):       return 0
+    if(baryons=='omegas'):
+        if(decPr==1):   return xi_mass,   kaon_mass
+        elif(decPr==2): return xi_p_mass, kaon_mass
+        elif(decPr==3): return xi_s_mass, kaon_mass
+    elif(baryons=='cascades'):
+        if(decPr==1):   return lambda_mass, kaon_mass
+        elif(decPr==2): return xi_mass,     pion_mass
+        elif(decPr==3): return xi_p_mass,   pion_mass
+        elif(decPr==4): return xi_s_mass,   pion_mass
+        elif(decPr==5): return sigma_mass,  kaon_mass
+        elif(decPr==6): return sigma_s_mass,kaon_mass
+        elif(decPr==7): return xi_mass,     eta_mass        
     elif(baryons=='sigmas'):
         if(decPr==1):   return sigma_mass,   pion_mass
         elif(decPr==2): return sigma_s_mass, pion_mass
@@ -59,12 +69,41 @@ def decay_masses(baryons, decPr):
         elif(decPr==5): return sigma_mass,  kaon_mass
         elif(decPr==6): return sigma_s_mass,kaon_mass
         elif(decPr==7): return xi_mass,     eta_mass
-        
-        
 
-def sampled_decay_width(baryons, mass, SA_val, L_val, JA_val, SL_val, ModEx_val):
+def n_channels(baryons):
+    #omegas,cascades,sigmas,lambdas,cascades_anti3
+    if(baryons=='omegas'):           return 3    
+    elif(baryons=='cascades'):       return 7
+    elif(baryons=='sigmas'):         return 5
+    elif(baryons=='lambdas'):        return 3
+    elif(baryons=='cascades_anti3'): return 7
+    
+        
+def total_decay_width(baryons, mass, SA_val, L_val, JA_val, SL_val, ModEx_val):    
+    MassA = mass/1000.0
+    SA_qm = SA_val
+    LA_qm = L_val
+    JA_qm = JA_val
+    SL_qm = SL_val
+    baryon= baryon_flag(baryons)
+    ModEx = ModEx_flag(ModEx_val)
+    channel_widths = ([])
+    nChannels = n_channels(baryons)
+
+    for i in range(nChannels):        
+        decPr = i+1
+        MassB,MassC = decay_masses(baryons, decPr)
+        single_decay_value = width.decay_width(MassA, MassB, MassC, SA_qm,
+                                               LA_qm, JA_qm, SL_qm, baryon, ModEx, decPr)        
+        channel_widths = np.append(channel_widths, single_decay_value)
+
+    total_decay_width = np.sum(channel_widths)
+    return total_decay_width
+
+
+def single_decay_width(baryons, mass, SA_val, L_val, JA_val, SL_val, ModEx_val):
     #state1 = {'MA':2.797,'MB':2.286,'MC':0.493,'SA':1/2,'LA':1,'JA':1/2,'SL':0,'baryon':5,'ModEx':1,'decPr':1}
-    MassA = mass/1000
+    MassA = mass/1000.0
     MassB,MassC = decay_masses(baryons, decPr=3)
     SA_qm = SA_val
     LA_qm = L_val
@@ -72,13 +111,15 @@ def sampled_decay_width(baryons, mass, SA_val, L_val, JA_val, SL_val, ModEx_val)
     SL_qm = SL_val
     baryon= baryon_flag(baryons)
     ModEx = ModEx_flag(ModEx_val)
-    decPr = 3
-    
+    decPr = 3    
     decay_value = width.decay_width(MassA, MassB, MassC, SA_qm,
                                     LA_qm, JA_qm, SL_qm, baryon, ModEx, decPr)
+    return single_decay_value
+
+
     # baryon_name, ModEx_name, decPr_name = du.state_labels(baryon,ModEx,decPr)
     # print('%6s |  %4s | %7s |  %5.3f |  %5.3f | %5.3f |  %5.1f |  %5.1f |  %5.1f |  %5.1f | %5.6f '
     #       %(baryon_name, ModEx_name, decPr_name, MassA, MassB, MassC, JA_qm, LA_qm, SA_qm, SL_qm,  decay_value))
     # if(i%7==6 and i !=0):
     #     print('--------------------------------------------------------------------------------------------------')
-    return decay_value
+

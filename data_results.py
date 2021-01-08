@@ -16,11 +16,10 @@ import numpy as np
 
 class CharmResults:
     
-    def __init__(self, params, sampled, corr_mat, bootstrap, asymmetric, name):
+    def __init__(self, params, sampled, corr_mat, asymmetric, name):
         self.params = params
         self.sampled = sampled
         self.corr_mat = corr_mat
-        self.bootstrap = bootstrap
         self.asymmetric = asymmetric
         self.name = name
         self.fetch_values()
@@ -37,11 +36,11 @@ class CharmResults:
                 + self.sampled_b[j]*self.x_param[i] + self.sampled_e[j]*self.y_param[i] + self.sampled_g[j]*self.z_param[i]
 
                 
-    def mass_prediction_compare(self):
+    def mass_prediction_compare(self, bootstrap):
         # mass prediction (compare and make tables) here only states used in the fit are shown
         
-        if self.bootstrap:
-            bootstrap_masses, bootstrap_errors, delta_up, delta_dn = self.sampled_prediction(decayWidth=False)
+        if bootstrap:
+            bootstrap_masses, sym_errors, delta_up, delta_dn = self.sampled_prediction(decayWidth=False)
             
         quantum, old, exp, delta_exp = du.names_values(self.name)
             
@@ -50,10 +49,10 @@ class CharmResults:
         
         tot_diff_pred, tot_diff_sample = 0,0
         for i in range(len(self.sum_mass)): # run over exp mass states
-            if self.bootstrap:
+            if bootstrap:
                 mass = bootstrap_masses[i]
                 if not self.asymmetric:
-                    error = self.charm_error(bootstrap_errors[i],10)
+                    error = self.charm_error(sym_errors[i],10)
                 else:
                     error_up = self.charm_error(delta_up[i],10)
                     error_dn = self.charm_error(delta_dn[i],10)
@@ -81,36 +80,43 @@ class CharmResults:
         self.latex_bottom(f_note,tot_diff_pred,tot_diff_sample,paper=False) # write bottom's table
 
 
-    def mass_prediction_paper(self, baryons, prev_params=False):
-        # mass prediction (paper tables, here we include all the states)
+    def paper_results_predictions(self, baryons, bootstrap=False, prev_params=False, decay_width=False):
+        # mass prediction (paper latex tables, here we include all the states)
         # redifine parameters. Will clean the input param
 
         self.reload_quantum_param(baryons) #available baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
 
         # get experimental data and names. Must input the number of predicted states        
         quantum, exp, delta_exp = du.names_values_paper(baryons, len(self.sum_mass))
-        
-        if self.bootstrap:
-            bootstrap_masses, bootstrap_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False)
 
-        if prev_params: # use the parameter of the previous paper
-            self.bootstrap = False
-            self.asymmetric= False
-            baryons=baryons+'_previous'
-            self.previous_parameters() 
-            
+        if prev_params: # use the parameters of the previous paper
+            self.previous_parameters()
+            self.previous_parameters_uncertainty(N_boots=len(self.sampled_k)) # set params. with previous-paper gauss shape (arbitrary error)
+        
+        if bootstrap:
+            if decay_width:
+                bootstrap_masses, sym_errors, delta_up, delta_dn,\
+                    bootstrap_decays, sym_errors_dec, delta_up_dec, delta_dn_dec = self.sampled_prediction(baryons, decayWidth=decay_width)                
+            else:
+                bootstrap_masses, sym_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False)
+
+        if prev_params: baryons=baryons+'_previous'
         f_paper = open('./tables/masses_'+baryons+'_paper.tex', "w")
         self.latex_header(table_file=f_paper, paper=True)  # write the header for the latex table
         
-        tot_diff_pred, tot_diff_sample = 0,0
         for i in range(len(self.sum_mass)): # run over exp mass states
-            if self.bootstrap:
+            if bootstrap:
                 mass = bootstrap_masses[i]
+                if decay_width: decay = bootstrap_decays[i]
                 if not self.asymmetric:
-                    error = self.charm_error(bootstrap_errors[i],10)
+                    error = self.charm_error(sym_errors[i],10)
+                    if decay_width: decay_error = sym_errors_dec[i]
                 else:
                     error_up = self.charm_error(delta_up[i],10)
                     error_dn = self.charm_error(delta_dn[i],10)
+                    if decay_width:
+                        up_decay = delta_up_dec[i]
+                        dn_decay = delta_dn_dec[i]
             else:                
                 mass  = self.model_mass(i, 0, sampled=False)
                 error = self.charm_error(self.analytical_error(i),10)
@@ -118,19 +124,14 @@ class CharmResults:
             if not self.asymmetric:
                 print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
             else:
-                print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
-
+                if not np.isnan(up_decay):
+                    print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $',
+                          round(decay,3),'^{+', round(up_decay,3),'}_{', round(dn_decay,3),'}$', ' & $ xx\pm xx$ \\\ ', file=f_paper)
+                else:
+                    print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & ',
+                        '$\\dagger\\dagger$', '& $ xx\pm xx$  \\\ ', file=f_paper)
+                                        
         self.latex_bottom(f_paper,0,0,paper=True) # write bottom's table
-
-    def execute_decay_width(self):
-
-        self.reload_quantum_param(baryons='cascades_anti3') #available baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
-        self.previous_parameters_uncertainty(N_boots=len(self.sampled_k)) # set params. with previous-paper gauss shape (arbitrary error)
-
-        # get experimental data and names. Must input the number of predicted states        
-        quantum, exp, delta_exp = du.names_values_paper(baryons='cascades_anti3', nStates=len(self.sum_mass))
-
-        bootstrap_masses, bootstrap_errors, delta_up, delta_dn =  self.sampled_prediction(baryons='cascades_anti3', decayWidth=True)
 
         
     def sampled_prediction(self, baryons='', decayWidth=False):
@@ -138,24 +139,30 @@ class CharmResults:
         bootstrap_masses,sorted_masses,symm_errors = [],[],[]
         bootstrap_decays,sorted_decays,symm_errors_decays = [],[],[]
 
-        for i in range(len(self.sum_mass)):
+        for i in range(len(self.sum_mass)): # states loop
             dummy,dummy_decay = ([]),([])
-            for j in range(len(self.sampled_k)): # run over sampled data (e.g. 10^5)
+            for j in range(len(self.sampled_k)): # sampled data loop (e.g. 10^5)
                 mass = self.model_mass(i, j, sampled=True)
                 dummy = np.append(dummy,mass)
-                if decayWidth and self.L_tot[i]==1: # decayWidth calculation, import the module dw
-                    decay_value = dw.sampled_decay_width(baryons, mass,
+                if decayWidth and self.L_tot[i]==1: # decayWidth calculation, import dw
+                    decay_value = dw.total_decay_width(baryons, mass,
                                                          self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                     dummy_decay = np.append(dummy_decay, decay_value)
-                    
+                                                
             bootstrap_masses.append(dummy.mean())
             symm_errors.append(dummy.std(ddof=1))
             sorted_masses.append(np.sort(dummy))
             
-            if decayWidth and self.L_tot[i]==1:
-                bootstrap_decays.append(dummy_decay.mean())
-                symm_errors_decays.append(dummy_decay.std(ddof=1))
-                sorted_decays.append(np.sort(dummy_decay))
+            if decayWidth:
+                if self.L_tot[i]==1:
+                    bootstrap_decays.append(dummy_decay.mean())
+                    symm_errors_decays.append(dummy_decay.std(ddof=1))
+                    sorted_decays.append(np.sort(dummy_decay))
+                else:
+                    bootstrap_decays.append(np.nan)
+                    symm_errors_decays.append(np.nan)
+                    sorted_decays.append(np.nan)
+                    
                 
         bootstrap_masses = np.array(bootstrap_masses)
         symm_errors      = np.array(symm_errors)
@@ -165,23 +172,35 @@ class CharmResults:
             bootstrap_decays  = np.array(bootstrap_decays)
             symm_errors_decays= np.array(symm_errors_decays)
             sorted_decays     = np.array(sorted_decays)
-            dv.plot(sorted_decays[0], 'decays0', 'decays0', 'decays0', self.name)
-            dv.plot(sorted_decays[1], 'decays1', 'decays1', 'decays1', self.name)
-            dv.plot(sorted_decays[2], 'decays2', 'decays2', 'decays2', self.name)
-            dv.plot(sorted_decays[3], 'decays3', 'decays3', 'decays3', self.name)
-            dv.plot(sorted_decays[4], 'decays4', 'decays4', 'decays4', self.name)
-            dv.plot(sorted_decays[5], 'decays5', 'decays5', 'decays5', self.name)
-            dv.plot(sorted_decays[6], 'decays6', 'decays6', 'decays6', self.name)
+
+            print(bootstrap_decays)
+            print(symm_errors_decays)
+            print(sorted_decays)
+            # dv.plot(sorted_decays[0], 'decays0', 'decays0', 'decays0', self.name)
+            # dv.plot(sorted_decays[1], 'decays1', 'decays1', 'decays1', self.name)
+            # dv.plot(sorted_decays[2], 'decays2', 'decays2', 'decays2', self.name)
+            # dv.plot(sorted_decays[3], 'decays3', 'decays3', 'decays3', self.name)
+            # dv.plot(sorted_decays[4], 'decays4', 'decays4', 'decays4', self.name)
+            # dv.plot(sorted_decays[5], 'decays5', 'decays5', 'decays5', self.name)
+            # dv.plot(sorted_decays[6], 'decays6', 'decays6', 'decays6', self.name)
 
         # asymmetric error calculation via 68% quantile method
         N = len(sorted_masses[0])
         quantile_dn = int(N*0.1587)   #int(np.floor(N*0.1587))
         quantile_up = int(N*0.8413)+1 #int(np.floor(N*0.8413))
-        asymmetric_up, asymmetric_dn = ([]), ([])
+        asym_up, asym_dn, asym_up_dec, asym_dn_dec = ([]),([]),([]),([])
         for i in range(len(self.sum_mass)):
-            asymmetric_up = np.append(asymmetric_up, sorted_masses[i][quantile_up-1] - np.mean(sorted_masses[i]))
-            asymmetric_dn = np.append(asymmetric_dn, sorted_masses[i][quantile_dn-1] - np.mean(sorted_masses[i]))
+            asym_up = np.append(asym_up, sorted_masses[i][quantile_up-1] - np.mean(sorted_masses[i]))
+            asym_dn = np.append(asym_dn, sorted_masses[i][quantile_dn-1] - np.mean(sorted_masses[i]))
+            if decayWidth:
+                if not np.isnan(np.mean(sorted_decays[i])):
+                    asym_up_dec = np.append(asym_up_dec, sorted_decays[i][quantile_up-1] - np.mean(sorted_decays[i]))
+                    asym_dn_dec = np.append(asym_dn_dec, sorted_decays[i][quantile_dn-1] - np.mean(sorted_decays[i]))
+                else:
+                    asym_up_dec = np.append(asym_up_dec,np.nan)
+                    asym_dn_dec = np.append(asym_dn_dec,np.nan)
             
+                    
         # for cross check
         dummy = ([])
         for j in range(len(self.sampled_k)):
@@ -195,14 +214,17 @@ class CharmResults:
         print(round(dummy.mean(),2), len(dummy), 'first mass state, and size of the sample')    
         print(round(dummy.std(ddof=1),2), ': error using boostrap')
         print(round(error_total,2), ': error using cov. matrix')
-        print(round(dummy.std(ddof=1)/ error_total, 2) ,': ratio boot/cov'  )
-        
-        return bootstrap_masses, symm_errors, asymmetric_up, asymmetric_dn
+        print(round(dummy.std(ddof=1)/ error_total, 2) ,': ratio boot/cov')
+
+        if decayWidth:
+            return bootstrap_masses, symm_errors, asym_up, asym_dn, bootstrap_decays, symm_errors_decays, asym_up_dec, asym_dn_dec
+        else:
+            return bootstrap_masses, symm_errors, asym_up, asym_dn
         
 
     def analytical_error(self, iter_a):
         # propagate the error using the analytical method,
-        # i.e. using the covariance matrix    
+        # i.e. using the covariance matrix
         fK, delta_K = self.v_param[iter_a], self.delta_Kp
         fA, delta_A = self.w_param[iter_a], self.delta_A 
         fB, delta_B = self.x_param[iter_a], self.delta_B 

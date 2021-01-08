@@ -88,7 +88,7 @@ gauss_2350 = sample_gauss(2350, 10.0)
 gauss_2195 = sample_gauss(2195, 10.0)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(10000):
+for _ in range(100):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -161,17 +161,16 @@ sampled = {'sampled_k':sampled_k, 'sampled_a':sampled_a, 'sampled_b':sampled_b, 
 corr_mat= {'rho_ak':rho_ak,'rho_bk':rho_bk,'rho_ba':rho_ba,'rho_ek':rho_ek,'rho_ea':rho_ea,'rho_eb':rho_eb,'rho_gk':rho_gk,'rho_ga':rho_ga,'rho_gb':rho_gb,'rho_ge':rho_ge}
 
 # calculate the results using bootstrap simulation above
-results = CharmResults(param, sampled, corr_mat, bootstrap=True, asymmetric=True, name=states)
-results.mass_prediction_compare()
+results = CharmResults(param, sampled, corr_mat, asymmetric=True, name=states)
+#results.mass_prediction_compare()
 results.correlation_matrix()
 results.param_comparison()
 results.plot()
-results.execute_decay_width()
+# results.execute_decay_width()
 
 # omegas,cascades,sigmas,lambdas,cascades_anti3
-results.mass_prediction_paper(baryons='omegas', prev_params=True)
-results.mass_prediction_paper(baryons='cascades', prev_params=True)
-results.mass_prediction_paper(baryons='sigmas', prev_params=True)
-results.mass_prediction_paper(baryons='lambdas', prev_params=True)
-results.mass_prediction_paper(baryons='cascades_anti3', prev_params=True)
-#results.mass_prediction_paper('omegas')
+results.paper_results_predictions(baryons='omegas', bootstrap=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades', bootstrap=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='sigmas', bootstrap=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='lambdas', bootstrap=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, prev_params=True, decay_width=True)
