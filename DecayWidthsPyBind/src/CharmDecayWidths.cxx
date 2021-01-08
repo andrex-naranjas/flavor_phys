@@ -39,8 +39,8 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   // options according the type of baryon
   if(baryonFlag==1)      {alpha_rho = 0.458724; alpha_lam = 0.540131;} //omegas
   else if(baryonFlag==2) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cacades 6-plet
-  else if(baryonFlag==3) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //sigmas
-  else if(baryonFlag==4) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //lambdas
+  else if(baryonFlag==3) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //sigmas
+  else if(baryonFlag==4) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //lambdas
   else if(baryonFlag==5) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cascades 3-plet
   
   // options according the decay products
