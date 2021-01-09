@@ -80,11 +80,11 @@ class CharmResults:
         self.latex_bottom(f_note,tot_diff_pred,tot_diff_sample,paper=False) # write bottom's table
 
 
-    def paper_results_predictions(self, baryons, bootstrap=False, prev_params=False, decay_width=False):
+    def paper_results_predictions(self, baryons, bootstrap=False, bootstrap_width=False, prev_params=False, decay_width=False):
         # mass prediction (paper latex tables, here we include all the states)
         # redifine parameters. Will clean the input param
 
-        self.reload_quantum_param(baryons) #available baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
+        self.reload_quantum_param(baryons) #available: baryons=omegas,cascades,sigmas,lambdas,cascades_anti3
 
         # get experimental data and names. Must input the number of predicted states        
         quantum, exp, delta_exp = du.names_values_paper(baryons, len(self.sum_mass))
@@ -96,9 +96,9 @@ class CharmResults:
         if bootstrap:
             if decay_width:
                 bootstrap_masses, sym_errors, delta_up, delta_dn,\
-                    bootstrap_decays, sym_errors_dec, delta_up_dec, delta_dn_dec = self.sampled_prediction(baryons, decayWidth=decay_width)                
+                    bootstrap_decays, sym_errors_dec, delta_up_dec, delta_dn_dec = self.sampled_prediction(baryons, decayWidth=decay_width, bootstrap_width=bootstrap_width)
             else:
-                bootstrap_masses, sym_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False)
+                bootstrap_masses, sym_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False, bootstrap_width=False)
 
         if prev_params: baryons=baryons+'_previous'
         f_paper = open('./tables/masses_'+baryons+'_paper.tex', "w")
@@ -134,7 +134,7 @@ class CharmResults:
         self.latex_bottom(f_paper,0,0,paper=True) # write bottom's table
 
         
-    def sampled_prediction(self, baryons='', decayWidth=False):
+    def sampled_prediction(self, baryons='', decayWidth=False, bootstrap_width=False):
 
         bootstrap_masses,sorted_masses,symm_errors = [],[],[]
         bootstrap_decays,sorted_decays,symm_errors_decays = [],[],[]
@@ -144,7 +144,7 @@ class CharmResults:
             for j in range(len(self.sampled_k)): # sampled data loop (e.g. 10^5)
                 mass = self.model_mass(i, j, sampled=True)
                 dummy = np.append(dummy,mass)
-                if decayWidth and self.L_tot[i]==1: # decayWidth calculation, import dw
+                if decayWidth and self.L_tot[i]==1 and bootstrap_width: # decayWidth calculation, import dw
                     decay_value = dw.total_decay_width(baryons, mass,
                                                          self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                     dummy_decay = np.append(dummy_decay, decay_value)
@@ -155,9 +155,16 @@ class CharmResults:
             
             if decayWidth:
                 if self.L_tot[i]==1:
-                    bootstrap_decays.append(dummy_decay.mean())
-                    symm_errors_decays.append(dummy_decay.std(ddof=1))
-                    sorted_decays.append(np.sort(dummy_decay))
+                    if bootstrap_width:
+                        bootstrap_decays.append(dummy_decay.mean())
+                        symm_errors_decays.append(dummy_decay.std(ddof=1))
+                        sorted_decays.append(np.sort(dummy_decay))
+                    else:
+                        decay_value = dw.total_decay_width(baryons, dummy.mean(),
+                                                           self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
+                        bootstrap_decays.append(decay_value)
+                        symm_errors_decays.append(0)
+                        sorted_decays.append(decay_value)                        
                 else:
                     bootstrap_decays.append(np.nan)
                     symm_errors_decays.append(np.nan)
@@ -194,8 +201,12 @@ class CharmResults:
             asym_dn = np.append(asym_dn, sorted_masses[i][quantile_dn-1] - np.mean(sorted_masses[i]))
             if decayWidth:
                 if not np.isnan(np.mean(sorted_decays[i])):
-                    asym_up_dec = np.append(asym_up_dec, sorted_decays[i][quantile_up-1] - np.mean(sorted_decays[i]))
-                    asym_dn_dec = np.append(asym_dn_dec, sorted_decays[i][quantile_dn-1] - np.mean(sorted_decays[i]))
+                    if bootstrap_width:
+                        asym_up_dec = np.append(asym_up_dec, sorted_decays[i][quantile_up-1] - np.mean(sorted_decays[i]))
+                        asym_dn_dec = np.append(asym_dn_dec, sorted_decays[i][quantile_dn-1] - np.mean(sorted_decays[i]))
+                    else:
+                        asym_up_dec = np.append(asym_up_dec,0)
+                        asym_dn_dec = np.append(asym_dn_dec,0)                        
                 else:
                     asym_up_dec = np.append(asym_up_dec,np.nan)
                     asym_dn_dec = np.append(asym_dn_dec,np.nan)

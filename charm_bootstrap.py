@@ -169,7 +169,8 @@ results.plot()
 # results.execute_decay_width()
 
 # omegas,cascades,sigmas,lambdas,cascades_anti3
-results.paper_results_predictions(baryons='omegas', bootstrap=True, prev_params=True, decay_width=True)
+#results.paper_results_predictions(baryons='omegas', bootstrap=True, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='omegas', bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
 # results.paper_results_predictions(baryons='cascades', bootstrap=True, prev_params=True, decay_width=True)
 # results.paper_results_predictions(baryons='sigmas', bootstrap=True, prev_params=True, decay_width=True)
 # results.paper_results_predictions(baryons='lambdas', bootstrap=True, prev_params=True, decay_width=True)
