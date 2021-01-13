@@ -125,11 +125,20 @@ class CharmResults:
                 print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
             else:
                 if not np.isnan(up_decay):
-                    print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $',
-                          round(decay,3),'^{+', round(up_decay,3),'}_{', round(dn_decay,3),'}$', ' & $ xx\pm xx$ \\\ ', file=f_paper)
+                    if exp[i]!=0.:
+                        print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $',
+                              round(decay,3),'^{+', round(up_decay,3),'}_{', round(dn_decay,3),'}$', ' & $ xx\pm xx$ \\\ ', file=f_paper)
+                    else:
+                        print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $\\dagger $ & $',
+                              round(decay,3),'^{+', round(up_decay,3),'}_{', round(dn_decay,3),'}$', ' & $ xx\pm xx$ \\\ ', file=f_paper)                        
                 else:
-                    print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & ',
-                        '$\\dagger\\dagger$', '& $ xx\pm xx$  \\\ ', file=f_paper)
+                    if exp[i]!=0.:
+                        print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & ',
+                              '$\\dagger\\dagger$', '& $ xx\pm xx$  \\\ ', file=f_paper)
+                    else:
+                        print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $\\dagger$ & ',
+                              '$\\dagger\\dagger$', '& $ xx\pm xx$  \\\ ', file=f_paper)
+                        
                                         
         self.latex_bottom(f_paper,0,0,paper=True) # write bottom's table
 
