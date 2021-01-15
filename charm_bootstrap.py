@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # code to obtain uncertainties of quarkonium mass spectrum
-# author: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
+# authors: A. Ramirez-Morales (andres.ramirez.morales@cern.ch)
+#          H. Garcia-Tecocoatzi
 
 # main module
 
@@ -33,7 +34,7 @@ def model(mass_sum,v,w,x,y,z,k,a,b,e,g):
     return mass_sum + v*k + w*a + x*b + y*e + z*g
 
 def least_squares(k, a, b, e, g):
-    yvar = 1.
+    yvar = 0.1
     pred_m = model(mass_sum, param_v, param_w, param_x, param_y, param_z, k, a, b, e, g)
     return np.sum((pred_m - exp_m)**2 / (yvar**2)) #**2
 
@@ -56,76 +57,60 @@ rho_ak,rho_bk,rho_ba,rho_ek,rho_ea,rho_eb,rho_gk,rho_ga,rho_gb,rho_ge=([]),([]),
 
 # gaussian pdf with the measured value and with experimental uncertainty
 # Omega states
-scale = 1
-gauss_2695 = sample_gauss(2695.0, 2.0*scale)
-gauss_2770 = sample_gauss(2766.0, 2.0*scale)
-gauss_3000 = sample_gauss(3000.4, 0.3742*scale)
-gauss_3050 = sample_gauss(3050.2, 0.3317*scale)
-gauss_3066 = sample_gauss(3065.6, 0.4359*scale)
-gauss_3090 = sample_gauss(3090.2, 0.6557*scale)
-# Cascades six-plet
-gauss_2578 = sample_gauss(2578.0, 2.9*scale)
-gauss_2645 = sample_gauss(2645.9, 0.6*scale)
-gauss_2923 = sample_gauss(2923.1, 0.4*scale)
-gauss_2938 = sample_gauss(2938.6, 0.3*scale)
-gauss_2964 = sample_gauss(2964.9, 0.3*scale)
-# Sigma c
-gauss_2453 = sample_gauss(2453.9, 0.14*scale)
-gauss_2518 = sample_gauss(2518.0, 2.3*scale)
-gauss_2801 = sample_gauss(2801.0, 6*scale)
-# Lambda C
-gauss_2286 = sample_gauss(2286.5, 0.14*scale)
-gauss_2592 = sample_gauss(2592.3, 0.28*scale)
-gauss_2628 = sample_gauss(2625.0, 0.19*scale)
-# Cascade C anti-3-plet
-gauss_2469 = sample_gauss(2469.0, 4*scale)
-gauss_2792 = sample_gauss(2792.0, 3.3*scale)
-gauss_2816 = sample_gauss(2815.0, 0.20*scale)
+gauss_2695 = sample_gauss(2695.00, 1.7)  # OK
+gauss_2770 = sample_gauss(2765.90, 2.0)  # OK
+gauss_3000 = sample_gauss(3000.41, 0.22) # OK
+gauss_3050 = sample_gauss(3050.20, 0.13) # OK
+gauss_3066 = sample_gauss(3065.46, 0.28) # OK
+gauss_3090 = sample_gauss(3090.00, 0.5)  # OK
+gauss_3120 = sample_gauss(3119.10, 1.0)  # need to the fit (corresponds to predicted 3140)
 
-# quark-sum masses
-gauss_2505 = sample_gauss(2505, 10.0)
-gauss_2350 = sample_gauss(2350, 10.0)
-gauss_2195 = sample_gauss(2195, 10.0)
+# Cascades six-plet
+gauss_2578 = sample_gauss(2578.4, 0.5) # OK, 2579.2 ± 0.5 MeV
+gauss_2645 = sample_gauss(2645.56,0.27)# OK
+gauss_2923 = sample_gauss(2923.1, 0.4) # OK (not in PDG)
+gauss_2938 = sample_gauss(2938.6, 0.3) # OK (not in PDG) is it the same as 2942???
+gauss_2970 = sample_gauss(2969.9, 0.5) # OK 
+
+gauss_2942 = sample_gauss(2942.0, 5.0) # need add to fit (corresponds to predicted 2941 )  2** PDG,Sig(2930)
+gauss_3055 = sample_gauss(3055.9, 0.4) # need add to fit (corresponds to predicted 3060)
+gauss_3080 = sample_gauss(3079.9, 1.4) # need add to fit (corresponds to predicted 3096)
+
+
+# Sigma c
+gauss_2453 = sample_gauss(2453.07, 0.4) # OK (corresponds to predicted 2453)
+gauss_2518 = sample_gauss(2517.5, 2.3)  # OK (corresponds to predicted 2517)
+gauss_2801 = sample_gauss(2801.0, 5)    # OK (corresponds to predicted 2819)
+# Lambda C
+gauss_2286 = sample_gauss(2286.46, 0.14) # OK (corresponds to 2283)
+gauss_2592 = sample_gauss(2592.25, 0.28) # OK (corresponds to 2649)
+gauss_2628 = sample_gauss(2628.11, 0.19) # OK (corresponds to 2685)
+# Cascade C anti-3-plet
+gauss_2469 = sample_gauss(2470.9,  0.29) # OK (corresponds to predicted 2461)
+gauss_2792 = sample_gauss(2792.4,  0.5)  # OK (corresponds to predicted 2796)
+gauss_2816 = sample_gauss(2816.74, 0.23) # OK (corresponds to predicted 2832)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(100):
+for _ in range(10000):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
                           random(gauss_3050), random(gauss_3066), random(gauss_3090),
                           random(gauss_2578), random(gauss_2645), random(gauss_2923),
-                          random(gauss_2938), random(gauss_2964), random(gauss_2453),
+                          random(gauss_2938), random(gauss_2970), random(gauss_2453),
                           random(gauss_2518), random(gauss_2801), random(gauss_2286),
                           random(gauss_2592), random(gauss_2628), random(gauss_2469),
-                          random(gauss_2792), random(gauss_2816)])
-        # mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
-        #                      random(gauss_2505),random(gauss_2505),random(gauss_2505),
-        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
-        #                      random(gauss_2350),random(gauss_2350),
-        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
-        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
-        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350)])
-        
+                          random(gauss_2792), random(gauss_2816)])        
     elif(states=='omega'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
                           random(gauss_3050), random(gauss_3066), random(gauss_3090)])
-        # mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
-        #                      random(gauss_2505),random(gauss_2505),random(gauss_2505)])
-
     elif(states=='cascades'):
         exp_m = np.array([random(gauss_2578), random(gauss_2645), random(gauss_2923),
-                          random(gauss_2938), random(gauss_2964), random(gauss_2469),
+                          random(gauss_2938), random(gauss_2970), random(gauss_2469),
                           random(gauss_2792), random(gauss_2816)])
-        # mass_sum = np.array([random(gauss_2350),random(gauss_2350),random(gauss_2350),
-        #                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
-        #                      random(gauss_2350),random(gauss_2350)])
-        
     elif(states=='sigmaLamb'):
         exp_m = np.array([random(gauss_2453), random(gauss_2518), random(gauss_2801),
                           random(gauss_2286), random(gauss_2592), random(gauss_2628)])
-        # mass_sum = np.array([random(gauss_2195),random(gauss_2195),random(gauss_2195),
-        #                      random(gauss_2195),random(gauss_2195),random(gauss_2195)])
-
                
     # perform the parameter fitting (via minimizing squared distance)
     m = fit(least_squares)
@@ -162,16 +147,36 @@ corr_mat= {'rho_ak':rho_ak,'rho_bk':rho_bk,'rho_ba':rho_ba,'rho_ek':rho_ek,'rho_
 
 # calculate the results using bootstrap simulation above
 results = CharmResults(param, sampled, corr_mat, asymmetric=True, name=states)
-#results.mass_prediction_compare()
+results.mass_prediction_compare(bootstrap=True)
 results.correlation_matrix()
 results.param_comparison()
 results.plot()
-# results.execute_decay_width()
 
 # omegas,cascades,sigmas,lambdas,cascades_anti3
-#results.paper_results_predictions(baryons='omegas', bootstrap=True, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+
+
+# quark-sum masses
+# gauss_2505 = sample_gauss(2505, 10.0)
+# gauss_2350 = sample_gauss(2350, 10.0)
+# gauss_2195 = sample_gauss(2195, 10.0)
+# mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+#                      random(gauss_2505),random(gauss_2505),random(gauss_2505),
+#                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
+#                      random(gauss_2350),random(gauss_2350),
+#                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
+#                      random(gauss_2195),random(gauss_2195),random(gauss_2195),
+#                      random(gauss_2350),random(gauss_2350),random(gauss_2350)])
+# mass_sum = np.array([random(gauss_2505),random(gauss_2505),random(gauss_2505),
+#                      random(gauss_2505),random(gauss_2505),random(gauss_2505)])
+# mass_sum = np.array([random(gauss_2350),random(gauss_2350),random(gauss_2350),
+#                      random(gauss_2350),random(gauss_2350),random(gauss_2350),
+#                      random(gauss_2350),random(gauss_2350)])
+# mass_sum = np.array([random(gauss_2195),random(gauss_2195),random(gauss_2195),
+#                      random(gauss_2195),random(gauss_2195),random(gauss_2195)])
+
+        

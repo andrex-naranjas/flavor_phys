@@ -32,8 +32,28 @@ class CharmResults:
             return self.sum_mass[i] + self.Kp*self.v_param[i] + self.A*self.w_param[i] \
                 + self.B*self.x_param[i] + self.E*self.y_param[i] + self.G*self.z_param[i]
         else: # here the mass is calculated using every single simulated parameter
-            return self.sum_mass[i] + self.sampled_k[j]*self.v_param[i] + self.sampled_a[j]*self.w_param[i] \
-                + self.sampled_b[j]*self.x_param[i] + self.sampled_e[j]*self.y_param[i] + self.sampled_g[j]*self.z_param[i]
+            #self.sum_mass[i] + self.sampled_k[j]*self.v_param[i] #self.mass_error_sample(self.sum_mass[i]) +self.omega_error_sample(self.v_param[i])
+            return  self.sum_mass[i] + self.omega_error_sample(self.v_param[i]) +\
+                self.sampled_a[j]*self.w_param[i] + self.sampled_b[j]*self.x_param[i] +\
+                self.sampled_e[j]*self.y_param[i] + self.sampled_g[j]*self.z_param[i]
+
+    def mass_error_sample(self, sum_mass):
+        gauss = np.random.normal(sum_mass, 10., 1000)
+        return np.random.choice(gauss, size=None)
+
+
+    def omega_error_sample(self, v_param_input):
+        #self.sampled_k[j]* self.v_param[i]
+        if(v_param_input==0.): return 0 # no contribution from harmonic oscillator
+        m_lr = 3./ (v_param_input**2)
+        delta_mlr = 10.
+        kp = self.Kp
+        delta_kp = self.delta_Kp
+        sigma = np.sqrt(3. * ( (delta_kp**2)/m_lr + ((kp**2) * (delta_mlr**2))/(4*(m_lr**3)) ))
+        omega = kp*v_param_input
+        gauss = np.random.normal(omega, sigma*0.00001, 1000)
+        #print(np.random.choice(gauss, size=None), omega, sigma)
+        return np.random.choice(gauss, size=None)
 
                 
     def mass_prediction_compare(self, bootstrap):
@@ -54,8 +74,8 @@ class CharmResults:
                 if not self.asymmetric:
                     error = self.charm_error(sym_errors[i],10)
                 else:
-                    error_up = self.charm_error(delta_up[i],10)
-                    error_dn = self.charm_error(delta_dn[i],10)
+                    error_up = self.charm_error(delta_up[i],0)
+                    error_dn = self.charm_error(delta_dn[i],0)
             else:                
                 mass  = self.model_mass(i, 0, sampled=False)
                 error = self.charm_error(self.analytical_error(i),10)
