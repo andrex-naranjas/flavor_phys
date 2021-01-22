@@ -31,7 +31,9 @@ private:
   double s2 = 0.5;   std::vector<double> m2;  
   double s3 = 0.5;   std::vector<double> m3;  
   double s4 = 0.5;   std::vector<double> m4;  
-  double s5 = 0.5;   std::vector<double> m5;  
+  double s5 = 0.5;   std::vector<double> m5;
+
+  virtual double ALPHA_MES(double MC);
 
   virtual int KroneckerDelta(float i, float j);
   virtual std::vector<double> getMomentumProjections(double j_angular);
@@ -72,6 +74,41 @@ private:
   virtual double I02B0(double alpha_rho, double alpha_lam, double alpha_mes);
   virtual double I01B0TOT(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
   virtual double I02B0TOT(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+
+  //D-wave
+  //lambda
+  virtual double CBARFIN_DWAVE(double alpha_rho, double alpha_lam);
+  virtual double C0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes);
+  virtual double ARO0_DWAVE(double alpha_rho, double alpha_mes);
+  virtual double F0_DWAVE(double k_value, double alpha_rho, double alpha_lam);
+  virtual double F01_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double BRO2_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double ARO1_DWAVE(double alpha_rho, double alpha_mes);
+  virtual double ARO2_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes);
+  virtual double BRO1_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double F0TOT_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I01B0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I02B0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I01B0TOT_DWAVE(double alpha_rho, double alpha_lam,double alpha_mes,double k_value);
+  virtual double I02B0TOT_DWAVE(double alpha_rho, double alpha_lam,double alpha_mes,double k_value);
+
+  //RADIAL excitations
+  //lambda
+  virtual double CBARFIN_RADIAL(double alpha_rho, double alpha_lam);
+  virtual double C0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes);
+  virtual double ARO0_RADIAL(double alpha_rho, double alpha_mes);
+  virtual double F0_RADIAL(double k_value, double alpha_rho, double alpha_lam);
+  virtual double F01_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double BRO2_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double ARO1_RADIAL(double alpha_rho, double alpha_mes);
+  virtual double ARO2_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes);
+  virtual double BRO1_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double F0TOT_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I01B0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I02B0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value);
+  virtual double I01B0TOT_RADIAL(double alpha_rho, double alpha_lam,double alpha_mes,double k_value);
+  virtual double I02B0TOT_RADIAL(double alpha_rho, double alpha_lam,double alpha_mes,double k_value);
+  
   
 };
 

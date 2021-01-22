@@ -45,31 +45,42 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   
   // options according the decay products
   if(baryonFlag==1){// omegas
-    if(decayProd == 1)    {alpha_mes = 0.46; slf_val=0.; sb_val=0.5; flav_coup = 1./3.;} //Xi+K
-    else if(decayProd==2) {alpha_mes = 0.46; slf_val=1.; sb_val=0.5; flav_coup = 1./3.;} //Xi'+K
-    else if(decayProd==3) {alpha_mes = 0.46; slf_val=1.; sb_val=1.5; flav_coup = 1./3.;} //Xi*+K
+    if(decayProd == 1)    {slf_val=0.; sb_val=0.5; flav_coup = 1./3.;} //Xi+K
+    else if(decayProd==2) {slf_val=1.; sb_val=0.5; flav_coup = 1./3.;} //Xi'+K
+    else if(decayProd==3) {slf_val=1.; sb_val=1.5; flav_coup = 1./3.;} //Xi*+K
   }else if(baryonFlag==2 or baryonFlag==5){//cascades (6-plet, 3-plet)
-    if(decayProd == 1)    {alpha_mes = 0.46; slf_val=0.; sb_val=0.5; flav_coup = 1./12.;}//lambda+K
-    else if(decayProd==2) {alpha_mes = 0.40; slf_val=0.; sb_val=0.5; flav_coup = 1./8.;} //Xi+Pi
-    else if(decayProd==3) {alpha_mes = 0.40; slf_val=1.; sb_val=0.5; flav_coup = 1./8.;} //Xi'(2578)+Pi comp. w/mathematica
-    else if(decayProd==4) {alpha_mes = 0.40; slf_val=1.; sb_val=1.5; flav_coup = 1./8.;} //Xi*+pi
-    else if(decayProd==5) {alpha_mes = 0.46; slf_val=1.; sb_val=0.5; flav_coup = 1./4.;} //Sigma+K comp. w/ mathematica
-    else if(decayProd==6) {alpha_mes = 0.46; slf_val=1.; sb_val=1.5; flav_coup = 1./4.;} //Sigma*+K
-    else if(decayProd==7) {alpha_mes = 0.46; slf_val=0.; sb_val=0.5; flav_coup = 1./36.;}//Xi+eta
+    if(decayProd == 1)    {slf_val=0.; sb_val=0.5; flav_coup = 1./12.;}//lambda+K
+    else if(decayProd==2) {slf_val=0.; sb_val=0.5; flav_coup = 1./8.;} //Xi+Pi
+    else if(decayProd==3) {slf_val=1.; sb_val=0.5; flav_coup = 1./8.;} //Xi'(2578)+Pi comp. w/mathematica
+    else if(decayProd==4) {slf_val=1.; sb_val=1.5; flav_coup = 1./8.;} //Xi*+pi
+    else if(decayProd==5) {slf_val=1.; sb_val=0.5; flav_coup = 1./4.;} //Sigma+K comp. w/ mathematica
+    else if(decayProd==6) {slf_val=1.; sb_val=1.5; flav_coup = 1./4.;} //Sigma*+K
+    else if(decayProd==7) {slf_val=0.; sb_val=0.5; flav_coup = 1./36.;}//Xi+eta
   }else if(baryonFlag==3){// sigmas
-    if(decayProd == 1)    {alpha_mes = 0.40; slf_val=1.; sb_val=0.5; flav_coup = 1./3.;} //Sigma+Pi
-    else if(decayProd==2) {alpha_mes = 0.40; slf_val=1.; sb_val=1.5; flav_coup = 1./3.;} //Sigma*+pi
-    else if(decayProd==3) {alpha_mes = 0.40; slf_val=0.; sb_val=0.5; flav_coup = 1./2.;} //Lambda+Pi
-    else if(decayProd==4) {alpha_mes = 0.46; slf_val=1.; sb_val=0.5; flav_coup = 1./18.;}//Sigma+eta
-    else if(decayProd==5) {alpha_mes = 0.46; slf_val=0.; sb_val=0.5; flav_coup = 3./2.;} //Xi+K
+    if(decayProd == 1)    {slf_val=1.; sb_val=0.5; flav_coup = 1./3.;} //Sigma+Pi
+    else if(decayProd==2) {slf_val=1.; sb_val=1.5; flav_coup = 1./3.;} //Sigma*+pi
+    else if(decayProd==3) {slf_val=0.; sb_val=0.5; flav_coup = 1./2.;} //Lambda+Pi
+    else if(decayProd==4) {slf_val=1.; sb_val=0.5; flav_coup = 1./18.;}//Sigma+eta
+    else if(decayProd==5) {slf_val=0.; sb_val=0.5; flav_coup = 3./2.;} //Xi+K
   }else if(baryonFlag==4){// Lambdas
-    if(decayProd == 1)    {alpha_mes = 0.40; slf_val=1.; sb_val=0.5; flav_coup = 1./2.;} //Sigma+Pi
-    else if(decayProd==2) {alpha_mes = 0.40; slf_val=1.; sb_val=1.5; flav_coup = 1./2.;} //Sigma*+pi
-    else if(decayProd==3) {alpha_mes = 0.46; slf_val=0.; sb_val=0.5; flav_coup = 1./18.;}//Lambda+eta
+    if(decayProd == 1)    {slf_val=1.; sb_val=0.5; flav_coup = 1./2.;} //Sigma+Pi
+    else if(decayProd==2) {slf_val=1.; sb_val=1.5; flav_coup = 1./2.;} //Sigma*+pi
+    else if(decayProd==3) {slf_val=0.; sb_val=0.5; flav_coup = 1./18.;}//Lambda+eta
   }
+
+  alpha_mes = ALPHA_MES(MC);
+
+  //test  
+  // slf_val=1.; sb_val=0.5; flav_coup = 1./4.;
+  // MA = 3.080;
+  // MB = 2.286;
+  // MC = 0.493;
+  // alpha_rho = 0.437553;
+  // alpha_lam = 0.523495;
+  // alpha_mes = 0.46;
   
   //fetch quantum numbers and projections
-  SA = sa_val;      mSA = getMomentumProjections(SA);
+  SA = sa_val;      mSA = getMomentumProjections(SA); 
   LA = la_val;      mLA = getMomentumProjections(LA);
   JA = ja_val;      mJA = getMomentumProjections(JA);  
   SB = sb_val;      mSB = getMomentumProjections(SB);
@@ -89,13 +100,14 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   
   double gamma     = 17.25/(std::pow(7,0.5));
   double alpha_d   = 0.0;
+  //gamma = 9.22051;
       
   double k_value; k_value = K(EB_value, MB);
   double EWCC_value = EWCC(MA, MB, MC);
   
   double sum_value  = ANGULAR_SUM(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
   double fi2_value  = FI2(EB_value, EWCC_value, MA, k_value);
-  double decayWidth = DecayWidth(flav_coup, gamma, fi2_value, sum_value);
+  double decayWidth = DecayWidth(flav_coup, gamma, fi2_value, sum_value);  
       
   return decayWidth;
 }
@@ -106,6 +118,11 @@ double CharmDecayWidths::DecayWidth(double flav_coup, double gamma, double fi2_v
   return decayWidth*GeV;
 }
 
+double CharmDecayWidths::ALPHA_MES(double MC_value){
+  if(MC_value == 0.140) return 0.40;
+  else return 0.46;
+}
+
 double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double alpha_lam,
 				     double alpha_mes, double k_value){
   
@@ -113,17 +130,23 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
   double outerSum = 0;
   double finalIntegral1=0., finalIntegral2=0.;
 
-  if(modeExcitation == 1){
+  if(modeExcitation == 1 && LA==1){//P-WAVE
     finalIntegral1=I010(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
     finalIntegral2=I020(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
-  }else if(modeExcitation == 2){
+  }else if(modeExcitation == 2 && LA==1){//P-WAVE
     finalIntegral1=I01B0TOT(alpha_rho, alpha_lam, alpha_mes, k_value);
     finalIntegral2=I02B0TOT(alpha_rho, alpha_lam, alpha_mes, k_value);
+  }else if(modeExcitation == 1 && LA==2){//D-WAVE
+    finalIntegral1=I01B0TOT_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+    finalIntegral2=I02B0TOT_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+  }else if(modeExcitation == 1 && LA==0){//RADIAL
+    finalIntegral1=I01B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+    finalIntegral2=I02B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
   }
   
   for(int iMJA = 0; iMJA<(int)mJA.size(); iMJA++){
     
-    double innerSum = 0;    
+    double innerSum = 0;
     for(int iMLA = 0; iMLA<(int)mLA.size(); iMLA++)
       for(int iMSA = 0; iMSA<(int)mSA.size(); iMSA++)
 	for(int iM = 0; iM<(int)m.size(); iM++)
@@ -137,13 +160,21 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
 			for(int iM4 = 0; iM4<(int)m4.size(); iM4++)
 			  for(int iM2 = 0; iM2<(int)m2.size(); iM2++){
 			    int delta1=0, delta2=0;
-			    if(modeExcitation == 1){
+			    if(modeExcitation == 1 && LA == 1){//P-WAVE
 			      delta1 = KroneckerDelta(m.at(iM), mLA.at(iMLA));
 			      delta2 = KroneckerDelta(m.at(iM), 0)*KroneckerDelta(mLA.at(iMLA), 0);
-			    }else if(modeExcitation == 2){
+			    }else if(modeExcitation == 2 && LA ==1){//P-WAVE
 			      delta1 = KroneckerDelta(m.at(iM), 0)*KroneckerDelta(mLA.at(iMLA), 0);
-			      delta2 = KroneckerDelta(m.at(iM), mLA.at(iMLA));}
-			    
+			      delta2 = KroneckerDelta(m.at(iM), mLA.at(iMLA));
+			    }else if(modeExcitation == 1 && LA == 2){//D-WAVE		      
+			      delta1 = KroneckerDelta(m.at(iM), 0) * KroneckerDelta(mLA.at(iMLA), 0);
+			      delta2 = m_wigner->wigner3j(1, 1, LA, m.at(iM), 0, (-1.0)*m.at(iM)) *
+				std::pow(-1.0, (-1.0)*m.at(iM)) * std::pow((2*LA+1),0.5) * KroneckerDelta(m.at(iM), mLA.at(iMLA));
+			    }else if(modeExcitation == 1 && LA == 0){//RADIAL
+			      delta1 = KroneckerDelta(m.at(iM), 0);
+			      delta2 = KroneckerDelta(m.at(iM), 0);}
+				
+			    			    
 			    double dummy = (finalIntegral1*delta1 + finalIntegral2*delta2)*
 			      m_wigner->wigner3j(LA, SA, JA, mLA.at(iMLA), mSA.at(iMSA), (-1.0)*mJA.at(iMJA))*
 			      m_wigner->wigner3j(1, 1, 0, m.at(iM), (-1.0)*m.at(iM), 0)*
@@ -168,11 +199,11 @@ std::vector<double> CharmDecayWidths::getMomentumProjections(double j_angular){
   //gets the m projections "m_projection" for a given angular momentum "j_angular"
   std::vector<double> angularProjections; angularProjections.clear();
   if(j_angular==0){ angularProjections.push_back(0); return angularProjections;}
-  
+
   double m_projection = (-1.0)*j_angular;
   do{
     angularProjections.push_back(m_projection);
-    m_projection++;        
+    m_projection++;
   }while(m_projection<=j_angular);
   
   return angularProjections;
@@ -402,4 +433,234 @@ double CharmDecayWidths::I02B0TOT(double alpha_rho, double alpha_lam, double alp
 }
 
 
+// D-wave excitations
+// lambda wave functions
+double CharmDecayWidths::CBARFIN_DWAVE(double alpha_rho, double alpha_lam){
+  double value1 = (std::pow(3,0.75) * std::pow(16,0.5))/(std::pow(15,0.5) * (std::pow(1.772453667,0.5)) );
+  double value2 = std::pow(( 1.0/alpha_lam ), 3.5);
+  double value3 = std::pow(1.0/( pi_val * std::pow(alpha_rho, 2) ), 0.75);
+  return value1 * value2 * value3;// * mycomplex;//define complex if needed
+}
+
+//CBARIN_DWAVE --> same as P-wave (CBARIN)
+//CMESON_DWAVE --> same as P-wave (CMESON)
+
+double CharmDecayWidths::C0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes){
+  double value1 = 1.0 / (3.0*std::pow(3,0.5));
+  double value2 = CBARFIN_DWAVE(alpha_rho, alpha_lam) * CBARIN(alpha_rho, alpha_lam) * CMESON(alpha_mes);
+  return value1 * value2;
+}
+
+double CharmDecayWidths::ARO0_DWAVE(double alpha_rho, double alpha_mes){
+  double value1 = 1.0/std::pow(alpha_rho,2);  
+  double value2 = 1.0/(4.0*std::pow(alpha_mes,2));
+  return std::pow(value1+value2,0.5);
+}
+
+double CharmDecayWidths::F0_DWAVE(double k_value, double alpha_rho, double alpha_lam){
+  double value1 = std::pow(k_value, 2) /(alpha_rho * alpha_lam) ;
+  return (-1.0/3.0) * value1;
+}
+
+double CharmDecayWidths::F01_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  
+  double value1p  = 1.0/(2.0*std::pow(2,0.5)*alpha_lam*alpha_rho) + 1./(4*std::pow(2,0.5)*alpha_mes*alpha_mes);
+  
+  double value1pp = value1p*value1p;
+  
+  double value1ppp= 1./(std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2));
+  
+  double value1 = value1pp*value1ppp;
+  
+  double value2 = 1.0/(8.0*std::pow(alpha_mes,2));
+  
+  return std::pow(k_value,2)*(value1-value2);
+}
+
+double CharmDecayWidths::BRO2_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = 1.0/(2.0*alpha_lam*alpha_rho) + 1.0/(4.0*alpha_mes*alpha_mes);
+  double value2 = 1.0/(std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2));
+  return k_value*(value1*value2 - 2.0);
+}
+
+double CharmDecayWidths::ARO1_DWAVE(double alpha_rho, double alpha_mes){
+  double value1 = 0.816496581;
+  double value2 = 1./(2.0 * std::pow(6,0.5) * std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2) * std::pow(alpha_mes,2) );
+  return value2 - value1;
+}
+
+double CharmDecayWidths::ARO2_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes){
+  double value1p  = 4.0/(std::pow(alpha_lam,2));
+  double value1pp = 1.0/(3.0*std::pow(alpha_mes,2));
+  double value1   = 0.25*(value1p + value1pp);
+  double value2   = 1.0/(48.0 * std::pow(alpha_mes,4) * std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2) );
+  return std::pow(value1-value2, 0.5);
+}
+
+double CharmDecayWidths::BRO1_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){  
+
+  double value1  = k_value / ( 4*std::pow(6,0.5) * std::pow(alpha_mes,2) );
+  double value2  = k_value / ( 2*std::pow(6,0.5) * alpha_rho * alpha_lam );
+  double value3p = k_value / ( 4*std::pow(3,0.5) * std::pow(alpha_mes,2) * std::pow(ARO0_DWAVE(alpha_rho, alpha_mes), 2) );
+  double value3pp= 1.0/( 2*std::pow(2,0.5)*alpha_lam*alpha_rho ) + 1.0/(4*std::pow(2,0.5)*alpha_mes*alpha_mes);
+  double value3  = value3p*value3pp;
+  return value1 + value2 - value3;
+}
+
+double CharmDecayWidths::F0TOT_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = F01_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+  double value2 = BRO1_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value) / ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes) ;
+  value2 = std::pow(value2,2);
+  double value3 = F0_DWAVE(k_value, alpha_rho, alpha_lam);
+  return value1 + value2 + value3; 
+}
+
+double CharmDecayWidths::I01B0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1p  = C0_DWAVE(alpha_rho, alpha_lam, alpha_mes) / (std::pow(ARO0_DWAVE(alpha_rho, alpha_mes), 3) );
+  double value1pp = BRO1_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value)/std::pow(ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 2);
+  double value1   = value1p*std::pow(value1pp, 2);
+  double value2   = value1pp*ARO1_DWAVE(alpha_rho, alpha_mes) + BRO2_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+  double value3   = std::pow(15,0.5) / (4.0 * std::pow( ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 3) );
+  return value1*value2*value3*pi_val*pi_val;
+}
+
+double CharmDecayWidths::I02B0_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = C0_DWAVE(alpha_rho, alpha_lam, alpha_mes) / std::pow(ARO0_DWAVE(alpha_rho, alpha_mes), 3) ;
+  double value2 = BRO1_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value) / std::pow(ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 2);
+  double value3 = (3*std::pow(10.,0.5) * ARO1_DWAVE(alpha_rho, alpha_mes)) / (8.* std::pow( ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 5));
+  return value1*value2*value3*pi_val*pi_val;
+}
+
+double CharmDecayWidths::I01B0TOT_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = std::exp(F0TOT_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value));
+  double value2 = I01B0_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+  value2 = -0.0236529;
+  return value1*value2;
+}
+
+double CharmDecayWidths::I02B0TOT_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = std::exp(F0TOT_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value));
+  double value2 = I02B0_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
+  return value1*value2;
+}
+
+
+// RADIAL excitations
+// lambda wave functions
+double CharmDecayWidths::CBARFIN_RADIAL(double alpha_rho, double alpha_lam){
+  double value1 = std::pow(3,0.75) * std::pow(2./3.,0.5);
+  double value2 = std::pow(1.0/( std::pow(pi_val, 4) * std::pow(alpha_lam, 2) *std::pow(alpha_rho, 2) ), 0.75);
+  return value1 * value2 ;// * mycomplex;//define complex if needed
+}
+
+//CBARIN_RADIAL --> same as P-wave (CBARIN)
+//CMESON_RADIAL --> same as P-wave (CMESON)
+
+double CharmDecayWidths::C0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes){
+  double value1 = 1.0 / (3.0*std::pow(3,0.5));
+  double value2 = CBARFIN_RADIAL(alpha_rho, alpha_lam) * CBARIN(alpha_rho, alpha_lam) * CMESON(alpha_mes);
+  return value1 * value2;
+}
+
+double CharmDecayWidths::ARO0_RADIAL(double alpha_rho, double alpha_mes){
+  return ARO0_DWAVE(alpha_rho, alpha_mes);}
+
+double CharmDecayWidths::F0_RADIAL(double k_value, double alpha_rho, double alpha_lam){
+  return F0_DWAVE(k_value, alpha_rho, alpha_lam);
+}
+
+double CharmDecayWidths::F01_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1p  = 1.0/(2.0*std::pow(2,0.5)*alpha_lam*alpha_rho) + 1./(4*std::pow(2,0.5)*alpha_mes*alpha_mes);  
+  double value1pp = value1p*value1p;  
+  double value1ppp= 1./(std::pow(ARO0_RADIAL(alpha_rho, alpha_mes),2));  
+  double value1 = value1pp*value1ppp;
+  double value2 = 1.0/(8.0*std::pow(alpha_mes,2));
+  return std::pow(k_value,2)*(value1-value2);
+}
+
+double CharmDecayWidths::BRO2_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = 1.0/(2.0*alpha_lam*alpha_rho) + 1.0/(4.0*alpha_mes*alpha_mes);
+  double value2 = 1.0/(std::pow(ARO0_RADIAL(alpha_rho, alpha_mes),2));
+  return k_value*(value1*value2 - 2.0);
+}
+
+double CharmDecayWidths::ARO1_RADIAL(double alpha_rho, double alpha_mes){
+  double value1 = std::pow(2./3., 0.5);
+  double value2 = 1./(2.0 * std::pow(6,0.5) * std::pow(ARO0_RADIAL(alpha_rho, alpha_mes),2) * std::pow(alpha_mes,2) );
+  return value2 - value1;
+}
+
+double CharmDecayWidths::ARO2_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes){
+  double value1p  = 4.0/(std::pow(alpha_lam,2));
+  double value1pp = 1.0/(3.0*std::pow(alpha_mes,2));
+  double value1   = 0.25*(value1p + value1pp);
+  double value2   = 1.0/(48.0 * std::pow(alpha_mes,4) * std::pow(ARO0_RADIAL(alpha_rho, alpha_mes),2) );
+  return std::pow(value1-value2, 0.5);
+}
+
+double CharmDecayWidths::BRO1_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){  
+  double value1  = k_value / ( 4*std::pow(6,0.5) * std::pow(alpha_mes,2) );
+  double value2  = k_value / ( 2*std::pow(6,0.5) * alpha_rho * alpha_lam );
+  double value3p = k_value / ( 4*std::pow(3,0.5) * std::pow(alpha_mes,2) * std::pow(ARO0_RADIAL(alpha_rho, alpha_mes), 2) );
+  double value3pp= 1.0/( 2*std::pow(2,0.5)*alpha_lam*alpha_rho ) + 1.0/(4*std::pow(2,0.5)*alpha_mes*alpha_mes);
+  double value3  = value3p*value3pp;
+  return value1 + value2 - value3;
+}
+
+double CharmDecayWidths::F0TOT_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = F01_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+  double value2 = BRO1_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value) / ARO2_RADIAL(alpha_rho, alpha_lam, alpha_mes) ;
+  value2 = std::pow(value2,2);
+  double value3 = F0_RADIAL(k_value, alpha_rho, alpha_lam);
+  return value1 + value2 + value3; 
+}
+
+double CharmDecayWidths::I01B0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = C0_RADIAL(alpha_rho, alpha_lam, alpha_mes) / (std::pow(ARO0_RADIAL(alpha_rho, alpha_mes), 3) );
+  double value2p = BRO1_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value)/std::pow(ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 2);
+  double value2 = value2p*ARO1_RADIAL(alpha_rho, alpha_mes) + BRO2_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+  double value3 = std::pow(12.,0.5)/(4 * std::pow(ARO2_RADIAL(alpha_rho, alpha_lam, alpha_mes) , 3));
+  double value4 = 1.5 - std::pow(value2p,2)/std::pow(alpha_lam,2);
+  return value1 * value2 * value3 * value4 * std::pow(pi_val, 2.5);
+}
+
+double CharmDecayWidths::I02B0_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = C0_RADIAL(alpha_rho, alpha_lam, alpha_mes) / (std::pow(ARO0_RADIAL(alpha_rho, alpha_mes), 3) );
+  double value2p = BRO1_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value)/std::pow(ARO2_DWAVE(alpha_rho, alpha_lam, alpha_mes), 2);
+  double value2 = value2p*ARO1_RADIAL(alpha_rho, alpha_mes) + BRO2_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+  double value3 = (3.*std::pow(12.,0.5))/(8 * std::pow(alpha_lam,2) * std::pow(ARO2_RADIAL(alpha_rho, alpha_lam, alpha_mes) , 5) );
+  return value1 * value2 * value3 * std::pow(pi_val, 2.5);
+}
+
+double CharmDecayWidths::I01B0TOT_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = std::exp(F0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value));
+  double value2 = I01B0_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+  return value1*value2;
+}
+
+double CharmDecayWidths::I02B0TOT_RADIAL(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
+  double value1 = std::exp(F0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value));
+  double value2 = I02B0_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value);
+  return value1*value2;
+}
+
+
 #endif
+
+//TEST RADIAL
+  // std::cout<<"test mathematica::   CBARFIN  "<<CBARFIN_RADIAL(alpha_rho, alpha_lam)<<std::endl;
+  // std::cout<<"test mathematica::   CBARIN  "<<CBARIN(alpha_rho, alpha_lam)<<std::endl;
+  // std::cout<<"test mathematica::   CMESON  "<<CMESON(alpha_mes)<<std::endl;  
+  // std::cout<<"test mathematica::   C0  "<<C0_RADIAL(alpha_rho, alpha_lam, alpha_mes)<<std::endl;
+  // std::cout<<"test mathematica::   ARO0  "<<ARO0_RADIAL(alpha_rho, alpha_mes)<<std::endl;
+  // std::cout<<"test mathematica::   F0  "<<F0_RADIAL(k_value, alpha_rho, alpha_lam)<<std::endl;
+  // std::cout<<"test mathematica::   F01  "<<F01_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   BRO2  "<<BRO2_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   ARO1  "<<ARO1_RADIAL(alpha_rho, alpha_mes)<<std::endl;
+  // std::cout<<"test mathematica::   ARO2  "<<ARO2_RADIAL(alpha_rho, alpha_lam, alpha_mes)<<std::endl;
+  // std::cout<<"test mathematica::   BRO1  "<<BRO1_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   F0TOT  "<<F0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   I01B0  "<<I01B0_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   I02B0  "<<I02B0_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   I01B0TOT  "<<I01B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+  // std::cout<<"test mathematica::   I02B0TOT  "<<I02B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
