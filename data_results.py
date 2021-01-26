@@ -8,7 +8,7 @@
 import data_visualization as dv
 import data_utils as du
 import data_preparation as dp
-import decay_width as dw
+from decay_width import DecayWidths
 import charm_states as cs
 import numpy as np
 
@@ -167,15 +167,18 @@ class CharmResults:
 
         bootstrap_masses,sorted_masses,symm_errors = [],[],[]
         bootstrap_decays,sorted_decays,symm_errors_decays = [],[],[]
+        
+        if decayWidth:
+            baryon_decay = DecayWidths(bootstrap_width, baryons)
 
         for i in range(len(self.sum_mass)): # states loop
             dummy,dummy_decay = ([]),([])
             for j in range(len(self.sampled_k)): # sampled data loop (e.g. 10^5)
                 mass = self.model_mass(i, j, sampled=True)
                 dummy = np.append(dummy,mass)
-                if decayWidth and self.L_tot[i]==1 and bootstrap_width: # decayWidth calculation, import dw
-                    decay_value = dw.total_decay_width(baryons, mass,
-                                                         self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
+                if decayWidth and self.L_tot[i]==1 and bootstrap_width: # decayWidth calculation, DecayWidths class
+                    decay_value = baryon_decay.total_decay_width(bootstrap_width, baryons, self.sampled_k[j], mass,
+                                                                 self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                     dummy_decay = np.append(dummy_decay, decay_value)
                                                 
             bootstrap_masses.append(dummy.mean())
@@ -189,8 +192,8 @@ class CharmResults:
                         symm_errors_decays.append(dummy_decay.std(ddof=1))
                         sorted_decays.append(np.sort(dummy_decay))
                     else:
-                        decay_value = dw.total_decay_width(baryons, dummy.mean(),
-                                                           self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
+                        decay_value = baryon_decay.total_decay_width(bootstrap_width, baryons, self.Kp, dummy.mean(),
+                                                                     self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                         bootstrap_decays.append(decay_value)
                         symm_errors_decays.append(0)
                         sorted_decays.append(decay_value)                        

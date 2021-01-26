@@ -12,7 +12,7 @@ public:
   CharmDecayWidths();
   virtual ~CharmDecayWidths();
   virtual double execute(double ma_val, double mb_val, double mc_val, double sa_val,
-			 double la_val, double ja_val, double sl_val,
+			 double la_val, double ja_val, double sl_val, double al_val, double ar_val,
 			 int baryon, int excMode, int prodDecay);
 private:
 
@@ -117,10 +117,10 @@ extern "C"{
   CharmDecayWidths* charm_new(){return new CharmDecayWidths();}
   double charm_execute(CharmDecayWidths* m_decays,
 		       double ma_val, double mb_val, double mc_val, double sa_val,
-		       double la_val, double ja_val, double sl_val,
+		       double la_val, double ja_val, double sl_val, double al_val, double ar_val,
 		       int baryon, int excMode, int prodDecay){    
     return m_decays->execute(ma_val, mb_val, mc_val, sa_val,
-    			     la_val, ja_val, sl_val,
+    			     la_val, ja_val, sl_val, al_val, ar_val,
 			     baryon, excMode, prodDecay);  
   }
 }

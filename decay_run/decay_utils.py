@@ -7,6 +7,29 @@
 
 import numpy as np
 
+
+def reduced_masses(baryons):
+    m_lam_omega = 864.97
+    m_lam_casca = 763.228
+    m_lam_sigma = 647.118
+    m_rho_omega = 450.
+    m_rho_casca = 372.5
+    m_rho_sigma = 295.    
+    # fetch reduced masses of the harmonic oscillator
+    if(baryons==1):
+        return m_lam_omega,   m_rho_omega        
+    elif(baryons==2 or baryons ==5):
+        return m_lam_casca,   m_rho_casca            
+    elif(baryons==3 or baryons==4):
+        return m_lam_sigma,   m_rho_sigma
+            
+
+def alphas(k_prim, m_lam_rho):
+    value1 = (np.sqrt(3./m_lam_rho)) * k_prim
+    value2 = value1*m_lam_rho
+    return np.sqrt(value2)/1000. # transform from GeV -> MeV
+
+
 def append_dic(baryons, state1, state2,state3,
                state4, state5, state6, state7):
     baryons.append(state1)

@@ -14,7 +14,7 @@ class decay(object):
         self.obj = lib.charm_new()
 
     def decay_width(self, MA_val, MB_val, MC_val, SA_val,
-                          LA_val, JA_val, SL_val,
+                          LA_val, JA_val, SL_val, AL_val, AR_val,
                           baryon, excMode, prodDecay):
         
         lib.charm_execute.restype = ctypes.c_double
@@ -25,11 +25,13 @@ class decay(object):
         LA_val = ctypes.c_double(LA_val)
         JA_val = ctypes.c_double(JA_val)
         SL_val = ctypes.c_double(SL_val)
+        AL_val = ctypes.c_double(AL_val)
+        AR_val = ctypes.c_double(AR_val)
         baryon = ctypes.c_int(baryon)
         excMode = ctypes.c_int(excMode)
         prodDecay = ctypes.c_int(prodDecay)
         
-        decay_value = lib.charm_execute(self.obj, MA_val, MB_val, MC_val,
-                                        SA_val, LA_val, JA_val,
-                                        baryon, SL_val, excMode, prodDecay)        
+        decay_value = lib.charm_execute(self.obj, MA_val, MB_val, MC_val, SA_val,
+                                        LA_val, JA_val, SL_val, AL_val, AR_val,
+                                        baryon,  excMode, prodDecay)        
         return decay_value

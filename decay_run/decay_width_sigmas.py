@@ -85,9 +85,15 @@ for i in range(len(baryons)):
     ModEx = baryons[i]['ModEx']
     decPr = baryons[i]['decPr']
     state = baryons[i]['state']
+    # get the alphas
+    k_prim = 5727.128425311
+    m_lam, m_rho = du.reduced_masses(baryon)
+    alpha_lam = du.alphas(k_prim, m_lam)
+    alpha_rho = du.alphas(k_prim, m_rho)
     
     decay_value = width.decay_width(MassA, MassB, MassC, SA_qm,
-                                    LA_qm, JA_qm, SL_qm, baryon, ModEx, decPr)
+                                    LA_qm, JA_qm, SL_qm, alpha_lam, alpha_rho,
+                                    baryon, ModEx, decPr)
     baryon_name, ModEx_name, decPr_name = du.state_labels(baryon,ModEx,decPr)
     print('%6s |  %4s | %7s |  %5.3f |  %5.3f | %5.3f |  %5.1f |  %5.1f |  %5.1f |  %5.1f | %5.6f '
           %(baryon_name, ModEx_name, decPr_name, MassA, MassB, MassC, JA_qm, LA_qm, SA_qm, SL_qm,  decay_value))

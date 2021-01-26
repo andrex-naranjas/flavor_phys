@@ -21,7 +21,7 @@ CharmDecayWidths::CharmDecayWidths()
 CharmDecayWidths::~CharmDecayWidths(){}
 
 double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, double sa_val,
-				 double la_val, double ja_val, double sl_val,
+				 double la_val, double ja_val, double sl_val, double al_val, double ar_val,
 				 int baryon, int excMode, int prodDecay){  
   // decay product masses
   MA = ma_val;
@@ -34,16 +34,13 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   modeExcitation = excMode;
   int decayProd  = prodDecay;
   double alpha_rho = 0.,alpha_lam = 0.,alpha_mes = 0.,flav_coup= 0.;
-  double slf_val=0., sb_val=0.;
+  double slf_val=0., sb_val=0.;  
 
-  // options according the type of baryon
-  if(baryonFlag==1)      {alpha_rho = 0.458724; alpha_lam = 0.540131;} //omegas
-  else if(baryonFlag==2) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cacades 6-plet
-  else if(baryonFlag==3) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //sigmas
-  else if(baryonFlag==4) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //lambdas
-  else if(baryonFlag==5) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cascades 3-plet
+  alpha_rho = ar_val;
+  alpha_lam = al_val;
+  alpha_mes = ALPHA_MES(MC);
   
-  // options according the decay products
+  // options according baryons and decay products
   if(baryonFlag==1){// omegas
     if(decayProd == 1)    {slf_val=0.; sb_val=0.5; flav_coup = 1./3.;} //Xi+K
     else if(decayProd==2) {slf_val=1.; sb_val=0.5; flav_coup = 1./3.;} //Xi'+K
@@ -67,8 +64,6 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
     else if(decayProd==2) {slf_val=1.; sb_val=1.5; flav_coup = 1./2.;} //Sigma*+pi
     else if(decayProd==3) {slf_val=0.; sb_val=0.5; flav_coup = 1./18.;}//Lambda+eta
   }
-
-  alpha_mes = ALPHA_MES(MC);
 
   //test  
   // slf_val=1.; sb_val=0.5; flav_coup = 1./4.;
@@ -664,3 +659,11 @@ double CharmDecayWidths::I02B0TOT_RADIAL(double alpha_rho, double alpha_lam, dou
   // std::cout<<"test mathematica::   I02B0  "<<I02B0_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
   // std::cout<<"test mathematica::   I01B0TOT  "<<I01B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
   // std::cout<<"test mathematica::   I02B0TOT  "<<I02B0TOT_RADIAL(alpha_rho, alpha_lam, alpha_mes, k_value)<<std::endl;
+
+
+  // // options according the type of baryon
+  // if(baryonFlag==1)      {alpha_rho = 0.458724; alpha_lam = 0.540131;} //omegas
+  // else if(baryonFlag==2) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cacades 6-plet
+  // else if(baryonFlag==3) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //sigmas
+  // else if(baryonFlag==4) {alpha_rho = 0.412767; alpha_lam = 0.502336;} //lambdas
+  // else if(baryonFlag==5) {alpha_rho = 0.437553; alpha_lam = 0.523495;} //cascades 3-plet

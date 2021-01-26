@@ -91,7 +91,7 @@ gauss_2792 = sample_gauss(2792.4,  0.5)  # OK (corresponds to predicted 2796)
 gauss_2816 = sample_gauss(2816.74, 0.23) # OK (corresponds to predicted 2832)
 
 # construct the simulated sampling distribution (bootstrap technique)
-for _ in range(10000):
+for _ in range(100):
     # measured and quark-sum sampled masses
     if(states=='All'):
         exp_m = np.array([random(gauss_2695), random(gauss_2770), random(gauss_3000),
@@ -153,11 +153,11 @@ results.param_comparison()
 results.plot()
 
 # omegas,cascades,sigmas,lambdas,cascades_anti3
-# results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-# results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-# results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-# results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
-# results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=True, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
+results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=False, prev_params=True, decay_width=True)
 
 
 # quark-sum masses
