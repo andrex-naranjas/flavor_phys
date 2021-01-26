@@ -112,6 +112,9 @@ class CharmResults:
         if prev_params: # use the parameters of the previous paper
             self.previous_parameters()
             self.previous_parameters_uncertainty(N_boots=len(self.sampled_k)) # set params. with previous-paper gauss shape (arbitrary error)
+
+        # create decay class as a global object!
+        if decay_width: self.baryon_decay = DecayWidths(bootstrap_width, baryons)
         
         if bootstrap:
             if decay_width:
@@ -119,9 +122,10 @@ class CharmResults:
                     bootstrap_decays, sym_errors_dec, delta_up_dec, delta_dn_dec = self.sampled_prediction(baryons, decayWidth=decay_width, bootstrap_width=bootstrap_width)
             else:
                 bootstrap_masses, sym_errors, delta_up, delta_dn = self.sampled_prediction(baryons, decayWidth=False, bootstrap_width=False)
-
-        if prev_params: baryons=baryons+'_previous'
-        f_paper = open('./tables/masses_'+baryons+'_paper.tex', "w")
+                
+        baryons_name = baryons
+        if prev_params: baryons_name+='_previous'
+        f_paper = open('./tables/masses_'+baryons_name+'_paper.tex', "w")
         self.latex_header(table_file=f_paper, paper=True)  # write the header for the latex table
         
         for i in range(len(self.sum_mass)): # run over exp mass states
@@ -140,10 +144,15 @@ class CharmResults:
             else:                
                 mass  = self.model_mass(i, 0, sampled=False)
                 error = self.charm_error(self.analytical_error(i),10)
-            
-            if not self.asymmetric:
-                print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ & $xx\pm xx$ & $xx\pm xx$ \\\ ', file=f_paper)
+                decay = 0.0
+                if decay_width and self.L_tot[i]==1:
+                    decay = self.baryon_decay.total_decay_width(False, baryons, self.Kp, mass,
+                                                           self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
+                    
+            if not self.asymmetric or not bootstrap:
+                print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ &', round(decay,3), ' & $xx\pm xx$ \\\ ', file=f_paper)
             else:
+                print(mass, baryons, 'GORDOOOOO')
                 if not np.isnan(up_decay):
                     if exp[i]!=0.:
                         print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $',
@@ -167,17 +176,15 @@ class CharmResults:
 
         bootstrap_masses,sorted_masses,symm_errors = [],[],[]
         bootstrap_decays,sorted_decays,symm_errors_decays = [],[],[]
-        
-        if decayWidth:
-            baryon_decay = DecayWidths(bootstrap_width, baryons)
 
+        
         for i in range(len(self.sum_mass)): # states loop
             dummy,dummy_decay = ([]),([])
             for j in range(len(self.sampled_k)): # sampled data loop (e.g. 10^5)
                 mass = self.model_mass(i, j, sampled=True)
                 dummy = np.append(dummy,mass)
                 if decayWidth and self.L_tot[i]==1 and bootstrap_width: # decayWidth calculation, DecayWidths class
-                    decay_value = baryon_decay.total_decay_width(bootstrap_width, baryons, self.sampled_k[j], mass,
+                    decay_value = self.baryon_decay.total_decay_width(bootstrap_width, baryons, self.sampled_k[j], mass,
                                                                  self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                     dummy_decay = np.append(dummy_decay, decay_value)
                                                 
@@ -192,7 +199,7 @@ class CharmResults:
                         symm_errors_decays.append(dummy_decay.std(ddof=1))
                         sorted_decays.append(np.sort(dummy_decay))
                     else:
-                        decay_value = baryon_decay.total_decay_width(bootstrap_width, baryons, self.Kp, dummy.mean(),
+                        decay_value = self.baryon_decay.total_decay_width(bootstrap_width, baryons, self.Kp, dummy.mean(),
                                                                      self.S_tot[i], self.L_tot[i], self.J_tot[i], self.SL[i], self.ModEx[i])
                         bootstrap_decays.append(decay_value)
                         symm_errors_decays.append(0)

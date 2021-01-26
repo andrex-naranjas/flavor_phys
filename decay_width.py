@@ -21,7 +21,7 @@ class DecayWidths:
         self.set_m_lam_rho(bootstrap)
 
         
-    def total_decay_width(self, bootstrap, baryons, k_prim, massA, SA_val, L_val, JA_val, SL_val, ModEx_val):    
+    def total_decay_width(self, bootstrap, baryons, k_prim, massA, SA_val, L_val, JA_val, SL_val, ModEx_val):
         MassA = massA/1000.0
         SA_qm = SA_val
         LA_qm = L_val
@@ -32,6 +32,7 @@ class DecayWidths:
         channel_widths = ([])
         nChannels = self.n_channels(baryons)
         m_lam, m_rho = self.reduced_masses(bootstrap, baryons)
+        
         alpha_lam = self.alphas(k_prim, m_lam)
         alpha_rho = self.alphas(k_prim, m_rho)
 
@@ -40,10 +41,12 @@ class DecayWidths:
             MassB,MassC = self.decay_masses(bootstrap, baryons, decPr)
             single_decay_value = width.decay_width(MassA, MassB, MassC, SA_qm,
                                                    LA_qm, JA_qm, SL_qm, alpha_lam, alpha_rho,
-                                                   baryon, ModEx, decPr)        
+                                                   baryon, ModEx, decPr)
             channel_widths = np.append(channel_widths, single_decay_value)
-
-            total_decay_width = np.sum(channel_widths) # sum the individual width to obtain total width
+            
+        # sum the individual width to obtain total width
+        total_decay_width = np.sum(channel_widths)
+            
         return total_decay_width
     
 
@@ -63,7 +66,8 @@ class DecayWidths:
 
 
     def n_channels(self, baryons):
-        #omegas,cascades,sigmas,lambdas,cascades_anti3
+        # set number of decay channels has each baryon
+        # omegas,cascades,sigmas,lambdas,cascades_anti3
         if(baryons=='omegas'):           return 3
         elif(baryons=='cascades'):       return 7
         elif(baryons=='sigmas'):         return 5
@@ -164,13 +168,13 @@ class DecayWidths:
     def reduced_masses(self, bootstrap, baryons):
         # fetch reduced masses of the harmonic oscillator
         if(baryons=='omegas'):
-            if not bootstrap: return self.m_lam_omega,   self.m_rho_omega
+            if not bootstrap: return self.m_lam_omega, self.m_rho_omega            
             else: return np.random.choice(self.gauss_m_lam_omega, size=None), np.random.choice(self.gauss_m_rho_omega, size=None)
         elif(baryons=='cascades' or baryons =='cascades_anti3'):
-            if not bootstrap: return self.m_lam_casca,   self.m_rho_casca
+            if not bootstrap: return self.m_lam_casca, self.m_rho_casca
             else: return np.random.choice(self.gauss_m_lam_casca, size=None), np.random.choice(self.gauss_m_rho_casca, size=None)
         elif(baryons=='sigmas' or baryons=='lambdas'):
-            if not bootstrap: return self.m_lam_sigma,   self.m_rho_sigma
+            if not bootstrap: return self.m_lam_sigma, self.m_rho_sigma
             else: return np.random.choice(self.gauss_m_lam_sigma, size=None), np.random.choice(self.gauss_m_rho_sigma, size=None)
 
 
@@ -203,7 +207,7 @@ class DecayWidths:
         self.m_lam_sigma = 647.118
         self.m_rho_omega = 450.
         self.m_rho_casca = 372.5
-        self.m_rho_sigma = 295.    
+        self.m_rho_sigma = 295.
 
         if(bootstrap):
             self.gauss_m_lam_omega = np.random.normal(864.97 , 10, 10000)

@@ -18,31 +18,31 @@ baryons = []
 # lambdas states (->Sigma+Pi)
 state1 = {'MA':2.650,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':0,'baryon':4,'ModEx':1,'decPr':1,'state':1}
 state2 = {'MA':2.686,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':0,'baryon':4,'ModEx':1,'decPr':1,'state':2}
-state3 = {'MA':2.817,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':3}
-state4 = {'MA':2.846,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':4}
-state5 = {'MA':2.853,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':5}
-state6 = {'MA':2.882,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':6}
-state7 = {'MA':2.941,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':7}
+state3 = {'MA':2.837,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':3}
+state4 = {'MA':2.866,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':4}
+state5 = {'MA':2.873,'MB':2.455,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':5}
+state6 = {'MA':2.901,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':6}
+state7 = {'MA':2.961,'MB':2.455,'MC':0.140,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':1,'state':7}
 baryons = du.append_dic(baryons,state1,state2,state3,state4,state5,state6,state7)# add states to dict array
 
 # lambdas states (->Xi+Pi)
 state1 = {'MA':2.650,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':0,'baryon':4,'ModEx':1,'decPr':2,'state':1}
 state2 = {'MA':2.686,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':0,'baryon':4,'ModEx':1,'decPr':2,'state':2}
-state3 = {'MA':2.817,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':3}
-state4 = {'MA':2.846,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':4}
-state5 = {'MA':2.853,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':5}
-state6 = {'MA':2.882,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':6}
-state7 = {'MA':2.941,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':7}
+state3 = {'MA':2.837,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':3}
+state4 = {'MA':2.866,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':4}
+state5 = {'MA':2.873,'MB':2.520,'MC':0.140,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':5}
+state6 = {'MA':2.901,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':6}
+state7 = {'MA':2.961,'MB':2.520,'MC':0.140,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':2,'state':7}
 baryons = du.append_dic(baryons,state1,state2,state3,state4,state5,state6,state7)# add states to dict array
 
 # lambdas states (->Xi'+Pi)
 state1 = {'MA':2.650,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':1/2,'SL':0,'baryon':4,'ModEx':1,'decPr':3,'state':1}
 state2 = {'MA':2.686,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':3/2,'SL':0,'baryon':4,'ModEx':1,'decPr':3,'state':2}
-state3 = {'MA':2.817,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':3}
-state4 = {'MA':2.846,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':4}
-state5 = {'MA':2.853,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':5}
-state6 = {'MA':2.882,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':6}
-state7 = {'MA':2.941,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':7}
+state3 = {'MA':2.837,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':3}
+state4 = {'MA':2.866,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':1/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':4}
+state5 = {'MA':2.873,'MB':2.286,'MC':0.548,'SA':1/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':5}
+state6 = {'MA':2.901,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':3/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':6}
+state7 = {'MA':2.961,'MB':2.286,'MC':0.548,'SA':3/2,'LA':1,'JA':5/2,'SL':1,'baryon':4,'ModEx':2,'decPr':3,'state':7}
 baryons = du.append_dic(baryons,state1,state2,state3,state4,state5,state6,state7)# add states to dict array
 
 name_decays=[]
