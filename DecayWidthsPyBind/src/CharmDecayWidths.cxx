@@ -124,6 +124,8 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
   WignerSymbols *m_wigner = new WignerSymbols();
   double outerSum = 0;
   double finalIntegral1=0., finalIntegral2=0.;
+  double dummy=0;
+  int delta1=0, delta2=0;
 
   if(modeExcitation == 1 && LA==1){//P-WAVE
     finalIntegral1=I010(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
@@ -154,7 +156,7 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
 		      for(int iM23 = 0; iM23<(int)m23.size(); iM23++)
 			for(int iM4 = 0; iM4<(int)m4.size(); iM4++)
 			  for(int iM2 = 0; iM2<(int)m2.size(); iM2++){
-			    int delta1=0, delta2=0;
+			    delta1=0; delta2=0;
 			    if(modeExcitation == 1 && LA == 1){//P-WAVE
 			      delta1 = KroneckerDelta(m.at(iM), mLA.at(iMLA));
 			      delta2 = KroneckerDelta(m.at(iM), 0)*KroneckerDelta(mLA.at(iMLA), 0);
@@ -168,25 +170,28 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
 			    }else if(modeExcitation == 1 && LA == 0){//RADIAL
 			      delta1 = KroneckerDelta(m.at(iM), 0);
 			      delta2 = KroneckerDelta(m.at(iM), 0);}
-				
-			    			    
-			    double dummy = (finalIntegral1*delta1 + finalIntegral2*delta2)*
-			      m_wigner->wigner3j(LA, SA, JA, mLA.at(iMLA), mSA.at(iMSA), (-1.0)*mJA.at(iMJA))*
-			      m_wigner->wigner3j(1, 1, 0, m.at(iM), (-1.0)*m.at(iM), 0)*
-			      m_wigner->wigner3j(slightf, 0.5, SB, m24.at(iM24), m1.at(iM1), (-1.0)*mSB.at(iMSB))*
-			      m_wigner->wigner3j(0.5, 0.5, SC, m3.at(iM3), m5.at(iM5), (-1.0)*mSC.at(iMSC))*
-			      m_wigner->wigner3j(slight, 0.5, SA, m23.at(iM23), m1.at(iM1), (-1.0)*mSA.at(iMSA))*
-			      m_wigner->wigner3j(0.5, 0.5, 1, m4.at(iM4), m5.at(iM5), m.at(iM))*
-			      m_wigner->wigner3j(0.5, 0.5, slightf, m2.at(iM2), m4.at(iM4), (-1.0)*m24.at(iM24))*
-			      m_wigner->wigner3j(0.5,0.5,slight, m2.at(iM2), m3.at(iM3), (-1.0)*m23.at(iM23))*
-			      std::pow(3 * (2*JA+1) * (2*slight+1) * (2*slightf+1) * (2*SA+1) * (2*SB+1) * (2*SC+1),0.5)*
-			      std::pow(-1.0,SA-LA-mJA.at(iMJA))*
-			      std::pow(-1.0,1+m.at(iM)-mSA.at(iMSA)-mSB.at(iMSB)-slight-slightf-m23.at(iM23)-m24.at(iM24)-mSC.at(iMSC));			      
+
+			    if(delta1!=0 or delta2!=0){							    			    
+			      dummy = (finalIntegral1*delta1 + finalIntegral2*delta2)*
+				m_wigner->wigner3j(LA, SA, JA, mLA.at(iMLA), mSA.at(iMSA), (-1.0)*mJA.at(iMJA))*
+				m_wigner->wigner3j(1, 1, 0, m.at(iM), (-1.0)*m.at(iM), 0)*
+				m_wigner->wigner3j(slightf, 0.5, SB, m24.at(iM24), m1.at(iM1), (-1.0)*mSB.at(iMSB))*
+				m_wigner->wigner3j(0.5, 0.5, SC, m3.at(iM3), m5.at(iM5), (-1.0)*mSC.at(iMSC))*
+				m_wigner->wigner3j(slight, 0.5, SA, m23.at(iM23), m1.at(iM1), (-1.0)*mSA.at(iMSA))*
+				m_wigner->wigner3j(0.5, 0.5, 1, m4.at(iM4), m5.at(iM5), m.at(iM))*
+				m_wigner->wigner3j(0.5, 0.5, slightf, m2.at(iM2), m4.at(iM4), (-1.0)*m24.at(iM24))*
+				m_wigner->wigner3j(0.5,0.5,slight, m2.at(iM2), m3.at(iM3), (-1.0)*m23.at(iM23))*
+				std::pow(3 * (2*JA+1) * (2*slight+1) * (2*slightf+1) * (2*SA+1) * (2*SB+1) * (2*SC+1),0.5)*
+				std::pow(-1.0,SA-LA-mJA.at(iMJA))*
+				std::pow(-1.0,1+m.at(iM)-mSA.at(iMSA)-mSB.at(iMSB)-slight-slightf-m23.at(iM23)-m24.at(iM24)-mSC.at(iMSC));
+			    }else dummy = 0;
+			    
 			      innerSum+=dummy;			      
 			      dummy = 0;
 			      }
     outerSum += std::pow(innerSum,2);        
   }
+  delete m_wigner;
   return outerSum;
 }
 

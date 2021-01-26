@@ -152,7 +152,6 @@ class CharmResults:
             if not self.asymmetric or not bootstrap:
                 print(quantum[i], round(mass,1), '$\\pm',round(error,1), '$ &', exp[i], '$\\pm', delta_exp[i], '$ &', round(decay,3), ' & $xx\pm xx$ \\\ ', file=f_paper)
             else:
-                print(mass, baryons, 'GORDOOOOO')
                 if not np.isnan(up_decay):
                     if exp[i]!=0.:
                         print(quantum[i],'$',round(mass,1),'^{+',round(error_up,1),'}_{',round(error_dn,1),'}$',  '& $',exp[i],'\\pm',delta_exp[i], '$ & $',

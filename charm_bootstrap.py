@@ -153,19 +153,19 @@ results.param_comparison()
 results.plot()
 
 # omegas,cascades,sigmas,lambdas,cascades_anti3
-# results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
-# results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
-# results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
-# results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
-# results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
+results.paper_results_predictions(baryons='omegas',         bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
+results.paper_results_predictions(baryons='cascades',       bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
+results.paper_results_predictions(baryons='sigmas',         bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
+results.paper_results_predictions(baryons='lambdas',        bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
+results.paper_results_predictions(baryons='cascades_anti3', bootstrap=True, bootstrap_width=True, prev_params=False, decay_width=True)
 
 
-# nominal results, expected to be the same as the previous paper
-results.paper_results_predictions(baryons='omegas',         bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='cascades',       bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='sigmas',         bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='lambdas',        bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
-results.paper_results_predictions(baryons='cascades_anti3', bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
+# nominal results, expected to be the same as the previous paper, very important check
+# results.paper_results_predictions(baryons='omegas',         bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades',       bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='sigmas',         bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='lambdas',        bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
+# results.paper_results_predictions(baryons='cascades_anti3', bootstrap=False, bootstrap_width=False, prev_params=True, decay_width=True)
 
 
 # quark-sum masses

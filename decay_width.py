@@ -38,7 +38,7 @@ class DecayWidths:
 
         for i in range(nChannels):        
             decPr = i+1
-            MassB,MassC = self.decay_masses(bootstrap, baryons, decPr)
+            MassB,MassC = self.decay_masses(bootstrap, baryons, decPr)            
             single_decay_value = width.decay_width(MassA, MassB, MassC, SA_qm,
                                                    LA_qm, JA_qm, SL_qm, alpha_lam, alpha_rho,
                                                    baryon, ModEx, decPr)
@@ -46,6 +46,7 @@ class DecayWidths:
             
         # sum the individual width to obtain total width
         total_decay_width = np.sum(channel_widths)
+        print(total_decay_width, 'Total width', baryons)
             
         return total_decay_width
     
