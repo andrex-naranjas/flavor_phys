@@ -34,8 +34,11 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   modeExcitation = excMode;
   int decayProd  = prodDecay;
   double alpha_rho = 0.,alpha_lam = 0.,alpha_mes = 0.,flav_coup= 0.;
-  double slf_val=0., sb_val=0.;  
-
+  double slf_val=0., sb_val=0.;
+  
+  double gamma     = 17.25/(std::pow(7,0.5));
+  double alpha_d   = 0.0;
+  
   alpha_rho = ar_val;
   alpha_lam = al_val;
   alpha_mes = ALPHA_MES(MC);
@@ -64,15 +67,6 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
     else if(decayProd==2) {slf_val=1.; sb_val=1.5; flav_coup = 1./2.;} //Sigma*+pi
     else if(decayProd==3) {slf_val=0.; sb_val=0.5; flav_coup = 1./18.;}//Lambda+eta
   }
-
-  //test  
-  // slf_val=1.; sb_val=0.5; flav_coup = 1./4.;
-  // MA = 3.080;
-  // MB = 2.286;
-  // MC = 0.493;
-  // alpha_rho = 0.437553;
-  // alpha_lam = 0.523495;
-  // alpha_mes = 0.46;
   
   //fetch quantum numbers and projections
   SA = sa_val;      mSA = getMomentumProjections(SA); 
@@ -91,18 +85,23 @@ double CharmDecayWidths::execute(double ma_val, double mb_val, double mc_val, do
   s4 = 0.5;   m4  = getMomentumProjections(s4);
   s5 = 0.5;   m5  = getMomentumProjections(s5);
 
-  double EB_value = EB(MA,MB,MC);
-  
-  double gamma     = 17.25/(std::pow(7,0.5));
-  double alpha_d   = 0.0;
-  //gamma = 9.22051;
-      
+  //test  (set values by hand)
+  // slf_val=1.; sb_val=0.5; flav_coup = 1./4.;  
+  // MA = 3.080;                        SA = 0.5;      mSA = getMomentumProjections(SA);   
+  // MB = 2.520;			     LA = 2.0;      mLA = getMomentumProjections(LA);   
+  // MC = 0.493;			     JA = 1.5;      mJA = getMomentumProjections(JA);   
+  // alpha_rho = 0.437553;		     SB = 1.5;      mSB = getMomentumProjections(SB);   
+  // alpha_lam = 0.523495;		     slight = 0.0;  m23 = getMomentumProjections(slight);
+  // alpha_mes = 0.46;		     slightf= 1.0;  m24 = getMomentumProjections(slightf);
+  // gamma = 9.22051;
+ 
+  double EB_value = EB(MA,MB,MC);      
   double k_value; k_value = K(EB_value, MB);
   double EWCC_value = EWCC(MA, MB, MC);
   
   double sum_value  = ANGULAR_SUM(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
   double fi2_value  = FI2(EB_value, EWCC_value, MA, k_value);
-  double decayWidth = DecayWidth(flav_coup, gamma, fi2_value, sum_value);  
+  double decayWidth = DecayWidth(flav_coup, gamma, fi2_value, sum_value);
       
   return decayWidth;
 }
@@ -125,7 +124,7 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
   double outerSum = 0;
   double finalIntegral1=0., finalIntegral2=0.;
   double dummy=0;
-  int delta1=0, delta2=0;
+  double delta1=0, delta2=0;
 
   if(modeExcitation == 1 && LA==1){//P-WAVE
     finalIntegral1=I010(alpha_d, alpha_rho, alpha_lam, alpha_mes, k_value);
@@ -156,7 +155,7 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
 		      for(int iM23 = 0; iM23<(int)m23.size(); iM23++)
 			for(int iM4 = 0; iM4<(int)m4.size(); iM4++)
 			  for(int iM2 = 0; iM2<(int)m2.size(); iM2++){
-			    delta1=0; delta2=0;
+			    delta1=0.; delta2=0.;
 			    if(modeExcitation == 1 && LA == 1){//P-WAVE
 			      delta1 = KroneckerDelta(m.at(iM), mLA.at(iMLA));
 			      delta2 = KroneckerDelta(m.at(iM), 0)*KroneckerDelta(mLA.at(iMLA), 0);
@@ -165,13 +164,13 @@ double CharmDecayWidths::ANGULAR_SUM(double alpha_d, double alpha_rho, double al
 			      delta2 = KroneckerDelta(m.at(iM), mLA.at(iMLA));
 			    }else if(modeExcitation == 1 && LA == 2){//D-WAVE		      
 			      delta1 = KroneckerDelta(m.at(iM), 0) * KroneckerDelta(mLA.at(iMLA), 0);
-			      delta2 = m_wigner->wigner3j(1, 1, LA, m.at(iM), 0, (-1.0)*m.at(iM)) *
-				std::pow(-1.0, (-1.0)*m.at(iM)) * std::pow((2*LA+1),0.5) * KroneckerDelta(m.at(iM), mLA.at(iMLA));
+			      delta2 = (m_wigner->wigner3j(1, 1, LA, m.at(iM), 0, (-1.0)*m.at(iM))) * std::pow(-1.0, (-1.0)*m.at(iM)) *
+				std::pow((2*LA+1),0.5) * KroneckerDelta(m.at(iM), mLA.at(iMLA));			      
 			    }else if(modeExcitation == 1 && LA == 0){//RADIAL
 			      delta1 = KroneckerDelta(m.at(iM), 0);
 			      delta2 = KroneckerDelta(m.at(iM), 0);}
 
-			    if(delta1!=0 or delta2!=0){							    			    
+			    if(delta1!=0 or delta2!=0){
 			      dummy = (finalIntegral1*delta1 + finalIntegral2*delta2)*
 				m_wigner->wigner3j(LA, SA, JA, mLA.at(iMLA), mSA.at(iMSA), (-1.0)*mJA.at(iMJA))*
 				m_wigner->wigner3j(1, 1, 0, m.at(iM), (-1.0)*m.at(iM), 0)*
@@ -209,7 +208,7 @@ std::vector<double> CharmDecayWidths::getMomentumProjections(double j_angular){
   return angularProjections;
 }
 
-int CharmDecayWidths::KroneckerDelta(float i, float j){
+int CharmDecayWidths::KroneckerDelta(double i, double j){
   if(i==j) return 1;
   else return 0;
 }
@@ -436,7 +435,7 @@ double CharmDecayWidths::I02B0TOT(double alpha_rho, double alpha_lam, double alp
 // D-wave excitations
 // lambda wave functions
 double CharmDecayWidths::CBARFIN_DWAVE(double alpha_rho, double alpha_lam){
-  double value1 = (std::pow(3,0.75) * std::pow(16,0.5))/(std::pow(15,0.5) * (std::pow(1.772453667,0.5)) );
+  double value1 = (std::pow(3,0.75) * std::pow(16,0.5))/(std::pow(15,0.5) * (std::pow(pi_val,0.25)) );
   double value2 = std::pow(( 1.0/alpha_lam ), 3.5);
   double value3 = std::pow(1.0/( pi_val * std::pow(alpha_rho, 2) ), 0.75);
   return value1 * value2 * value3;// * mycomplex;//define complex if needed
@@ -462,18 +461,12 @@ double CharmDecayWidths::F0_DWAVE(double k_value, double alpha_rho, double alpha
   return (-1.0/3.0) * value1;
 }
 
-double CharmDecayWidths::F01_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
-  
+double CharmDecayWidths::F01_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){  
   double value1p  = 1.0/(2.0*std::pow(2,0.5)*alpha_lam*alpha_rho) + 1./(4*std::pow(2,0.5)*alpha_mes*alpha_mes);
-  
   double value1pp = value1p*value1p;
-  
-  double value1ppp= 1./(std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2));
-  
-  double value1 = value1pp*value1ppp;
-  
-  double value2 = 1.0/(8.0*std::pow(alpha_mes,2));
-  
+  double value1ppp= 1./(std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2));  
+  double value1   = value1pp*value1ppp;
+  double value2   = 1.0/(8.0*std::pow(alpha_mes,2));  
   return std::pow(k_value,2)*(value1-value2);
 }
 
@@ -484,7 +477,7 @@ double CharmDecayWidths::BRO2_DWAVE(double alpha_rho, double alpha_lam, double a
 }
 
 double CharmDecayWidths::ARO1_DWAVE(double alpha_rho, double alpha_mes){
-  double value1 = 0.816496581;
+  double value1 = std::pow(2./3.,0.5);
   double value2 = 1./(2.0 * std::pow(6,0.5) * std::pow(ARO0_DWAVE(alpha_rho, alpha_mes),2) * std::pow(alpha_mes,2) );
   return value2 - value1;
 }
@@ -498,7 +491,6 @@ double CharmDecayWidths::ARO2_DWAVE(double alpha_rho, double alpha_lam, double a
 }
 
 double CharmDecayWidths::BRO1_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){  
-
   double value1  = k_value / ( 4*std::pow(6,0.5) * std::pow(alpha_mes,2) );
   double value2  = k_value / ( 2*std::pow(6,0.5) * alpha_rho * alpha_lam );
   double value3p = k_value / ( 4*std::pow(3,0.5) * std::pow(alpha_mes,2) * std::pow(ARO0_DWAVE(alpha_rho, alpha_mes), 2) );
@@ -534,7 +526,6 @@ double CharmDecayWidths::I02B0_DWAVE(double alpha_rho, double alpha_lam, double 
 double CharmDecayWidths::I01B0TOT_DWAVE(double alpha_rho, double alpha_lam, double alpha_mes, double k_value){
   double value1 = std::exp(F0TOT_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value));
   double value2 = I01B0_DWAVE(alpha_rho, alpha_lam, alpha_mes, k_value);
-  value2 = -0.0236529;
   return value1*value2;
 }
 

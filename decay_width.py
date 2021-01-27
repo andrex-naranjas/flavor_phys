@@ -46,8 +46,8 @@ class DecayWidths:
             
         # sum the individual width to obtain total width
         total_decay_width = np.sum(channel_widths)
-        print(total_decay_width, 'Total width', baryons)
-            
+        #print(total_decay_width, 'Total width', baryons, SA_qm, JA_qm)
+        
         return total_decay_width
     
 

@@ -35,7 +35,7 @@ private:
 
   virtual double ALPHA_MES(double MC);
 
-  virtual int KroneckerDelta(float i, float j);
+  virtual int KroneckerDelta(double i, double j);
   virtual std::vector<double> getMomentumProjections(double j_angular);
   virtual double ANGULAR_SUM(double alpha_d, double alpha_rho, double alpha_lam,
 			     double alpha_mes, double k_value);
@@ -119,11 +119,10 @@ extern "C"{
 		       double ma_val, double mb_val, double mc_val, double sa_val,
 		       double la_val, double ja_val, double sl_val, double al_val, double ar_val,
 		       int baryon, int excMode, int prodDecay){
-
-    double decay_value = m_decays->execute(ma_val, mb_val, mc_val, sa_val,
+    
+    return m_decays->execute(ma_val, mb_val, mc_val, sa_val,
     			     la_val, ja_val, sl_val, al_val, ar_val,
 			     baryon, excMode, prodDecay);
-    return decay_value;
   }
 }
 

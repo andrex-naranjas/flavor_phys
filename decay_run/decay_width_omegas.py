@@ -75,6 +75,8 @@ for i in range(len(baryons)):
                                     LA_qm, JA_qm, SL_qm, alpha_lam, alpha_rho,
                                     baryon, ModEx, decPr)
     baryon_name, ModEx_name, decPr_name = du.state_labels(baryon,ModEx,decPr)
+    # decay_flag = flag_sig # work in progress, do the flagging
+    
     print('%6s |  %4s | %7s |  %5.3f |  %5.3f | %5.3f |  %5.1f |  %5.1f |  %5.1f |  %5.1f | %5.6f '
           %(baryon_name, ModEx_name, decPr_name, MassA, MassB, MassC, JA_qm, LA_qm, SA_qm, SL_qm,  decay_value))
     if(i%7==6 and i !=0):
